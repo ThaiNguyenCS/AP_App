@@ -6,7 +6,10 @@
     </style>
 
     <style name="Theme.TransportManagement" parent="Base.Theme.TransportManagement" />
-    <style name="InactiveTextAppearance">
-        <item name="itemTextColor">@color/inactive_text</item>
+    <style name="BottomNavIndicator" parent="Widget.Material3.BottomNavigationView.ActiveIndicator">
+        <item name="android:color">@color/white</item>
+    </style>
+    <style name="textviewstyle">
+        <item name="android:textStyle">bold</item>
     </style>
 </resources>

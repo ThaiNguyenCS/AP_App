@@ -3,20 +3,14 @@
     <item
         android:id="@+id/vehicle_menuitem"
         android:icon="@drawable/bus"
-        android:iconTint="@color/white"
-        android:iconTintMode="add"
         android:title="Vehicle" />
     <item
         android:id="@+id/driver_menuitem"
         android:icon="@drawable/driver"
-        android:iconTint="@color/white"
-        android:iconTintMode="add"
         android:title="Driver" />
     <item
         android:id="@+id/route_menuitem"
         android:icon="@drawable/route_icon"
-        android:iconTintMode="add"
-        android:iconTint="@color/white"
         android:title="Route" />
 
 </menu>

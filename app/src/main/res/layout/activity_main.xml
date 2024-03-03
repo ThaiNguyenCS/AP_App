@@ -10,21 +10,29 @@
         android:id="@+id/fragment_container"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        app:layout_constraintBottom_toTopOf="@id/bottom_nav"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0"
-        tools:layout_editor_absoluteX="115dp" />
+        app:layout_constraintBottom_toTopOf="@id/bottom_nav_holder"
+        app:layout_constraintTop_toTopOf="parent" />
 
-    <com.google.android.material.bottomnavigation.BottomNavigationView
-        android:id="@+id/bottom_nav"
+    <androidx.cardview.widget.CardView
+        android:id="@+id/bottom_nav_holder"
         android:layout_width="match_parent"
-        android:layout_height="70dp"
-        app:backgroundTint="@color/white"
-        app:elevation="5dp"
-        app:itemPaddingBottom="10dp"
-        app:itemPaddingTop="14dp"
-        app:itemTextAppearanceInactive="@style/InactiveTextAppearance"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:menu="@menu/bottom_nav_menu" />
+        app:cardElevation="16dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent">
+
+        <com.google.android.material.bottomnavigation.BottomNavigationView
+            android:id="@+id/bottom_nav"
+            android:layout_width="match_parent"
+            android:layout_height="70dp"
+            app:backgroundTint="@color/white"
+            app:itemActiveIndicatorStyle="@style/BottomNavIndicator"
+            app:itemIconTint="@color/bottom_nav_item_text_color"
+            app:itemPaddingBottom="10dp"
+            app:itemPaddingTop="14dp"
+            app:itemRippleColor="@null"
+            app:itemTextColor="@color/bottom_nav_item_text_color"
+            app:menu="@menu/bottom_nav_menu" />
+    </androidx.cardview.widget.CardView>
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
