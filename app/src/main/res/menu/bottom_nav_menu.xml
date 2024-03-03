@@ -2,15 +2,15 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
         android:id="@+id/vehicle_menuitem"
-        android:icon="@drawable/bus"
+        android:icon="@drawable/ic_bus"
         android:title="Vehicle" />
     <item
         android:id="@+id/driver_menuitem"
-        android:icon="@drawable/driver"
+        android:icon="@drawable/ic_driver"
         android:title="Driver" />
     <item
         android:id="@+id/route_menuitem"
-        android:icon="@drawable/route_icon"
+        android:icon="@drawable/ic_route"
         android:title="Route" />
 
 </menu>
