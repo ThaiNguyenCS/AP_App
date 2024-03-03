@@ -1,8 +1,8 @@
 package data;
 
 public class Vehicle {
-    //TODO history
-    int _id;
+    //TODO maintenance history
+    int ID;
     int currentDriverID;
     int currentRouteID;
     String type;
@@ -13,12 +13,12 @@ public class Vehicle {
     double maximumLoad;
     String typeOfFuel;
 
-    public int get_id() {
-        return _id;
+    public int getID() {
+        return ID;
     }
 
-    public void set_id(int _id) {
-        this._id = _id;
+    public void setID(int ID) {
+        this.ID = ID;
     }
 
     public int getCurrentDriverID() {

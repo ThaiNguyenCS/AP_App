@@ -4,7 +4,7 @@ package data;
 import java.util.Date;
 
 public class Route {
-    int _id;
+    int ID;
     int driverID;
     int vehicleID;
     String departure;
@@ -19,12 +19,12 @@ public class Route {
     double cost;
     double revenue;
 
-    public int get_id() {
-        return _id;
+    public int getID() {
+        return ID;
     }
 
-    public void set_id(int _id) {
-        this._id = _id;
+    public void setID(int ID) {
+        this.ID = ID;
     }
 
     public int getDriverID() {

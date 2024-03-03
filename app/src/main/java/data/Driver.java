@@ -2,7 +2,7 @@ package data;
 
 public class Driver {
     //TODO history
-    int _id;
+    int ID;
     int currentVehicleID;
     int currentRouteID;
     String name;
@@ -13,12 +13,12 @@ public class Driver {
     String address;
     String status;
 
-    public int get_id() {
-        return _id;
+    public int getID() {
+        return ID;
     }
 
-    public void set_id(int _id) {
-        this._id = _id;
+    public void setID(int ID) {
+        this.ID = ID;
     }
 
     public int getCurrentVehicleID() {
