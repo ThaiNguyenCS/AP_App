@@ -6,12 +6,6 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
-<!--    <androidx.fragment.app.FragmentContainerView-->
-<!--        android:id="@+id/fragment_container"-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="0dp"-->
-<!--        app:layout_constraintBottom_toTopOf="@id/bottom_nav_holder"-->
-<!--        app:layout_constraintTop_toTopOf="parent" />-->
     <androidx.viewpager2.widget.ViewPager2
         android:id="@+id/view_pager"
         android:layout_width="match_parent"
@@ -29,12 +23,13 @@
         <com.google.android.material.bottomnavigation.BottomNavigationView
             android:id="@+id/bottom_nav"
             android:layout_width="match_parent"
-            android:layout_height="70dp"
+            android:layout_height="60dp"
             app:backgroundTint="@color/white"
             app:itemActiveIndicatorStyle="@style/BottomNavIndicator"
             app:itemIconTint="@color/bottom_nav_item_text_color"
             app:itemPaddingBottom="10dp"
-            app:itemPaddingTop="14dp"
+            app:itemIconSize="22dp"
+            app:itemPaddingTop="8dp"
             app:itemRippleColor="@null"
             app:itemTextColor="@color/bottom_nav_item_text_color"
             app:menu="@menu/bottom_nav_menu" />

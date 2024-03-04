@@ -9,7 +9,7 @@
     <style name="BottomNavIndicator" parent="Widget.Material3.BottomNavigationView.ActiveIndicator">
         <item name="android:color">@color/white</item>
     </style>
-    <style name="textviewstyle">
-        <item name="android:textStyle">bold</item>
+    <style name="CircleImageFrame">
+        <item name="cornerSize">50%</item>
     </style>
 </resources>
