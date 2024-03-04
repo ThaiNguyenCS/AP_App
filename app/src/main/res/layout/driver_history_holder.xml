@@ -3,7 +3,8 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:padding="8dp"
-    android:background="@drawable/driver_history_frame"
+    android:background="@color/white"
+    android:layout_marginHorizontal="1dp"
     android:orientation="vertical">
 
     <TextView

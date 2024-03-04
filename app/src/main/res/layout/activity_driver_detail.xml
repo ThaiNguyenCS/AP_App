@@ -7,7 +7,7 @@
     android:background="#e8f4ff"
     tools:context=".DriverDetailActivity">
 
-    <LinearLayout
+    <RelativeLayout
         android:id="@+id/title_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -17,9 +17,21 @@
             android:id="@+id/close_button"
             android:layout_width="30dp"
             android:layout_height="30dp"
+            android:layout_alignParentStart="true"
             android:padding="6dp"
+            android:layout_centerVertical="true"
             android:src="@drawable/ic_close" />
-    </LinearLayout>
+        <ImageView
+            android:id="@+id/edit_button"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:padding="4dp"
+            android:layout_centerVertical="true"
+            android:src="@drawable/ic_edit_button"
+            android:layout_marginEnd="5dp"
+            android:layout_alignParentEnd="true"/>
+
+    </RelativeLayout>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/avatar_layout"
@@ -91,6 +103,7 @@
                     android:textStyle="bold" />
 
                 <TextView
+                    android:id="@+id/name_textview"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Em la Thanh ne" />
@@ -113,6 +126,7 @@
                     android:textStyle="bold" />
 
                 <TextView
+                    android:id="@+id/id_textview"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="11124515616123" />
@@ -134,31 +148,13 @@
                     android:textStyle="bold" />
 
                 <TextView
+                    android:id="@+id/license_textview"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="B2" />
             </LinearLayout>
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
-                android:background="@drawable/driver_info_frame"
-                android:orientation="horizontal"
-                android:paddingHorizontal="8dp"
-                android:paddingVertical="10dp">
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Status: "
-                    android:textStyle="bold" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Free" />
-            </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -176,6 +172,7 @@
                     android:textStyle="bold" />
 
                 <TextView
+                    android:id="@+id/phone_textview"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Free" />
@@ -197,6 +194,7 @@
                     android:textStyle="bold" />
 
                 <TextView
+                    android:id="@+id/address_textview"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Ho Chi Minh City" />
@@ -218,21 +216,24 @@
                     android:textStyle="bold" />
 
                 <TextView
+                    android:id="@+id/YOE_textview"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="20 years" />
             </LinearLayout>
 
             <LinearLayout
+
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
                 android:orientation="vertical">
 
                 <LinearLayout
+                    android:id="@+id/history_layout_click"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@color/white"
+                    android:background="@drawable/rectangle_frame"
                     android:orientation="horizontal"
                     android:paddingHorizontal="8dp"
                     android:paddingVertical="10dp">

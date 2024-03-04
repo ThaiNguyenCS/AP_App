@@ -1,6 +1,7 @@
 package com.example.transportmanagement;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import android.animation.Animator;
@@ -9,10 +10,14 @@ import android.os.Bundle;
 import android.view.View;
 
 import com.example.transportmanagement.databinding.ActivityDriverDetailBinding;
+import com.google.android.material.bottomsheet.BottomSheetDialog;
+import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 
 import adapter.DriverHistoryAdapter;
+import bottomsheet.DriverEditBottomSheet;
+import myinterface.OnSendDataToActivity;
 
-public class DriverDetailActivity extends AppCompatActivity {
+public class DriverDetailActivity extends AppCompatActivity implements OnSendDataToActivity {
 
     ActivityDriverDetailBinding mBinding;
     Animator downToRightAnimator;
@@ -32,7 +37,8 @@ public class DriverDetailActivity extends AppCompatActivity {
         mBinding.historyRecyclerview.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, true));
         mBinding.historyRecyclerview.setVisibility(View.GONE);
         downToRightAnimator.start();
-        mBinding.historyToggle.setOnClickListener(new View.OnClickListener() {
+        mBinding.historyRecyclerview.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
+        mBinding.historyLayoutClick.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 switch (mBinding.historyRecyclerview.getVisibility())
@@ -58,5 +64,22 @@ public class DriverDetailActivity extends AppCompatActivity {
                 DriverDetailActivity.this.finish();
             }
         });
+        mBinding.editButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                DriverEditBottomSheet sheetDialogFragment = new DriverEditBottomSheet(DriverDetailActivity.this);
+                sheetDialogFragment.show(getSupportFragmentManager(), null);
+            }
+        });
+    }
+
+    @Override
+    public void onSendData(String name, String id, String license, String phone, String address, String year) {
+        mBinding.idTextview.setText(id);
+        mBinding.licenseTextview.setText(license);
+        mBinding.phoneTextview.setText(phone);
+        mBinding.YOETextview.setText(year + " years");
+        mBinding.addressTextview.setText(address);
+        mBinding.nameTextview.setText(name);
     }
 }
