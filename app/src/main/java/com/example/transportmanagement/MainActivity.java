@@ -3,6 +3,7 @@ package com.example.transportmanagement;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.viewpager2.widget.ViewPager2;
 
 import android.os.Bundle;
@@ -16,15 +17,18 @@ import adapter.ViewPagerAdapter;
 import myfragment.DriverFragment;
 import myfragment.RouteFragment;
 import myfragment.VehicleFragment;
+import viewmodel.MainViewModel;
 
 public class MainActivity extends AppCompatActivity {
     private static final String TAG = "MainActivity";
     ActivityMainBinding mBinding;
+    MainViewModel mViewModel;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mBinding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(mBinding.getRoot());
+        mViewModel = new ViewModelProvider(this).get(MainViewModel.class);
         mBinding.viewPager.setAdapter(new ViewPagerAdapter(this));
         setBottomNavBehave();
         setPageChangeCallbackForViewpager();

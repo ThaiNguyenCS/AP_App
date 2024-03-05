@@ -6,6 +6,7 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import android.view.LayoutInflater;
@@ -18,13 +19,17 @@ import com.example.transportmanagement.databinding.FragmentDriverBinding;
 
 import adapter.DriverAdapter;
 import myinterface.OnRVItemClickListener;
+import viewmodel.MainViewModel;
 
 public class DriverFragment extends Fragment implements OnRVItemClickListener {
     FragmentDriverBinding mBinding;
+    MainViewModel mViewModel;
 
     public DriverFragment() {
         // Required empty public constructor
+        mViewModel = new ViewModelProvider(requireActivity()).get(MainViewModel.class);
     }
+
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
