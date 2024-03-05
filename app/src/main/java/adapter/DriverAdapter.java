@@ -9,13 +9,18 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.transportmanagement.databinding.DriverItemHolderBinding;
 
+import java.util.List;
+
 import myinterface.OnRVItemClickListener;
+import data.Driver;
 
 public class DriverAdapter extends RecyclerView.Adapter<DriverAdapter.DriverViewHolder> {
     private OnRVItemClickListener mListener;
+    private List<Driver> driverList;
     public DriverAdapter(OnRVItemClickListener listener) {
         this.mListener = listener;
     }
+
 
     @NonNull
     @Override
@@ -26,12 +31,26 @@ public class DriverAdapter extends RecyclerView.Adapter<DriverAdapter.DriverView
 
     @Override
     public void onBindViewHolder(@NonNull DriverViewHolder holder, int position) {
-
+        Driver driver = driverList.get(position);
+        holder.mBinding.driverId.setText(driver.getCitizenID());
+        holder.mBinding.driverLicense.setText(driver.getLicense());
+        holder.mBinding.driverName.setText(driver.getName());
+        holder.mBinding.driverName.setSelected(true);
+        holder.mBinding.driverStatus.setText(driver.getStatus());
     }
 
     @Override
     public int getItemCount() {
-        return 10;
+        if(driverList != null)
+        {
+            return driverList.size();
+        }
+        return 0;
+    }
+    public void setData(List<Driver> list)
+    {
+        this.driverList = list;
+        notifyDataSetChanged();
     }
 
     public static class DriverViewHolder extends RecyclerView.ViewHolder {

@@ -1,15 +1,18 @@
 package data;
 
+import com.google.firebase.firestore.PropertyName;
+
 public class Driver {
     //TODO history
     int ID;
     int currentVehicleID;
     int currentRouteID;
     String name;
+    @PropertyName("citizenId")
     String citizenID;
     String phoneNumber;
     String license;
-    String yearOfExperience;
+    long yearOfExperience;
     String address;
     String status;
 
@@ -69,11 +72,11 @@ public class Driver {
         this.license = license;
     }
 
-    public String getYearOfExperience() {
+    public long getYearOfExperience() {
         return yearOfExperience;
     }
 
-    public void setYearOfExperience(String yearOfExperience) {
+    public void setYearOfExperience(long yearOfExperience) {
         this.yearOfExperience = yearOfExperience;
     }
 

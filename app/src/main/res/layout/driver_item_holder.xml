@@ -52,7 +52,11 @@
                     android:textStyle="bold" />
 
                 <TextView
-                    android:layout_width="wrap_content"
+                    android:id="@+id/driver_name"
+                    android:layout_width="match_parent"
+                    android:ellipsize="marquee"
+                    android:singleLine="true"
+                    android:marqueeRepeatLimit="marquee_forever"
                     android:layout_height="wrap_content"
                     android:text="null" />
             </LinearLayout>
@@ -70,8 +74,10 @@
                     android:textStyle="bold" />
 
                 <TextView
+                    android:id="@+id/driver_id"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:singleLine="true"
                     android:text="null" />
             </LinearLayout>
 
@@ -87,8 +93,10 @@
                     android:textStyle="bold" />
 
                 <TextView
+                    android:id="@+id/driver_license"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:singleLine="true"
                     android:text="null" />
             </LinearLayout>
 
@@ -104,8 +112,10 @@
                     android:textStyle="bold" />
 
                 <TextView
+                    android:id="@+id/driver_status"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:singleLine="true"
                     android:text="null" />
             </LinearLayout>
 

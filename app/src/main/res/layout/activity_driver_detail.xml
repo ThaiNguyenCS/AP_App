@@ -58,6 +58,7 @@
             app:layout_constraintTop_toBottomOf="@id/avt_holder">
 
             <com.google.android.material.imageview.ShapeableImageView
+                android:id="@+id/status_indicator"
                 android:layout_width="10dp"
                 android:layout_height="10dp"
                 android:layout_gravity="center"
@@ -65,10 +66,10 @@
                 app:srcCompat="@color/red" />
 
             <TextView
+                android:id="@+id/status_textview"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="4dp"
-
                 android:text="Status: Busy" />
         </LinearLayout>
 
@@ -106,7 +107,7 @@
                     android:id="@+id/name_textview"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Em la Thanh ne" />
+                    android:text="Loading..." />
             </LinearLayout>
 
 
@@ -129,7 +130,7 @@
                     android:id="@+id/id_textview"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="11124515616123" />
+                    android:text="Loading..." />
             </LinearLayout>
 
             <LinearLayout
@@ -151,7 +152,7 @@
                     android:id="@+id/license_textview"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="B2" />
+                    android:text="Loading..." />
             </LinearLayout>
 
 
@@ -175,7 +176,7 @@
                     android:id="@+id/phone_textview"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Free" />
+                    android:text="Loading..." />
             </LinearLayout>
 
             <LinearLayout
@@ -197,7 +198,7 @@
                     android:id="@+id/address_textview"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Ho Chi Minh City" />
+                    android:text="Loading..." />
             </LinearLayout>
 
             <LinearLayout
@@ -219,7 +220,7 @@
                     android:id="@+id/YOE_textview"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="20 years" />
+                    android:text="Loading..." />
             </LinearLayout>
 
             <LinearLayout
