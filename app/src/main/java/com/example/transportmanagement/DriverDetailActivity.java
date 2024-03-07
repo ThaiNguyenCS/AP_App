@@ -15,6 +15,7 @@ import android.widget.Toast;
 import com.example.transportmanagement.databinding.ActivityDriverDetailBinding;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
+import com.google.android.material.divider.MaterialDivider;
 
 import adapter.DriverHistoryAdapter;
 import bottomsheet.DriverEditBottomSheet;
@@ -112,14 +113,29 @@ public class DriverDetailActivity extends AppCompatActivity implements OnSendDat
             Toast.makeText(this, "Driver info loading error!!!", Toast.LENGTH_SHORT).show();
         }
     }
+    private void updateDriverLocally(String name, String id, String license, String phone, String address, long year, int statusID)
+    {
+        if(mDriver != null)
+        {
+            mDriver.setName(name);
+            mDriver.setAddress(address);
+            mDriver.setCitizenID(id);
+            mDriver.setStatus(statusID == 0 ? "Driving" : "Free");
+            mDriver.setLicense(license);
+            mDriver.setYearOfExperience(year);
+            mDriver.setPhoneNumber(phone);
+        }
+        else
+        {
+            Toast.makeText(this, "Empty Driver!!!", Toast.LENGTH_SHORT).show();
+        }
+    }
     // Data from the bottom sheet
     @Override
-    public void onSendData(String name, String id, String license, String phone, String address, String year) {
-        mBinding.idTextview.setText(id);
-        mBinding.licenseTextview.setText(license);
-        mBinding.phoneTextview.setText(phone);
-        mBinding.YOETextview.setText(year + " years");
-        mBinding.addressTextview.setText(address);
-        mBinding.nameTextview.setText(name);
+    public void onSendData(String name, String id, String license, String phone, String address, long year, int statusID) {
+        updateDriverLocally(name, id, license, phone, address, year, statusID);
+        setDriverInfo();
+        mViewModel.updateDriver(mDriver);
+        //TODO update to database
     }
 }

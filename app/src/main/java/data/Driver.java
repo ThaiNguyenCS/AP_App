@@ -4,6 +4,14 @@ import com.google.firebase.firestore.PropertyName;
 
 public class Driver {
     //TODO history
+    public static String DRIVER_NAME = "name";
+    public static String DRIVER_PHONE = "phoneNumber";
+    public static String DRIVER_CITIZENID = "citizenId";
+    public static String DRIVER_YOE = "yearOfExperience";
+    public static String DRIVER_ADDRESS = "address";
+    public static String DRIVER_STATUS = "status";
+    public static String DRIVER_LICENSE = "license";
+
     int ID;
     int currentVehicleID;
     int currentRouteID;
