@@ -7,6 +7,18 @@
     android:background="#e8f4ff"
     tools:context=".DriverDetailActivity">
 
+    <ProgressBar
+        android:id="@+id/progress_indicator"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="visible"
+        android:elevation="10dp"
+        android:indeterminate="true"
+        android:indeterminateTint="@color/blue"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"/>
     <RelativeLayout
         android:id="@+id/title_layout"
         android:layout_width="match_parent"
@@ -28,8 +40,15 @@
             android:padding="4dp"
             android:layout_centerVertical="true"
             android:src="@drawable/ic_edit_button"
-            android:layout_marginEnd="5dp"
-            android:layout_alignParentEnd="true"/>
+            android:layout_toStartOf="@id/menu_button"/>
+        <ImageView
+            android:id="@+id/menu_button"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:padding="5dp"
+            android:layout_centerVertical="true"
+            android:layout_alignParentEnd="true"
+            android:src="@drawable/ic_menu"/>
 
     </RelativeLayout>
 

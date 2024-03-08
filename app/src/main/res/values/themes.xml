@@ -5,11 +5,15 @@
         <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
     </style>
 
-    <style name="Theme.TransportManagement" parent="Base.Theme.TransportManagement" />
+    <style name="Theme.TransportManagement" parent="Base.Theme.TransportManagement">
+    </style>
     <style name="BottomNavIndicator" parent="Widget.Material3.BottomNavigationView.ActiveIndicator">
         <item name="android:color">@color/white</item>
     </style>
     <style name="CircleImageFrame">
         <item name="cornerSize">50%</item>
+    </style>
+    <style name="PopupMenuStyleCustom" parent="Widget.Material3.PopupMenu">
+        <item name="android:popupBackground">@drawable/popup_background</item>
     </style>
 </resources>

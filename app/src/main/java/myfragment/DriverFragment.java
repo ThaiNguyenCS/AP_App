@@ -73,6 +73,7 @@ public class DriverFragment extends Fragment implements OnRVItemClickListener {
             public void onChanged(List<Driver> drivers) {
                 driverList = drivers;
                 adapter.setData(driverList);
+                mBinding.progressCircular.setVisibility(View.GONE);
             }
         });
     }
