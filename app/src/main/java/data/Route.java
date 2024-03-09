@@ -6,9 +6,23 @@ import com.google.firebase.Timestamp;
 import java.util.Date;
 
 public class Route {
+    public static String ROUTE_VEHICLE_ID = "currentVehicleID";
+    public static String ROUTE_DRIVER_ID = "currentDriverID";
+    public static String ROUTE_DEPARTURE = "departure";
+    public static String ROUTE_DESTINATION = "destination";
+    public static String ROUTE_DISTANCE = "distance";
+    public static String ROUTE_SCHE_DEPART = "scheDepartureDate";
+    public static String ROUTE_SCHE_ARRIVE = "scheArrivingDate";
+    public static String ROUTE_ACTUAL_ARRIVE = "actualArrivingDate";
+    public static String ROUTE_ACTUAL_DEPART = "actualDepartureDate";
+    public static String ROUTE_STATUS = "status";
+    public static String ROUTE_LEFT_DIST = "leftDistance";
+    public static String ROUTE_COST = "cost";
+    public static String ROUTE_REVENUE = "revenue";
+
     int ID;
-    int driverID;
-    int vehicleID;
+    Integer currentDriverID;
+    Integer currentVehicleID;
     String departure;
     String destination;
     double distance;
@@ -29,20 +43,20 @@ public class Route {
         this.ID = ID;
     }
 
-    public int getDriverID() {
-        return driverID;
+    public Integer getCurrentDriverID() {
+        return currentDriverID;
     }
 
-    public void setDriverID(int driverID) {
-        this.driverID = driverID;
+    public void setCurrentDriverID(Integer currentDriverID) {
+        this.currentDriverID = currentDriverID;
     }
 
-    public int getVehicleID() {
-        return vehicleID;
+    public Integer getCurrentVehicleID() {
+        return currentVehicleID;
     }
 
-    public void setVehicleID(int vehicleID) {
-        this.vehicleID = vehicleID;
+    public void setCurrentVehicleID(Integer currentVehicleID) {
+        this.currentVehicleID = currentVehicleID;
     }
 
     public String getDeparture() {

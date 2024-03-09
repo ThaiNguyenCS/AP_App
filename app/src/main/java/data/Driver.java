@@ -3,7 +3,9 @@ package data;
 import com.google.firebase.firestore.PropertyName;
 
 public class Driver {
+
     //TODO history
+    public static String DRIVER_ID = "ID";
     public static String DRIVER_NAME = "name";
     public static String DRIVER_PHONE = "phoneNumber";
     public static String DRIVER_CITIZENID = "citizenId";
@@ -11,10 +13,12 @@ public class Driver {
     public static String DRIVER_ADDRESS = "address";
     public static String DRIVER_STATUS = "status";
     public static String DRIVER_LICENSE = "license";
+    public static String DRIVER_ROUTE_ID = "currentRouteID";
+    public static String DRIVER_VEHICLE_ID = "currentVehicleID";
 
     int ID;
-    int currentVehicleID;
-    int currentRouteID;
+    Integer currentVehicleID;
+    Integer currentRouteID;
     String name;
     @PropertyName("citizenId")
     String citizenID;
@@ -32,19 +36,19 @@ public class Driver {
         this.ID = ID;
     }
 
-    public int getCurrentVehicleID() {
+    public Integer getCurrentVehicleID() {
         return currentVehicleID;
     }
 
-    public void setCurrentVehicleID(int currentVehicleID) {
+    public void setCurrentVehicleID(Integer currentVehicleID) {
         this.currentVehicleID = currentVehicleID;
     }
 
-    public int getCurrentRouteID() {
+    public Integer getCurrentRouteID() {
         return currentRouteID;
     }
 
-    public void setCurrentRouteID(int currentRouteID) {
+    public void setCurrentRouteID(Integer currentRouteID) {
         this.currentRouteID = currentRouteID;
     }
 

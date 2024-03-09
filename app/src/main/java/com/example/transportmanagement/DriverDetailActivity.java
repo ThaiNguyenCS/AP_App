@@ -132,6 +132,7 @@ public class DriverDetailActivity extends AppCompatActivity implements OnSendDat
                         if(item.getItemId() == R.id.assign_job)
                         {
                             Intent intent = new Intent(DriverDetailActivity.this, AssignJobActivity.class);
+                            intent.putExtra("DRIVERID", driverID);
                             launcher.launch(intent);
                             return true;
                         }

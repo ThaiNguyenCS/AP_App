@@ -2,9 +2,20 @@ package data;
 
 public class Vehicle {
     //TODO maintenance history
+    public static String VEHICLE_TYPE = "type";
+    public static String VEHICLE_PLATE = "numberPlate";
+    public static String VEHICLE_HEIGHT = "height";
+    public static String VEHICLE_WIDTH = "width";
+    public static String VEHICLE_LENGTH = "length";
+    public static String VEHICLE_STATUS = "status";
+    public static String VEHICLE_LOAD = "maximumLoad";
+    public static String VEHICLE_FUEL = "typeOfFuel";
+    public static String VEHICLE_ROUTE_ID = "currentRouteID";
+    public static String VEHICLE_DRIVER_ID = "currentDriverID";
+
     int ID;
-    int currentDriverID;
-    int currentRouteID;
+    Integer currentDriverID;
+    Integer currentRouteID;
     int status;
     String type;
     String numberPlate; // bien so xe
@@ -30,19 +41,19 @@ public class Vehicle {
         this.ID = ID;
     }
 
-    public int getCurrentDriverID() {
+    public Integer getCurrentDriverID() {
         return currentDriverID;
     }
 
-    public void setCurrentDriverID(int currentDriverID) {
+    public void setCurrentDriverID(Integer currentDriverID) {
         this.currentDriverID = currentDriverID;
     }
 
-    public int getCurrentRouteID() {
+    public Integer getCurrentRouteID() {
         return currentRouteID;
     }
 
-    public void setCurrentRouteID(int currentRouteID) {
+    public void setCurrentRouteID(Integer currentRouteID) {
         this.currentRouteID = currentRouteID;
     }
 

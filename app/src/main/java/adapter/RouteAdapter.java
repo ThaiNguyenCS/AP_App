@@ -13,7 +13,9 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.transportmanagement.databinding.RouteItemHolderBinding;
 import com.example.transportmanagement.databinding.RouteItemHolderForChoosingBinding;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import data.Driver;
@@ -45,6 +47,7 @@ public class RouteAdapter extends RecyclerView.Adapter<RouteAdapter.RouteViewHol
     @NonNull
     @Override
     public RouteViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        Log.e(TAG, "onCreateViewHolder: viewType " + viewType);
         if(viewType == 1)
         {
             RouteItemHolderForChoosingBinding binding = RouteItemHolderForChoosingBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false);
@@ -69,13 +72,10 @@ public class RouteAdapter extends RecyclerView.Adapter<RouteAdapter.RouteViewHol
             holder.mBinding2.revenueTextview.setText(routeList.get(realPosition).getRevenue() + " VND");
             holder.mBinding2.departureTextview.setText(routeList.get(realPosition).getDeparture());
             holder.mBinding2.destinationTextview.setText(routeList.get(realPosition).getDestination());
-            //TODO handle timestamp
-            Log.e(TAG, "time " + routeList.get(realPosition).getActualArrivingDate().getSeconds());
-//            routeList.get(realPosition).getActualArrivingDate().toDate()
-
+            SimpleDateFormat scheArrivingDate = new SimpleDateFormat("HH:mm dd/MM/yyyy");
+            holder.mBinding2.estimateInfo.setText(scheArrivingDate.format(routeList.get(realPosition).getScheArrivingDate().toDate()));
+            holder.mBinding2.scheduleInfo.setText(scheArrivingDate.format(routeList.get(realPosition).getScheDepartureDate().toDate()));
         }
-
-
     }
 
     @Override

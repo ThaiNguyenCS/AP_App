@@ -114,10 +114,12 @@ public class RouteFragment extends Fragment implements OnRVItemClickListener {
             // you've unchecked already
             statusList.set(position, false);
             lastPosition = -1;
+            assignJobViewModel.setChosenRoutePos(lastPosition);
             return;
         }
         int tempLastPosition = lastPosition;
         lastPosition = position;
+        assignJobViewModel.setChosenRoutePos(lastPosition);
         if(tempLastPosition != -1) // case the clicked position is different from the last position
         {
             mHandler.post(new Runnable() {
@@ -136,5 +138,11 @@ public class RouteFragment extends Fragment implements OnRVItemClickListener {
             }
         });
 
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        Log.e(TAG, "onDestroy: fragment");
     }
 }
