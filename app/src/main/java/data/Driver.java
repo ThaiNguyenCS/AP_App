@@ -22,7 +22,7 @@ public class Driver {
     String license;
     long yearOfExperience;
     String address;
-    String status;
+    long status;
 
     public int getID() {
         return ID;
@@ -96,11 +96,11 @@ public class Driver {
         this.address = address;
     }
 
-    public String getStatus() {
+    public long getStatus() {
         return status;
     }
 
-    public void setStatus(String status) {
+    public void setStatus(long status) {
         this.status = status;
     }
 }

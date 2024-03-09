@@ -15,9 +15,15 @@ import com.example.transportmanagement.databinding.FragmentVehicleBinding;
 
 public class VehicleFragment extends Fragment {
     FragmentVehicleBinding mBinding;
+    private int mViewType;
     public VehicleFragment() {
         // Required empty public constructor
     }
+
+    public VehicleFragment(int viewType) {
+        this.mViewType = viewType;
+    }
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -29,7 +35,6 @@ public class VehicleFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         mBinding = FragmentVehicleBinding.inflate(inflater, container, false);
-
         return mBinding.getRoot();
     }
 

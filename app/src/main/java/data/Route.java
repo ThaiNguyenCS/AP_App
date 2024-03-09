@@ -1,6 +1,8 @@
 package data;
 
 
+import com.google.firebase.Timestamp;
+
 import java.util.Date;
 
 public class Route {
@@ -10,11 +12,11 @@ public class Route {
     String departure;
     String destination;
     double distance;
-    Date scheDepartureDate;
-    Date scheArrivingDate;
-    Date actualDepartureDate;
-    Date actualArrivingDate;
-    String status;
+    Timestamp scheDepartureDate;
+    Timestamp scheArrivingDate;
+    Timestamp actualDepartureDate;
+    Timestamp actualArrivingDate;
+    int status;
     double leftDistance; // used if this route is currently taken
     double cost;
     double revenue;
@@ -67,43 +69,43 @@ public class Route {
         this.distance = distance;
     }
 
-    public Date getScheDepartureDate() {
+    public Timestamp getScheDepartureDate() {
         return scheDepartureDate;
     }
 
-    public void setScheDepartureDate(Date scheDepartureDate) {
+    public void setScheDepartureDate(Timestamp scheDepartureDate) {
         this.scheDepartureDate = scheDepartureDate;
     }
 
-    public Date getScheArrivingDate() {
+    public Timestamp getScheArrivingDate() {
         return scheArrivingDate;
     }
 
-    public void setScheArrivingDate(Date scheArrivingDate) {
+    public void setScheArrivingDate(Timestamp scheArrivingDate) {
         this.scheArrivingDate = scheArrivingDate;
     }
 
-    public Date getActualDepartureDate() {
+    public Timestamp getActualDepartureDate() {
         return actualDepartureDate;
     }
 
-    public void setActualDepartureDate(Date actualDepartureDate) {
+    public void setActualDepartureDate(Timestamp actualDepartureDate) {
         this.actualDepartureDate = actualDepartureDate;
     }
 
-    public Date getActualArrivingDate() {
+    public Timestamp getActualArrivingDate() {
         return actualArrivingDate;
     }
 
-    public void setActualArrivingDate(Date actualArrivingDate) {
+    public void setActualArrivingDate(Timestamp actualArrivingDate) {
         this.actualArrivingDate = actualArrivingDate;
     }
 
-    public String getStatus() {
+    public int getStatus() {
         return status;
     }
 
-    public void setStatus(String status) {
+    public void setStatus(int status) {
         this.status = status;
     }
 

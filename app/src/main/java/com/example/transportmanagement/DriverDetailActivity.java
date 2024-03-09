@@ -133,7 +133,7 @@ public class DriverDetailActivity extends AppCompatActivity implements OnSendDat
                         {
                             Intent intent = new Intent(DriverDetailActivity.this, AssignJobActivity.class);
                             launcher.launch(intent);
-
+                            return true;
                         }
                         return false;
                     }
@@ -152,13 +152,13 @@ public class DriverDetailActivity extends AppCompatActivity implements OnSendDat
             mBinding.addressTextview.setText(mDriver.getAddress());
             mBinding.statusTextview.setText("Status: " + mDriver.getStatus());
             mBinding.licenseTextview.setText(mDriver.getLicense());
-            if(mDriver.getStatus().equals("Driving"))
+            if(mDriver.getStatus() == 0)
             {
-                mBinding.statusIndicator.setImageDrawable(new ColorDrawable(getResources().getColor(R.color.red)));
+                mBinding.statusIndicator.setImageDrawable(new ColorDrawable(getResources().getColor(R.color.green)));
             }
             else
             {
-                mBinding.statusIndicator.setImageDrawable(new ColorDrawable(getResources().getColor(R.color.green)));
+                mBinding.statusIndicator.setImageDrawable(new ColorDrawable(getResources().getColor(R.color.red)));
             }
         }
 
@@ -183,7 +183,7 @@ public class DriverDetailActivity extends AppCompatActivity implements OnSendDat
             mDriver.setName(name);
             mDriver.setAddress(address);
             mDriver.setCitizenID(id);
-            mDriver.setStatus(statusID == 0 ? "Driving" : "Free");
+            mDriver.setStatus(statusID);
             mDriver.setLicense(license);
             mDriver.setYearOfExperience(year);
             mDriver.setPhoneNumber(phone);

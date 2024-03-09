@@ -25,7 +25,7 @@ public class ViewPagerAdapter extends FragmentStateAdapter {
         switch (position)
         {
             case 1:
-                return new DriverFragment();
+                return new DriverFragment(0);
             case 2:
                 return new RouteFragment();
             default:

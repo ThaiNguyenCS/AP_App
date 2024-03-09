@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.transportmanagement.databinding.DriverItemHolderBinding;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import myinterface.OnRVItemClickListener;
@@ -17,16 +18,28 @@ import data.Driver;
 public class DriverAdapter extends RecyclerView.Adapter<DriverAdapter.DriverViewHolder> {
     private OnRVItemClickListener mListener;
     private List<Driver> driverList;
-    public DriverAdapter(OnRVItemClickListener listener) {
+    private List<String> statusList;
+    private int viewType;
+    public DriverAdapter(OnRVItemClickListener listener, int viewType) {
+        this.viewType = viewType;
         this.mListener = listener;
+        statusList = new ArrayList<>();
+        statusList.add("Free");
+        statusList.add("Driving");
     }
 
 
     @NonNull
     @Override
     public DriverViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        DriverItemHolderBinding binding = DriverItemHolderBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false);
-        return new DriverViewHolder(binding, mListener);
+        if(viewType == 0)
+        {
+            DriverItemHolderBinding binding = DriverItemHolderBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false);
+            return new DriverViewHolder(binding, mListener);
+        }
+
+        //TODO handle view 2
+        return null;
     }
 
     @Override
@@ -36,7 +49,7 @@ public class DriverAdapter extends RecyclerView.Adapter<DriverAdapter.DriverView
         holder.mBinding.driverLicense.setText(driver.getLicense());
         holder.mBinding.driverName.setText(driver.getName());
         holder.mBinding.driverName.setSelected(true);
-        holder.mBinding.driverStatus.setText(driver.getStatus());
+        holder.mBinding.driverStatus.setText(statusList.get((int)driver.getStatus()));
     }
 
     @Override

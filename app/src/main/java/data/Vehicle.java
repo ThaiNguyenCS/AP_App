@@ -5,6 +5,7 @@ public class Vehicle {
     int ID;
     int currentDriverID;
     int currentRouteID;
+    int status;
     String type;
     String numberPlate; // bien so xe
     double height;
@@ -12,6 +13,14 @@ public class Vehicle {
     double length;
     double maximumLoad;
     String typeOfFuel;
+
+    public int getStatus() {
+        return status;
+    }
+
+    public void setStatus(int status) {
+        this.status = status;
+    }
 
     public int getID() {
         return ID;

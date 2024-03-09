@@ -34,9 +34,13 @@ public class DriverFragment extends Fragment implements OnRVItemClickListener {
     MainViewModel mViewModel;
     private List<Driver> driverList;
     public static String DRIVER_ID = "DRIVER_ID";
+    private int mViewType;
 
     public DriverFragment() {
-        // Required empty public constructor
+    }
+
+    public DriverFragment(int viewType) {
+        this.mViewType = viewType;
     }
 
 
@@ -64,7 +68,7 @@ public class DriverFragment extends Fragment implements OnRVItemClickListener {
         super.onViewCreated(view, savedInstanceState);
         Log.e(TAG, "onViewCreated: ");
         mBinding = FragmentDriverBinding.bind(view);
-        DriverAdapter adapter = new DriverAdapter(this);
+        DriverAdapter adapter = new DriverAdapter(this, mViewType);
         mViewModel.fetchDriverData();
         mBinding.recyclerView.setAdapter(adapter);
         mBinding.recyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));

@@ -109,15 +109,7 @@ public class DriverEditBottomSheet extends BottomSheetDialogFragment {
         mBinding.nameEdittext.setText(currentDriver.getName());
         mBinding.phoneEdittext.setText(currentDriver.getPhoneNumber());
         mBinding.YOEEdittext.setText(Long.toString(currentDriver.getYearOfExperience()));
-        if (currentDriver.getStatus().equals("Driving"))
-        {
-            mBinding.statusSpinner.setSelection(0);
-        }
-        else
-        {
-            mBinding.statusSpinner.setSelection(1);
-        }
-
+        mBinding.statusSpinner.setSelection((int)currentDriver.getStatus());
     }
 
     @Override
