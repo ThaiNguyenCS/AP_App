@@ -70,6 +70,7 @@ public class RouteAdapter extends RecyclerView.Adapter<RouteAdapter.RouteViewHol
             holder.mBinding2.departureTextview.setText(routeList.get(realPosition).getDeparture());
             holder.mBinding2.destinationTextview.setText(routeList.get(realPosition).getDestination());
             //TODO handle timestamp
+            Log.e(TAG, "time " + routeList.get(realPosition).getActualArrivingDate().getSeconds());
 //            routeList.get(realPosition).getActualArrivingDate().toDate()
 
         }
