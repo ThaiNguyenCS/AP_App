@@ -10,6 +10,7 @@ import androidx.lifecycle.ViewModel;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.gms.tasks.Tasks;
+import com.google.firebase.Timestamp;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -91,6 +92,7 @@ public class AssignJobViewModel extends ViewModel {
             Log.e(TAG, "No Driver Ref");
             return;
         }
+        Log.e(TAG, chosenRoutePos + " and " + chosenVehiclePos );
         Task<QuerySnapshot> task1 = firestore.collection("Vehicle")
                 .whereEqualTo("ID", vehicleList.get(chosenVehiclePos).getID())
                 .limit(1)
@@ -99,45 +101,68 @@ public class AssignJobViewModel extends ViewModel {
                         .whereEqualTo("ID", routeList.get(chosenRoutePos).getID())
                         .limit(1)
                         .get();
+        executorService = Executors.newSingleThreadExecutor();
+
         Tasks.whenAllComplete(task1, task2).addOnCompleteListener(new OnCompleteListener<List<Task<?>>>() {
             @Override
             public void onComplete(@NonNull Task<List<Task<?>>> task) {
-                executorService = Executors.newSingleThreadExecutor();
-                executorService.submit(new Runnable() {
-                    @Override
-                    public void run() {
-                        Log.e(TAG, "run executor " +  Thread.currentThread());
-                        List<Task<?>> taskList = task.getResult();
-                        Task<QuerySnapshot> querySnapshot1 = (Task<QuerySnapshot>) taskList.get(0);
-                        Task<QuerySnapshot> querySnapshot2 = (Task<QuerySnapshot>) taskList.get(1);
-                        mHandler.post(new Runnable() {
-                            @Override
-                            public void run() {
-                                callback.updateDone();
-                            }
-                        });
+                if(task.isSuccessful()) {
+                    executorService.submit(new Runnable() {
+                        @Override
+                        public void run() {
+                            Log.e(TAG, "run executor " + Thread.currentThread());
+                            List<Task<?>> taskList = task.getResult();
 
-//                        vehicleRef = querySnapshot1.getResult().getDocuments().get(0).getReference();
-//                        routeRef = querySnapshot2.getResult().getDocuments().get(1).getReference();
-//                        Map<String, Object> map1 = new HashMap<>();
-//                        map1.put(Vehicle.VEHICLE_ROUTE_ID, routeList.get(chosenRoutePos).getID());
-//                        map1.put(Vehicle.VEHICLE_DRIVER_ID, driver.getID());
-//                        map1.put(Vehicle.VEHICLE_STATUS, 1);
-//                        Map<String, Object> map2 = new HashMap<>();
-//                        map2.put(Route.ROUTE_VEHICLE_ID, vehicleList.get(chosenVehiclePos).getID());
-//                        map2.put(Route.ROUTE_DRIVER_ID, driver.getID());
-//                        map2.put(Route.ROUTE_STATUS, 1);
-//                        Map<String, Object> map3 = new HashMap<>();
-//                        map3.put(Driver.DRIVER_STATUS, 1);
-//                        map3.put(Driver.DRIVER_ROUTE_ID, routeList.get(chosenRoutePos).getID());
-//                        map3.put(Driver.DRIVER_VEHICLE_ID, vehicleList.get(chosenVehiclePos).getID());
-//                        //TODO update actual departure date
-//                        vehicleRef.update(map1);
-//                        routeRef.update(map2);
-//                        driverRef.update(map3);
-                    }
-                });
+                            Task<QuerySnapshot> querySnapshot1 = (Task<QuerySnapshot>) taskList.get(0);
+                            Task<QuerySnapshot> querySnapshot2 = (Task<QuerySnapshot>) taskList.get(1);
 
+                            vehicleRef = querySnapshot1.getResult().getDocuments().get(0).getReference();
+                            routeRef = querySnapshot2.getResult().getDocuments().get(0).getReference();
+                            Map<String, Object> vehicleMap = new HashMap<>();
+                            vehicleMap.put(Vehicle.VEHICLE_ROUTE_ID, routeList.get(chosenRoutePos).getID());
+                            vehicleMap.put(Vehicle.VEHICLE_DRIVER_ID, driver.getID());
+                            vehicleMap.put(Vehicle.VEHICLE_STATUS, 1);
+                            Map<String, Object> routeMap = new HashMap<>();
+                            routeMap.put(Route.ROUTE_VEHICLE_ID, vehicleList.get(chosenVehiclePos).getID());
+                            routeMap.put(Route.ROUTE_DRIVER_ID, driver.getID());
+                            routeMap.put(Route.ROUTE_STATUS, 1);
+                            routeMap.put(Route.ROUTE_ACTUAL_DEPART, Timestamp.now());
+                            Map<String, Object> driverMap = new HashMap<>();
+                            driverMap.put(Driver.DRIVER_STATUS, 1);
+                            driverMap.put(Driver.DRIVER_ROUTE_ID, routeList.get(chosenRoutePos).getID());
+                            driverMap.put(Driver.DRIVER_VEHICLE_ID, vehicleList.get(chosenVehiclePos).getID());
+                            // to get the result of the update
+                            Tasks.whenAllComplete(vehicleRef.update(vehicleMap),
+                                            routeRef.update(routeMap),
+                                            driverRef.update(driverMap))
+                                    .addOnCompleteListener(new OnCompleteListener<List<Task<?>>>() {
+                                        @Override
+                                        public void onComplete(@NonNull Task<List<Task<?>>> task) {
+                                            if (task.isSuccessful()) {
+                                                Log.e(TAG, "onComplete: update done ");
+                                                mHandler.post(new Runnable() {
+                                                    @Override
+                                                    public void run() {
+                                                        callback.updateDone(true);
+                                                    }
+                                                });
+                                            } else {
+                                                mHandler.post(new Runnable() {
+                                                    @Override
+                                                    public void run() {
+                                                        callback.updateDone(false);
+                                                    }
+                                                });
+                                            }
+                                        }
+                                    });
+                        }
+                    });
+                }
+                else
+                {
+                    Log.e(TAG, "get error");
+                }
             }
         });
 
@@ -215,7 +240,7 @@ public class AssignJobViewModel extends ViewModel {
     }
     public interface UpdateCallback
     {
-        void updateDone();
+        void updateDone(boolean isSuccess);
     }
 
     @Override

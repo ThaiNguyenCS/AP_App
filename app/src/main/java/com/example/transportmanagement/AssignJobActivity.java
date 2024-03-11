@@ -117,8 +117,7 @@ public class AssignJobActivity extends AppCompatActivity implements AssignJobVie
                 mBinding.nextButton.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        //TODO handle done
-                        // modify 3 relevant document (ID) and status
+                        mBinding.loadingCircle.setVisibility(View.VISIBLE);
                         mViewModel.updateAssignment();
                     }
                 });
@@ -176,11 +175,19 @@ public class AssignJobActivity extends AppCompatActivity implements AssignJobVie
     }
 
     @Override
-    public void updateDone() {
-        Log.e(TAG, "updateDone: " + Thread.currentThread());
-        Toast.makeText(this, "Update done", Toast.LENGTH_SHORT).show();
-        //TODO send signal to DriverDetailActivity
-        AssignJobActivity.this.finishAndRemoveTask();
+    public void updateDone(boolean isSuccess) {
+        Intent intent = new Intent();
+        if(isSuccess)
+        {
+            intent.putExtra("RESULT", true);
+            setResult(Activity.RESULT_OK, intent);
+        }
+        else {
+            intent.putExtra("RESULT", false);
+            setResult(Activity.RESULT_OK, intent);
+        }
+        mBinding.loadingCircle.setVisibility(View.GONE);
+        finish();
     }
 
     @Override

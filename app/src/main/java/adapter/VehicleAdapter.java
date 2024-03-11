@@ -63,17 +63,17 @@ public class VehicleAdapter extends RecyclerView.Adapter<VehicleAdapter.VehicleV
             //TODO image handle
             int realPosition = holder.getAdapterPosition();
             Vehicle currentVehicle = vehicleList.get(realPosition);
-            holder.mBinding2.fuel.setText(currentVehicle.getTypeOfFuel());
+            holder.mBinding2.checkbox.setChecked(checkedList.get(realPosition));
             String size = String.join("x",
                     String.valueOf(currentVehicle.getLength()),
                     String.valueOf(currentVehicle.getWidth()),
                     String.valueOf(currentVehicle.getHeight()));
             holder.mBinding2.size.setText(size);
+            holder.mBinding2.load.setText(String.valueOf(currentVehicle.getMaximumLoad()));
             holder.mBinding2.licensePlate.setText(currentVehicle.getNumberPlate());
             holder.mBinding2.type.setText(currentVehicle.getType());
             holder.mBinding2.fuel.setText(currentVehicle.getTypeOfFuel());
             holder.mBinding2.status.setText(statusStringMapping.get(currentVehicle.getStatus()));
-            holder.mBinding2.checkbox.setChecked(checkedList.get(realPosition));
     }
 
     }

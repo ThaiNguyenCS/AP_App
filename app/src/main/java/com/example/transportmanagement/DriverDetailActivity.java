@@ -2,6 +2,7 @@ package com.example.transportmanagement;
 
 import androidx.activity.result.ActivityResult;
 import androidx.activity.result.ActivityResultCallback;
+import androidx.activity.result.ActivityResultCaller;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContract;
 import androidx.activity.result.contract.ActivityResultContracts;
@@ -31,6 +32,9 @@ import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 import com.google.android.material.divider.MaterialDivider;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import adapter.DriverHistoryAdapter;
 import bottomsheet.DriverEditBottomSheet;
 import data.Driver;
@@ -46,27 +50,38 @@ public class DriverDetailActivity extends AppCompatActivity implements OnSendDat
     Animator rightToDownAnimator;
     private int driverID;
     private Driver mDriver;
-    ActivityResultLauncher<Intent> launcher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), new ActivityResultCallback<ActivityResult>() {
-        @Override
-        public void onActivityResult(ActivityResult o) {
-            if(o.getResultCode() == Activity.RESULT_OK)
-            {
-                Intent intent = o.getData();
-                Log.e(TAG, "onActivityResult: " + intent);
-            }
-        }
-    });
-
+    ActivityResultLauncher<Intent> launcher;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Log.e(TAG, "recreate");
+//        Log.e(TAG, "recreate");
         mBinding = ActivityDriverDetailBinding.inflate(getLayoutInflater());
         setContentView(mBinding.getRoot());
         getClickedDriverID();
         setUpMenu();
+
         mViewModel = new ViewModelProvider(this).get(DriverDetailViewModel.class);
+        launcher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), new ActivityResultCallback<ActivityResult>() {
+            @Override
+            public void onActivityResult(ActivityResult o) {
+                if(o.getResultCode() == Activity.RESULT_OK)
+                {
+                    Log.e(TAG, "onActivityResult: receive result" );
+                    Intent intent = o.getData();
+                    boolean result = intent.getExtras().getBoolean("RESULT");
+                    if (result)
+                    {
+                        mViewModel.getDriverData(driverID);
+                        Toast.makeText(DriverDetailActivity.this, "Assign job successfully!", Toast.LENGTH_SHORT).show();
+                    }
+                    else
+                    {
+                        Toast.makeText(DriverDetailActivity.this, "Assign job failed!", Toast.LENGTH_SHORT).show();
+                    }
+                }
+            }
+        });
         downToRightAnimator = AnimatorInflater.loadAnimator(DriverDetailActivity.this.getApplicationContext(), R.animator.anim_downtoright);
         rightToDownAnimator = AnimatorInflater.loadAnimator(DriverDetailActivity.this.getApplicationContext(), R.animator.anim_righttodown);
         downToRightAnimator.setTarget(mBinding.historyToggle);
@@ -131,10 +146,18 @@ public class DriverDetailActivity extends AppCompatActivity implements OnSendDat
                     public boolean onMenuItemClick(MenuItem item) {
                         if(item.getItemId() == R.id.assign_job)
                         {
-                            Intent intent = new Intent(DriverDetailActivity.this, AssignJobActivity.class);
-                            intent.putExtra("DRIVERID", driverID);
-                            launcher.launch(intent);
+                            if(mDriver.getStatus() == 0)
+                            {
+                                Intent intent = new Intent(DriverDetailActivity.this, AssignJobActivity.class);
+                                intent.putExtra("DRIVERID", driverID);
+                                launcher.launch(intent);
+                            }
+                            else
+                            {
+                                Toast.makeText(DriverDetailActivity.this, "This driver is not available now!", Toast.LENGTH_SHORT).show();
+                            }
                             return true;
+
                         }
                         return false;
                     }
@@ -151,7 +174,7 @@ public class DriverDetailActivity extends AppCompatActivity implements OnSendDat
             mBinding.phoneTextview.setText(mDriver.getPhoneNumber());
             mBinding.idTextview.setText(mDriver.getCitizenID());
             mBinding.addressTextview.setText(mDriver.getAddress());
-            mBinding.statusTextview.setText("Status: " + mDriver.getStatus());
+            mBinding.statusTextview.setText("Status: " + mViewModel.getStatus((int) mDriver.getStatus()));
             mBinding.licenseTextview.setText(mDriver.getLicense());
             if(mDriver.getStatus() == 0)
             {
@@ -170,7 +193,7 @@ public class DriverDetailActivity extends AppCompatActivity implements OnSendDat
         Bundle bundle = getIntent().getExtras();
         if(bundle != null)
         {
-            driverID = bundle.getInt(DriverFragment.DRIVER_ID);
+            driverID = bundle.getInt(DriverFragment.DRIVER_ID_EXTRA);
         }
         else
         {
@@ -202,5 +225,11 @@ public class DriverDetailActivity extends AppCompatActivity implements OnSendDat
         mBinding.progressIndicator.setVisibility(View.VISIBLE);
         mViewModel.updateDriver(mDriver);
         mViewModel.getDriverData(driverID);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+//        Log.e(TAG, "onResume: " );
     }
 }

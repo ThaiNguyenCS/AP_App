@@ -110,7 +110,6 @@ public class RouteFragment extends Fragment implements OnRVItemClickListener {
 
         if(lastPosition == position)
         {
-            Log.e(TAG, " == ");
             // you've unchecked already
             statusList.set(position, false);
             lastPosition = -1;

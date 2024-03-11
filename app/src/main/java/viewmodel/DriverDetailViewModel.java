@@ -14,7 +14,9 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import data.Driver;
@@ -26,10 +28,18 @@ public class DriverDetailViewModel extends ViewModel {
     private int driverID;
     private FirebaseFirestore firestore;
     private DocumentReference reference;
+    private List<String> statusListName;
 
     public DriverDetailViewModel() {
         firestore = FirebaseFirestore.getInstance();
         driverLiveData = new MutableLiveData<>();
+        statusListName = new ArrayList<>();
+        statusListName.add("Available");
+        statusListName.add("Driving");
+    }
+    public String getStatus(int index)
+    {
+        return statusListName.get(index);
     }
     public void getDriverData(int id)
     {
