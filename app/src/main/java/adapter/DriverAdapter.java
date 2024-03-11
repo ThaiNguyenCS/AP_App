@@ -20,7 +20,6 @@ public class DriverAdapter extends RecyclerView.Adapter<DriverAdapter.DriverView
     private List<Driver> driverList;
     private List<String> statusList;
     public DriverAdapter(OnRVItemClickListener listener) {
-        this.viewType = viewType;
         this.mListener = listener;
         statusList = new ArrayList<>();
         statusList.add("Available");
