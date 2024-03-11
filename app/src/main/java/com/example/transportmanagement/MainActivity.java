@@ -30,6 +30,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(mBinding.getRoot());
         mViewModel = new ViewModelProvider(this).get(MainViewModel.class);
         mBinding.viewPager.setAdapter(new ViewPagerAdapter(this));
+        mBinding.viewPager.setOffscreenPageLimit(1);
         setBottomNavBehave();
         setPageChangeCallbackForViewpager();
     }

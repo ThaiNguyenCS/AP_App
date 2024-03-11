@@ -10,6 +10,7 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import android.os.Handler;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,6 +28,7 @@ import viewmodel.AssignJobViewModel;
 import viewmodel.MainViewModel;
 
 public class VehicleFragment extends Fragment implements OnRVItemClickListener {
+    private static final String TAG = "VehicleFragment";
     FragmentVehicleBinding mBinding;
     private int mViewType;
     AssignJobViewModel assignJobViewModel;
@@ -68,16 +70,26 @@ public class VehicleFragment extends Fragment implements OnRVItemClickListener {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        Log.e(TAG, "onViewCreated: " );
+        mBinding.progressIndicator.setVisibility(View.VISIBLE);
         adapter = new VehicleAdapter(this, mViewType);
         mBinding.recyclerView.setAdapter(adapter);
         mBinding.recyclerView.setLayoutManager(new LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false));
         if(mViewType == 0)
         {
-            //TODO use mainviewmodel to handle data
+            mainViewModel.fetchDriverData();
+            mainViewModel.getVehicleLiveList().observe(requireActivity(), new Observer<List<Vehicle>>() {
+                @Override
+                public void onChanged(List<Vehicle> vehicles) {
+                    vehicleList = vehicles;
+                    adapter.setAdapterData(vehicleList);
+                    mBinding.progressIndicator.setVisibility(View.GONE);
+                }
+            });
         }
         else
         {
-            assignJobViewModel.getVehicleListLiveData().observe(requireActivity(), new Observer<List<Vehicle>>() {
+                assignJobViewModel.getVehicleListLiveData().observe(requireActivity(), new Observer<List<Vehicle>>() {
                 @Override
                 public void onChanged(List<Vehicle> vehicles) {
                     vehicleList = vehicles;
@@ -87,6 +99,7 @@ public class VehicleFragment extends Fragment implements OnRVItemClickListener {
                         checkedStatusList.add(false);
                     }
                     adapter.setAdapterData(vehicleList, checkedStatusList);
+                    mBinding.progressIndicator.setVisibility(View.GONE);
 
                 }
             });

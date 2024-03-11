@@ -18,7 +18,7 @@ public class Vehicle {
     Integer currentRouteID;
     int status;
     String type;
-    String numberPlate; // bien so xe
+    String numberOfPlate; // bien so xe
     double height;
     double width;
     double length;
@@ -65,12 +65,12 @@ public class Vehicle {
         this.type = type;
     }
 
-    public String getNumberPlate() {
-        return numberPlate;
+    public String getNumberOfPlate() {
+        return numberOfPlate;
     }
 
-    public void setNumberPlate(String numberPlate) {
-        this.numberPlate = numberPlate;
+    public void setNumberOfPlate(String numberOfPlate) {
+        this.numberOfPlate = numberOfPlate;
     }
 
     public double getHeight() {

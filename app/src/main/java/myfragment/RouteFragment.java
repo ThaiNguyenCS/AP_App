@@ -76,13 +76,18 @@ public class RouteFragment extends Fragment implements OnRVItemClickListener {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        Log.e(TAG, "onViewCreated: " );
         adapter = new RouteAdapter(this, mViewType);
+        mBinding.progressIndicator.setVisibility(View.VISIBLE);
         if(mViewType == 0)
         {
             mainViewModel.getRouteLiveList().observe(requireActivity(), new Observer<List<Route>>() {
                 @Override
                 public void onChanged(List<Route> routes) {
+                    routeList = routes;
                     adapter.setAdapterData(routes);
+                    //TODO this setVisibility is not in the right place yet but acceptable
+                    mBinding.progressIndicator.setVisibility(View.GONE);
                 }
             });
         }
@@ -98,6 +103,7 @@ public class RouteFragment extends Fragment implements OnRVItemClickListener {
                         statusList.add(false);
                     }
                     adapter.setAdapterData(routeList, statusList);
+                    mBinding.progressIndicator.setVisibility(View.GONE);
                 }
             });
         }
@@ -137,6 +143,15 @@ public class RouteFragment extends Fragment implements OnRVItemClickListener {
             }
         });
 
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if(mViewType == 0)
+        {
+            mainViewModel.fetchRouteData();
+        }
     }
 
     @Override

@@ -53,18 +53,17 @@ public class DriverFragment extends Fragment implements OnRVItemClickListener {
     }
 
     @Override
-    public void onAttach(@NonNull Context context) {
-        super.onAttach(context);
-//        Log.e(TAG, "onAttach: " + context );
+    public void onResume() {
+        super.onResume();
+        mViewModel.fetchDriverData();
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-//        Log.e(TAG, "onViewCreated: ");
+        Log.e(TAG, "onViewCreated: ");
         mBinding = FragmentDriverBinding.bind(view);
         DriverAdapter adapter = new DriverAdapter(this);
-        mViewModel.fetchDriverData();
         mBinding.recyclerView.setAdapter(adapter);
         mBinding.recyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
         mViewModel.getDriverLiveList().observe(requireActivity(), new Observer<List<Driver>>() {

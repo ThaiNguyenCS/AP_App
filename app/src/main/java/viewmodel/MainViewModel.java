@@ -35,25 +35,14 @@ public class MainViewModel extends ViewModel {
         return driverLiveList;
     }
 
-    public void setDriverLiveList(MutableLiveData<List<Driver>> driverLiveList) {
-        this.driverLiveList = driverLiveList;
-    }
-
     public MutableLiveData<List<Route>> getRouteLiveList() {
         return routeLiveList;
-    }
-
-    public void setRouteLiveList(MutableLiveData<List<Route>> routeLiveList) {
-        this.routeLiveList = routeLiveList;
     }
 
     public MutableLiveData<List<Vehicle>> getVehicleLiveList() {
         return vehicleLiveList;
     }
 
-    public void setVehicleLiveList(MutableLiveData<List<Vehicle>> vehicleLiveList) {
-        this.vehicleLiveList = vehicleLiveList;
-    }
 
     public MainViewModel() {
         Log.e(TAG, "MainViewModel: ");
@@ -62,7 +51,6 @@ public class MainViewModel extends ViewModel {
         driverLiveList = new MutableLiveData<>();
         vehicleLiveList = new MutableLiveData<>();
         routeLiveList = new MutableLiveData<>();
-
         firestore.collection("Vehicle").get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
@@ -70,12 +58,14 @@ public class MainViewModel extends ViewModel {
                 if(task.isSuccessful())
                 {
                     QuerySnapshot snapshots = task.getResult();
+                    Log.e(TAG, "add vehicle");
                     for(QueryDocumentSnapshot snapshot : snapshots)
                     {
                         vehicleList.add(snapshot.toObject(Vehicle.class));
                         Log.e(TAG, "vehicle id: " +  vehicleList.get(vehicleList.size()-1).getID());
                     }
                     vehicleLiveList.setValue(vehicleList);
+                    Log.e(TAG, "finish add vehicle");
                 }
                 else
                 {
@@ -88,6 +78,7 @@ public class MainViewModel extends ViewModel {
     {
         if(driverList == null)
         {
+            Log.e(TAG, "fetchDriverData: " );
             driverList = new ArrayList<>();
             firestore.collection("Driver").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                 @Override
@@ -95,6 +86,7 @@ public class MainViewModel extends ViewModel {
                     if(task.isSuccessful())
                     {
                         QuerySnapshot snapshots = task.getResult();
+
                         for(QueryDocumentSnapshot snapshot : snapshots)
                         {
                             driverList.add(snapshot.toObject(Driver.class));
