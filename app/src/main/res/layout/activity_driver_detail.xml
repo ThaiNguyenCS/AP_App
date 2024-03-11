@@ -28,6 +28,7 @@
         <ImageView
             android:id="@+id/close_button"
             android:layout_width="30dp"
+            android:background="@color/button_click_background"
             android:layout_height="30dp"
             android:layout_alignParentStart="true"
             android:padding="6dp"
@@ -36,6 +37,7 @@
         <ImageView
             android:id="@+id/edit_button"
             android:layout_width="30dp"
+            android:background="@color/button_click_background"
             android:layout_height="30dp"
             android:padding="4dp"
             android:layout_centerVertical="true"
@@ -43,9 +45,10 @@
             android:layout_toStartOf="@id/menu_button"/>
         <ImageView
             android:id="@+id/menu_button"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:padding="5dp"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:padding="7.5dp"
+            android:background="@color/button_click_background"
             android:layout_centerVertical="true"
             android:layout_alignParentEnd="true"
             android:src="@drawable/ic_menu"/>
@@ -67,14 +70,23 @@
             app:layout_constraintTop_toTopOf="parent"
             app:shapeAppearanceOverlay="@style/CircleImageFrame"
             app:srcCompat="@drawable/img" />
+        <TextView
+            android:id="@+id/name_textview"
+            android:textStyle="bold"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="18sp"
+            app:layout_constraintTop_toBottomOf="@id/avt_holder"
+            app:layout_constraintLeft_toLeftOf="@id/avt_holder"
+            app:layout_constraintRight_toRightOf="@id/avt_holder"
+            android:text="@string/loading_notify"/>
 
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
             app:layout_constraintLeft_toLeftOf="@id/avt_holder"
             app:layout_constraintRight_toRightOf="@id/avt_holder"
-            app:layout_constraintTop_toBottomOf="@id/avt_holder">
+            app:layout_constraintTop_toBottomOf="@id/name_textview">
 
             <com.google.android.material.imageview.ShapeableImageView
                 android:id="@+id/status_indicator"
@@ -85,11 +97,16 @@
                 app:srcCompat="@color/red" />
 
             <TextView
-                android:id="@+id/status_textview"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="4dp"
-                android:text="Status: Busy" />
+                android:textStyle="bold"
+                android:text="Status: " />
+            <TextView
+                android:id="@+id/status_textview"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/loading_notify" />
         </LinearLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
@@ -107,27 +124,27 @@
             android:layout_marginTop="10dp"
             android:orientation="vertical">
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@drawable/driver_info_frame"
-                android:orientation="horizontal"
+<!--            <LinearLayout-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:background="@drawable/driver_info_frame"-->
+<!--                android:orientation="horizontal"-->
 
-                android:paddingHorizontal="8dp"
-                android:paddingVertical="10dp">
+<!--                android:paddingHorizontal="8dp"-->
+<!--                android:paddingVertical="10dp">-->
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Name: "
-                    android:textStyle="bold" />
+<!--                <TextView-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:text="Name: "-->
+<!--                    android:textStyle="bold" />-->
 
-                <TextView
-                    android:id="@+id/name_textview"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Loading..." />
-            </LinearLayout>
+<!--                <TextView-->
+<!--                    android:id="@+id/name_textview"-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:text="Loading..." />-->
+<!--            </LinearLayout>-->
 
 
             <LinearLayout
@@ -142,14 +159,14 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="ID: "
+                    android:text="Citizen ID: "
                     android:textStyle="bold" />
 
                 <TextView
                     android:id="@+id/id_textview"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Loading..." />
+                    android:text="@string/loading_notify" />
             </LinearLayout>
 
             <LinearLayout
@@ -171,7 +188,7 @@
                     android:id="@+id/license_textview"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Loading..." />
+                    android:text="@string/loading_notify" />
             </LinearLayout>
 
 
@@ -195,7 +212,7 @@
                     android:id="@+id/phone_textview"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Loading..." />
+                    android:text="@string/loading_notify" />
             </LinearLayout>
 
             <LinearLayout
@@ -217,7 +234,7 @@
                     android:id="@+id/address_textview"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Loading..." />
+                    android:text="@string/loading_notify" />
             </LinearLayout>
 
             <LinearLayout
@@ -239,7 +256,7 @@
                     android:id="@+id/YOE_textview"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Loading..." />
+                    android:text="@string/loading_notify" />
             </LinearLayout>
 
             <LinearLayout

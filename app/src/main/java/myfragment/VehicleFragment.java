@@ -1,5 +1,6 @@
 package myfragment;
 
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -24,10 +25,11 @@ import java.util.List;
 import adapter.VehicleAdapter;
 import data.Vehicle;
 import myinterface.OnRVItemClickListener;
+import myinterface.ViewBindCallback;
 import viewmodel.AssignJobViewModel;
 import viewmodel.MainViewModel;
 
-public class VehicleFragment extends Fragment implements OnRVItemClickListener {
+public class VehicleFragment extends Fragment implements OnRVItemClickListener, ViewBindCallback {
     private static final String TAG = "VehicleFragment";
     FragmentVehicleBinding mBinding;
     private int mViewType;
@@ -73,6 +75,7 @@ public class VehicleFragment extends Fragment implements OnRVItemClickListener {
         Log.e(TAG, "onViewCreated: " );
         mBinding.progressIndicator.setVisibility(View.VISIBLE);
         adapter = new VehicleAdapter(this, mViewType);
+        adapter.setCallBack(this);
         mBinding.recyclerView.setAdapter(adapter);
         mBinding.recyclerView.setLayoutManager(new LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false));
         if(mViewType == 0)
@@ -142,6 +145,21 @@ public class VehicleFragment extends Fragment implements OnRVItemClickListener {
             }
         });
 
-
+    }
+    @Override
+    public ColorDrawable callBackStatusDrawable(int statusId) {
+        switch (statusId) {
+            case 0: {
+                return new ColorDrawable(getResources().getColor(R.color.green));
+            }
+            case 1:
+            {
+                return new ColorDrawable(getResources().getColor(R.color.red));
+            }
+            default:
+            {
+                return new ColorDrawable(getResources().getColor(R.color.yellow));
+            }
+        }
     }
 }

@@ -3,7 +3,8 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string-array name="driver_status_option">
+        <item>Available</item>
         <item>Driving</item>
-        <item>Free</item>
     </string-array>
+    <string name="loading_notify">Loading&#8230;</string>
 </resources>

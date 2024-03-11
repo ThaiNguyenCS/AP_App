@@ -174,7 +174,7 @@ public class DriverDetailActivity extends AppCompatActivity implements OnSendDat
             mBinding.phoneTextview.setText(mDriver.getPhoneNumber());
             mBinding.idTextview.setText(mDriver.getCitizenID());
             mBinding.addressTextview.setText(mDriver.getAddress());
-            mBinding.statusTextview.setText("Status: " + mViewModel.getStatus((int) mDriver.getStatus()));
+            mBinding.statusTextview.setText(mViewModel.getStatus((int) mDriver.getStatus()));
             mBinding.licenseTextview.setText(mDriver.getLicense());
             if(mDriver.getStatus() == 0)
             {

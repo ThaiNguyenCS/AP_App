@@ -57,7 +57,7 @@ public class DriverEditBottomSheet extends BottomSheetDialogFragment {
         mBinding.statusSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                if(position == 1)
+                if(position == 0)
                 {
                     mBinding.statusIndicator.setImageDrawable(new ColorDrawable(getResources().getColor(R.color.green)));
                 }

@@ -2,6 +2,7 @@ package myfragment;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -26,6 +27,7 @@ import java.util.List;
 import adapter.DriverAdapter;
 import data.Driver;
 import myinterface.OnRVItemClickListener;
+import myinterface.ViewBindCallback;
 import viewmodel.MainViewModel;
 
 public class DriverFragment extends Fragment implements OnRVItemClickListener {
@@ -82,4 +84,6 @@ public class DriverFragment extends Fragment implements OnRVItemClickListener {
         intent.putExtra(DRIVER_ID_EXTRA, driverList.get(position).getID()); // send the clicked driver's ID to the activity
         startActivity(intent);
     }
+
+
 }
