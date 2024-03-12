@@ -21,6 +21,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import data.*;
+import myinterface.RefreshCallback;
+
 public class MainViewModel extends ViewModel {
     private static final String TAG = "MainViewModel";
     private List<Driver>  driverList;
@@ -30,6 +32,7 @@ public class MainViewModel extends ViewModel {
     private MutableLiveData<List<Route>> routeLiveList;
     private MutableLiveData<List<Vehicle>> vehicleLiveList;
     private FirebaseFirestore firestore;
+    private RefreshCallback mRefreshCallback;
 
     public MutableLiveData<List<Driver>> getDriverLiveList() {
         return driverLiveList;
@@ -58,14 +61,14 @@ public class MainViewModel extends ViewModel {
                 if(task.isSuccessful())
                 {
                     QuerySnapshot snapshots = task.getResult();
-                    Log.e(TAG, "add vehicle");
+//                    Log.e(TAG, "add vehicle");
                     for(QueryDocumentSnapshot snapshot : snapshots)
                     {
                         vehicleList.add(snapshot.toObject(Vehicle.class));
-                        Log.e(TAG, "vehicle id: " +  vehicleList.get(vehicleList.size()-1).getID());
+//                        Log.e(TAG, "vehicle id: " +  vehicleList.get(vehicleList.size()-1).getID());
                     }
                     vehicleLiveList.setValue(vehicleList);
-                    Log.e(TAG, "finish add vehicle");
+//                    Log.e(TAG, "finish add vehicle");
                 }
                 else
                 {
@@ -74,9 +77,13 @@ public class MainViewModel extends ViewModel {
             }
         });
     }
-    public void fetchDriverData()
+    public void setRefreshCallback(RefreshCallback callback)
     {
-        if(driverList == null)
+        this.mRefreshCallback = callback;
+    }
+    public void fetchDriverData(boolean isForce)
+    {
+        if(driverList == null || isForce)
         {
             Log.e(TAG, "fetchDriverData: " );
             driverList = new ArrayList<>();
@@ -92,6 +99,10 @@ public class MainViewModel extends ViewModel {
                             driverList.add(snapshot.toObject(Driver.class));
                         }
                         driverLiveList.setValue(driverList);
+                        if(isForce)
+                        {
+                            mRefreshCallback.refreshDone();
+                        }
                     }
                     else
                     {

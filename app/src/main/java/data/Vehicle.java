@@ -2,6 +2,7 @@ package data;
 
 public class Vehicle {
     //TODO maintenance history
+    public static String VEHICLE_ID = "ID";
     public static String VEHICLE_TYPE = "type";
     public static String VEHICLE_PLATE = "numberPlate";
     public static String VEHICLE_HEIGHT = "height";

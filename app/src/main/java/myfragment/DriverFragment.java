@@ -11,6 +11,7 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -27,10 +28,11 @@ import java.util.List;
 import adapter.DriverAdapter;
 import data.Driver;
 import myinterface.OnRVItemClickListener;
+import myinterface.RefreshCallback;
 import myinterface.ViewBindCallback;
 import viewmodel.MainViewModel;
 
-public class DriverFragment extends Fragment implements OnRVItemClickListener {
+public class DriverFragment extends Fragment implements OnRVItemClickListener, RefreshCallback {
     private static final String TAG = "DriverFragment";
     FragmentDriverBinding mBinding;
     MainViewModel mViewModel;
@@ -45,6 +47,7 @@ public class DriverFragment extends Fragment implements OnRVItemClickListener {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mViewModel = new ViewModelProvider(requireActivity()).get(MainViewModel.class);
+        mViewModel.setRefreshCallback(this);
     }
 
     @Override
@@ -57,7 +60,7 @@ public class DriverFragment extends Fragment implements OnRVItemClickListener {
     @Override
     public void onResume() {
         super.onResume();
-        mViewModel.fetchDriverData();
+        mViewModel.fetchDriverData(false);
     }
 
     @Override
@@ -65,6 +68,13 @@ public class DriverFragment extends Fragment implements OnRVItemClickListener {
         super.onViewCreated(view, savedInstanceState);
         Log.e(TAG, "onViewCreated: ");
         mBinding = FragmentDriverBinding.bind(view);
+        mBinding.getRoot().setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                Log.e(TAG, "onRefresh: ");
+                mViewModel.fetchDriverData(true);
+            }
+        });
         DriverAdapter adapter = new DriverAdapter(this);
         mBinding.recyclerView.setAdapter(adapter);
         mBinding.recyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
@@ -86,4 +96,8 @@ public class DriverFragment extends Fragment implements OnRVItemClickListener {
     }
 
 
+    @Override
+    public void refreshDone() {
+        mBinding.getRoot().setRefreshing(false);
+    }
 }

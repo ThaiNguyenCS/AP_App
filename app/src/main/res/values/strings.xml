@@ -7,4 +7,5 @@
         <item>Driving</item>
     </string-array>
     <string name="loading_notify">Loading&#8230;</string>
+    <string name="view_activity"><u>View activity</u></string>
 </resources>

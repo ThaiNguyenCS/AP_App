@@ -6,6 +6,7 @@ import com.google.firebase.Timestamp;
 import java.util.Date;
 
 public class Route {
+    public static String ROUTE_ID = "ID";
     public static String ROUTE_VEHICLE_ID = "currentVehicleID";
     public static String ROUTE_DRIVER_ID = "currentDriverID";
     public static String ROUTE_DEPARTURE = "departure";

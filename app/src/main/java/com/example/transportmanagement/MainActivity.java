@@ -11,12 +11,25 @@ import android.util.Log;
 import android.view.MenuItem;
 
 import com.example.transportmanagement.databinding.ActivityMainBinding;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.navigation.NavigationBarView;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
+
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Objects;
 
 import adapter.ViewPagerAdapter;
+import data.Driver;
+import data.Route;
+import data.Vehicle;
 import myfragment.DriverFragment;
 import myfragment.RouteFragment;
 import myfragment.VehicleFragment;
+import viewmodel.DriverDetailViewModel;
 import viewmodel.MainViewModel;
 
 public class MainActivity extends AppCompatActivity {
@@ -81,6 +94,32 @@ public class MainActivity extends AppCompatActivity {
                 {
                     mBinding.viewPager.setCurrentItem(0);
                     return true;
+                }
+            }
+        });
+    }
+    private void RESETDATA()
+    {
+        FirebaseFirestore firestore = FirebaseFirestore.getInstance();
+        firestore.collection("Vehicle")
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                if(task.isSuccessful())
+                {
+                    QuerySnapshot snapshots = task.getResult();
+                    Map<String, Object> map = new HashMap<>();
+                    map.put(Vehicle.VEHICLE_STATUS, 0);
+                    map.put(Vehicle.VEHICLE_DRIVER_ID, null);
+                    map.put(Vehicle.VEHICLE_ROUTE_ID, null);
+
+                    Log.e(TAG, "start update");
+                    for(QueryDocumentSnapshot snapshot : snapshots)
+                    {
+                        snapshot.getReference().update(map);
+                    }
+                    Log.e(TAG, "end update");
                 }
             }
         });

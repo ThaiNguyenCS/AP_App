@@ -80,7 +80,6 @@ public class VehicleFragment extends Fragment implements OnRVItemClickListener, 
         mBinding.recyclerView.setLayoutManager(new LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false));
         if(mViewType == 0)
         {
-            mainViewModel.fetchDriverData();
             mainViewModel.getVehicleLiveList().observe(requireActivity(), new Observer<List<Vehicle>>() {
                 @Override
                 public void onChanged(List<Vehicle> vehicles) {

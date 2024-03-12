@@ -6,6 +6,7 @@ import androidx.activity.result.ActivityResultCaller;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContract;
 import androidx.activity.result.contract.ActivityResultContracts;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.PopupMenu;
 import androidx.lifecycle.Observer;
@@ -28,6 +29,7 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.example.transportmanagement.databinding.ActivityDriverDetailBinding;
+import com.example.transportmanagement.databinding.DriverActivityDialogBinding;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 import com.google.android.material.divider.MaterialDivider;
@@ -38,6 +40,7 @@ import java.util.List;
 import adapter.DriverHistoryAdapter;
 import bottomsheet.DriverEditBottomSheet;
 import data.Driver;
+import myfragment.DriverActivityDialog;
 import myfragment.DriverFragment;
 import myinterface.OnSendDataToActivity;
 import viewmodel.DriverDetailViewModel;
@@ -183,6 +186,14 @@ public class DriverDetailActivity extends AppCompatActivity implements OnSendDat
             else
             {
                 mBinding.statusIndicator.setImageDrawable(new ColorDrawable(getResources().getColor(R.color.red)));
+                mViewModel.getCurrentRouteAndVehicle();
+                mBinding.viewActivityButton.setVisibility(View.VISIBLE);
+                mBinding.viewActivityButton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        new DriverActivityDialog().show(getSupportFragmentManager(), null);
+                    }
+                });
             }
         }
 
