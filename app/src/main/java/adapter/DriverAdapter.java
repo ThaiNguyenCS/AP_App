@@ -14,11 +14,14 @@ import java.util.List;
 
 import myinterface.OnRVItemClickListener;
 import data.Driver;
+import myinterface.ViewBindCallback;
 
 public class DriverAdapter extends RecyclerView.Adapter<DriverAdapter.DriverViewHolder> {
     private OnRVItemClickListener mListener;
     private List<Driver> driverList;
     private List<String> statusList;
+    private ViewBindCallback mCallback;
+
     public DriverAdapter(OnRVItemClickListener listener) {
         this.mListener = listener;
         statusList = new ArrayList<>();
@@ -26,6 +29,10 @@ public class DriverAdapter extends RecyclerView.Adapter<DriverAdapter.DriverView
         statusList.add("Driving");
     }
 
+    public void setViewBindCallback(ViewBindCallback callback)
+    {
+        mCallback = callback;
+    }
 
     @NonNull
     @Override
@@ -36,12 +43,14 @@ public class DriverAdapter extends RecyclerView.Adapter<DriverAdapter.DriverView
 
     @Override
     public void onBindViewHolder(@NonNull DriverViewHolder holder, int position) {
+
         Driver driver = driverList.get(position);
         holder.mBinding.driverId.setText(driver.getCitizenID());
         holder.mBinding.driverLicense.setText(driver.getLicense());
         holder.mBinding.driverName.setText(driver.getName());
         holder.mBinding.driverName.setSelected(true);
         holder.mBinding.driverStatus.setText(statusList.get((int)driver.getStatus()));
+        holder.mBinding.statusIndicator.setImageDrawable(mCallback.callBackStatusDrawable((int)driver.getStatus()));
     }
 
     @Override

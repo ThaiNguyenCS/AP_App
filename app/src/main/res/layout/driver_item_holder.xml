@@ -111,12 +111,19 @@
                     android:layout_height="wrap_content"
                     android:text="Status: "
                     android:textStyle="bold" />
-
+                <com.google.android.material.imageview.ShapeableImageView
+                    android:id="@+id/status_indicator"
+                    android:layout_width="12dp"
+                    android:layout_height="12dp"
+                    android:layout_gravity="center_vertical"
+                    android:src="@color/red"
+                    app:shapeAppearanceOverlay="@style/CircleImageFrame" />
                 <TextView
                     android:id="@+id/driver_status"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:singleLine="true"
+                    android:layout_marginStart="5dp"
                     android:text="null" />
             </LinearLayout>
 

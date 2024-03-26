@@ -28,11 +28,13 @@ public class RouteAdapter extends RecyclerView.Adapter<RouteAdapter.RouteViewHol
     private List<Boolean> checkedList;
     private static List<String> statusListString;
     private int mViewType;
-    OnRVItemClickListener mListener;
+    OnRVItemClickListener mListener2;
+    OnRouteDetailClickListener mListener1;
 
-    public RouteAdapter(OnRVItemClickListener listener, int viewType) {
+    public RouteAdapter(OnRouteDetailClickListener listener1, OnRVItemClickListener listener2, int viewType) {
         this.mViewType = viewType;
-        mListener = listener;
+        mListener2 = listener2;
+        mListener1 = listener1;
         statusListString = new ArrayList<>();
         statusListString.add("Not assigned");
         statusListString.add("Taken");
@@ -56,10 +58,10 @@ public class RouteAdapter extends RecyclerView.Adapter<RouteAdapter.RouteViewHol
         if(viewType == 1)
         {
             RouteItemHolderForChoosingBinding binding = RouteItemHolderForChoosingBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false);
-            return new RouteViewHolder(binding, mListener);
+            return new RouteViewHolder(binding, mListener2);
         }
         RouteItemHolderBinding binding = RouteItemHolderBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false);
-        return new RouteViewHolder(binding, mListener);
+        return new RouteViewHolder(binding, mListener1);
     }
 
     @Override
@@ -105,25 +107,36 @@ public class RouteAdapter extends RecyclerView.Adapter<RouteAdapter.RouteViewHol
         }
         return 0;
     }
+    public interface OnRouteDetailClickListener
+    {
+        void onRouteDetailOpen(int position);
+    }
     public static class RouteViewHolder extends RecyclerView.ViewHolder
     {
         private RouteItemHolderBinding mBinding1;
         private RouteItemHolderForChoosingBinding mBinding2;
-        private OnRVItemClickListener mListener;
-        public RouteViewHolder(@NonNull RouteItemHolderBinding binding, OnRVItemClickListener listener) {
+        private OnRVItemClickListener mListener2;
+        private OnRouteDetailClickListener mListener1;
+        public RouteViewHolder(@NonNull RouteItemHolderBinding binding, OnRouteDetailClickListener listener) {
             super(binding.getRoot());
             this.mBinding1 = binding;
-            this.mListener = listener;
+            this.mListener1 = listener;
+            mBinding1.getRoot().setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    mListener1.onRouteDetailOpen(getAdapterPosition());
+                }
+            });
         }
 
         public RouteViewHolder(@NonNull RouteItemHolderForChoosingBinding binding, OnRVItemClickListener listener) {
             super(binding.getRoot());
             this.mBinding2 = binding;
-            this.mListener = listener;
+            this.mListener2 = listener;
             this.mBinding2.checkbox.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    mListener.onRVItemClick(getAdapterPosition());
+                    mListener2.onRVItemClick(getAdapterPosition());
                 }
             });
         }

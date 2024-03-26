@@ -23,14 +23,16 @@ public class VehicleAdapter extends RecyclerView.Adapter<VehicleAdapter.VehicleV
     private static final String TAG = "VehicleAdapter";
     private List<Vehicle> vehicleList;
     private List<Boolean> checkedList;
-    private OnRVItemClickListener mListener;
+    private OnRVItemClickListener mListener2;
+    private OnVehicleDetailClickListener mListener1;
     private static List<String> statusStringMapping;
     private ViewBindCallback mCallback;
     // 0 for normal view, 1 for choosing
     private int mViewType;
 
-    public VehicleAdapter(OnRVItemClickListener mListener, int viewType) {
-        this.mListener = mListener;
+    public VehicleAdapter(OnVehicleDetailClickListener listener1, OnRVItemClickListener listener2, int viewType) {
+        this.mListener2 = listener2;
+        this.mListener1 = listener1;
         this.mViewType = viewType;
         statusStringMapping = new ArrayList<>();
         statusStringMapping.add("Available");
@@ -62,10 +64,10 @@ public class VehicleAdapter extends RecyclerView.Adapter<VehicleAdapter.VehicleV
         if(viewType == 0)
         {
             VehicleItemHolderBinding binding = VehicleItemHolderBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false);
-            return new VehicleViewHolder(binding, mListener);
+            return new VehicleViewHolder(binding, mListener1);
         }
         VehicleItemHolderForChoosingBinding binding = VehicleItemHolderForChoosingBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false);
-        return new VehicleViewHolder(binding, mListener);
+        return new VehicleViewHolder(binding, mListener2);
     }
 
     @Override
@@ -116,25 +118,36 @@ public class VehicleAdapter extends RecyclerView.Adapter<VehicleAdapter.VehicleV
         return mViewType;
     }
 
+    public interface OnVehicleDetailClickListener
+    {
+        void onVehicleDetailOpen(int position);
+    }
     public static class VehicleViewHolder extends RecyclerView.ViewHolder
     {
         VehicleItemHolderBinding mBinding1;
         VehicleItemHolderForChoosingBinding mBinding2;
-        OnRVItemClickListener mListener;
+        OnRVItemClickListener mListener2;
+        OnVehicleDetailClickListener mListener1;
 
-        public VehicleViewHolder(@NonNull VehicleItemHolderBinding binding, OnRVItemClickListener listener) {
+        public VehicleViewHolder(@NonNull VehicleItemHolderBinding binding, OnVehicleDetailClickListener listener) {
             super(binding.getRoot());
             mBinding1 = binding;
-            mListener = listener;
+            mListener1 = listener;
+            mBinding1.getRoot().setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    mListener1.onVehicleDetailOpen(getAdapterPosition());
+                }
+            });
         }
         public VehicleViewHolder(@NonNull VehicleItemHolderForChoosingBinding binding, OnRVItemClickListener listener) {
             super(binding.getRoot());
             mBinding2 = binding;
-            mListener = listener;
+            mListener2 = listener;
             mBinding2.checkbox.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    mListener.onRVItemClick(getAdapterPosition());
+                    mListener2.onRVItemClick(getAdapterPosition());
                 }
             });
         }

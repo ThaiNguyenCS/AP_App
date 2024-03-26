@@ -32,7 +32,9 @@ public class MainViewModel extends ViewModel {
     private MutableLiveData<List<Route>> routeLiveList;
     private MutableLiveData<List<Vehicle>> vehicleLiveList;
     private FirebaseFirestore firestore;
-    private RefreshCallback mRefreshCallback;
+    private RefreshCallback mDriverRefreshCallback;
+    private RefreshCallback mRouteRefreshCallback;
+    private RefreshCallback mVehicleRefreshCallback;
 
     public MutableLiveData<List<Driver>> getDriverLiveList() {
         return driverLiveList;
@@ -50,36 +52,48 @@ public class MainViewModel extends ViewModel {
     public MainViewModel() {
         Log.e(TAG, "MainViewModel: ");
         firestore = FirebaseFirestore.getInstance();
-        vehicleList = new ArrayList<>();
         driverLiveList = new MutableLiveData<>();
         vehicleLiveList = new MutableLiveData<>();
         routeLiveList = new MutableLiveData<>();
-        firestore.collection("Vehicle").get()
-                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                if(task.isSuccessful())
-                {
-                    QuerySnapshot snapshots = task.getResult();
-//                    Log.e(TAG, "add vehicle");
-                    for(QueryDocumentSnapshot snapshot : snapshots)
-                    {
-                        vehicleList.add(snapshot.toObject(Vehicle.class));
-//                        Log.e(TAG, "vehicle id: " +  vehicleList.get(vehicleList.size()-1).getID());
-                    }
-                    vehicleLiveList.setValue(vehicleList);
-//                    Log.e(TAG, "finish add vehicle");
-                }
-                else
-                {
-                    task.getException().printStackTrace();
-                }
-            }
-        });
+        fetchVehicleData(false);
     }
-    public void setRefreshCallback(RefreshCallback callback)
+    public void setRefreshCallbackForDriver(RefreshCallback callback)
     {
-        this.mRefreshCallback = callback;
+        this.mDriverRefreshCallback = callback;
+    }
+    public void setRefreshCallbackForRoute(RefreshCallback callback)
+    {
+        this.mRouteRefreshCallback = callback;
+    }
+    public void setRefreshCallbackForVehicle(RefreshCallback callback)
+    {
+        this.mVehicleRefreshCallback = callback;
+    }
+    public void fetchVehicleData(boolean isForce) {
+        if (vehicleList == null || isForce)
+        {
+            vehicleList = new ArrayList<>();
+            firestore.collection("Vehicle").get()
+                    .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                        @Override
+                        public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                            if(task.isSuccessful())
+                            {
+                                QuerySnapshot snapshots = task.getResult();
+                                for(QueryDocumentSnapshot snapshot : snapshots)
+                                {
+                                    vehicleList.add(snapshot.toObject(Vehicle.class));
+                                }
+                                vehicleLiveList.setValue(vehicleList);
+                                mVehicleRefreshCallback.refreshDone();
+                            }
+                            else
+                            {
+                                task.getException().printStackTrace();
+                            }
+                        }
+                    });
+        }
     }
     public void fetchDriverData(boolean isForce)
     {
@@ -101,7 +115,7 @@ public class MainViewModel extends ViewModel {
                         driverLiveList.setValue(driverList);
                         if(isForce)
                         {
-                            mRefreshCallback.refreshDone();
+                            mDriverRefreshCallback.refreshDone();
                         }
                     }
                     else
@@ -112,9 +126,9 @@ public class MainViewModel extends ViewModel {
             });
         }
     }
-    public void fetchRouteData()
+    public void fetchRouteData(boolean isForce)
     {
-        if(routeList == null)
+        if(routeList == null || isForce)
         {
             routeList = new ArrayList<>();
             firestore.collection("Route").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
@@ -128,6 +142,11 @@ public class MainViewModel extends ViewModel {
                             routeList.add(snapshot.toObject(Route.class));
                         }
                         routeLiveList.setValue(routeList);
+                        Log.e(TAG, "onComplete: " );
+                        if(isForce)
+                        {
+                            mRouteRefreshCallback.refreshDone();
+                        }
                     }
                     else
                     {

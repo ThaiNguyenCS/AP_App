@@ -42,6 +42,7 @@ import bottomsheet.DriverEditBottomSheet;
 import data.Driver;
 import myfragment.DriverActivityDialog;
 import myfragment.DriverFragment;
+import myinterface.FinishCallback;
 import myinterface.OnSendDataToActivity;
 import viewmodel.DriverDetailViewModel;
 
@@ -191,6 +192,11 @@ public class DriverDetailActivity extends AppCompatActivity implements OnSendDat
                 mBinding.viewActivityButton.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
+                        if(mViewModel.getCurrentRoute() == null || mViewModel.getCurrentVehicle() == null)
+                        {
+                            Toast.makeText(DriverDetailActivity.this, "Please try again!", Toast.LENGTH_SHORT).show();
+                            return;
+                        }
                         new DriverActivityDialog().show(getSupportFragmentManager(), null);
                     }
                 });
@@ -243,4 +249,6 @@ public class DriverDetailActivity extends AppCompatActivity implements OnSendDat
         super.onResume();
 //        Log.e(TAG, "onResume: " );
     }
+
+
 }

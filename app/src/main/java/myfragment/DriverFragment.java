@@ -32,7 +32,7 @@ import myinterface.RefreshCallback;
 import myinterface.ViewBindCallback;
 import viewmodel.MainViewModel;
 
-public class DriverFragment extends Fragment implements OnRVItemClickListener, RefreshCallback {
+public class DriverFragment extends Fragment implements OnRVItemClickListener, RefreshCallback, ViewBindCallback {
     private static final String TAG = "DriverFragment";
     FragmentDriverBinding mBinding;
     MainViewModel mViewModel;
@@ -47,7 +47,7 @@ public class DriverFragment extends Fragment implements OnRVItemClickListener, R
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mViewModel = new ViewModelProvider(requireActivity()).get(MainViewModel.class);
-        mViewModel.setRefreshCallback(this);
+        mViewModel.setRefreshCallbackForDriver(this);
     }
 
     @Override
@@ -76,6 +76,7 @@ public class DriverFragment extends Fragment implements OnRVItemClickListener, R
             }
         });
         DriverAdapter adapter = new DriverAdapter(this);
+        adapter.setViewBindCallback(this);
         mBinding.recyclerView.setAdapter(adapter);
         mBinding.recyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
         mViewModel.getDriverLiveList().observe(requireActivity(), new Observer<List<Driver>>() {
@@ -99,5 +100,22 @@ public class DriverFragment extends Fragment implements OnRVItemClickListener, R
     @Override
     public void refreshDone() {
         mBinding.getRoot().setRefreshing(false);
+    }
+
+    @Override
+    public ColorDrawable callBackStatusDrawable(int statusId) {
+        switch (statusId) {
+            case 0: {
+                return new ColorDrawable(getResources().getColor(R.color.green));
+            }
+            case 1:
+            {
+                return new ColorDrawable(getResources().getColor(R.color.red));
+            }
+            default:
+            {
+                return new ColorDrawable(getResources().getColor(R.color.yellow));
+            }
+        }
     }
 }

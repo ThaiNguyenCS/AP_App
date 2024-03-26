@@ -9,18 +9,15 @@
     android:orientation="vertical">
     <ImageView
         android:id="@+id/dismiss_button"
-        android:layout_width="22dp"
-        android:layout_height="22dp"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
         android:background="@color/button_click_background"
-        android:paddingHorizontal="2dp"
-        android:layout_marginTop="6dp"
-        android:layout_marginEnd="3dp"
         android:layout_gravity="end"
+        android:padding="5dp"
         android:src="@drawable/ic_navigate_down"/>
     <ImageView
         android:layout_width="match_parent"
         android:layout_height="160dp"
-        android:layout_marginTop="5dp"
         android:scaleType="centerCrop"
         android:src="@drawable/img_semi_truck"/>
 

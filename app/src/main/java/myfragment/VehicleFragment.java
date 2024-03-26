@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.os.Handler;
 import android.util.Log;
@@ -25,11 +26,15 @@ import java.util.List;
 import adapter.VehicleAdapter;
 import data.Vehicle;
 import myinterface.OnRVItemClickListener;
+import myinterface.RefreshCallback;
 import myinterface.ViewBindCallback;
 import viewmodel.AssignJobViewModel;
 import viewmodel.MainViewModel;
 
-public class VehicleFragment extends Fragment implements OnRVItemClickListener, ViewBindCallback {
+public class VehicleFragment extends Fragment implements OnRVItemClickListener,
+        ViewBindCallback,
+        VehicleAdapter.OnVehicleDetailClickListener,
+        RefreshCallback {
     private static final String TAG = "VehicleFragment";
     FragmentVehicleBinding mBinding;
     private int mViewType;
@@ -74,7 +79,7 @@ public class VehicleFragment extends Fragment implements OnRVItemClickListener, 
         super.onViewCreated(view, savedInstanceState);
         Log.e(TAG, "onViewCreated: " );
         mBinding.progressIndicator.setVisibility(View.VISIBLE);
-        adapter = new VehicleAdapter(this, mViewType);
+        adapter = new VehicleAdapter(this,this, mViewType);
         adapter.setCallBack(this);
         mBinding.recyclerView.setAdapter(adapter);
         mBinding.recyclerView.setLayoutManager(new LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false));
@@ -86,6 +91,13 @@ public class VehicleFragment extends Fragment implements OnRVItemClickListener, 
                     vehicleList = vehicles;
                     adapter.setAdapterData(vehicleList);
                     mBinding.progressIndicator.setVisibility(View.GONE);
+                }
+            });
+            mainViewModel.setRefreshCallbackForVehicle(this);
+            mBinding.getRoot().setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+                @Override
+                public void onRefresh() {
+                    mainViewModel.fetchVehicleData(true);
                 }
             });
         }
@@ -160,5 +172,15 @@ public class VehicleFragment extends Fragment implements OnRVItemClickListener, 
                 return new ColorDrawable(getResources().getColor(R.color.yellow));
             }
         }
+    }
+
+    @Override
+    public void onVehicleDetailOpen(int position) {
+        Log.e(TAG, "onVehicleDetailOpen at " + position);
+    }
+
+    @Override
+    public void refreshDone() {
+        mBinding.getRoot().setRefreshing(false);
     }
 }

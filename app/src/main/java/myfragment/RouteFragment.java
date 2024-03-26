@@ -8,6 +8,7 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.os.Handler;
 import android.util.Log;
@@ -27,10 +28,13 @@ import adapter.RouteAdapter;
 import data.Driver;
 import data.Route;
 import myinterface.OnRVItemClickListener;
+import myinterface.RefreshCallback;
 import viewmodel.AssignJobViewModel;
 import viewmodel.MainViewModel;
 
-public class RouteFragment extends Fragment implements OnRVItemClickListener {
+public class RouteFragment extends Fragment implements OnRVItemClickListener,
+        RouteAdapter.OnRouteDetailClickListener,
+        RefreshCallback {
     private static final String TAG = "RouteFragment";
     private int mViewType;
     private FragmentRouteBinding mBinding;
@@ -56,11 +60,13 @@ public class RouteFragment extends Fragment implements OnRVItemClickListener {
         if(mViewType == 0)
         {
             mainViewModel = new ViewModelProvider(requireActivity()).get(MainViewModel.class);
+            mainViewModel.setRefreshCallbackForRoute(this);
         }
         else
         {
             assignJobViewModel = new ViewModelProvider(requireActivity()).get(AssignJobViewModel.class);
         }
+
     }
 
     @Override
@@ -77,7 +83,7 @@ public class RouteFragment extends Fragment implements OnRVItemClickListener {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         Log.e(TAG, "onViewCreated: " );
-        adapter = new RouteAdapter(this, mViewType);
+        adapter = new RouteAdapter(this, this, mViewType);
         mBinding.progressIndicator.setVisibility(View.VISIBLE);
         if(mViewType == 0)
         {
@@ -109,6 +115,12 @@ public class RouteFragment extends Fragment implements OnRVItemClickListener {
         }
         mBinding.recyclerView.setAdapter(adapter);
         mBinding.recyclerView.setLayoutManager(new LinearLayoutManager(requireContext() , LinearLayoutManager.VERTICAL, false));
+        mBinding.getRoot().setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                mainViewModel.fetchRouteData(true);
+            }
+        });
     }
 
     @Override
@@ -150,7 +162,7 @@ public class RouteFragment extends Fragment implements OnRVItemClickListener {
         super.onResume();
         if(mViewType == 0)
         {
-            mainViewModel.fetchRouteData();
+            mainViewModel.fetchRouteData(false);
         }
     }
 
@@ -158,5 +170,15 @@ public class RouteFragment extends Fragment implements OnRVItemClickListener {
     public void onDestroy() {
         super.onDestroy();
         Log.e(TAG, "onDestroy: fragment");
+    }
+
+    @Override
+    public void onRouteDetailOpen(int position) {
+        Log.e(TAG, "onRouteDetailOpen at " + position);
+    }
+
+    @Override
+    public void refreshDone() {
+        mBinding.getRoot().setRefreshing(false);
     }
 }

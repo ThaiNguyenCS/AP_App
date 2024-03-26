@@ -109,6 +109,7 @@ public class DriverDetailViewModel extends ViewModel {
                         {
                             Log.e(TAG, "Empty current route or vehicle");
                         }
+
                     }
                     else
                     {
