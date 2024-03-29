@@ -1,14 +1,18 @@
 package adapter;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Filter;
+import android.widget.Filterable;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.transportmanagement.databinding.DriverItemHolderBinding;
 
+import java.io.FilterReader;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,9 +20,11 @@ import myinterface.OnRVItemClickListener;
 import data.Driver;
 import myinterface.ViewBindCallback;
 
-public class DriverAdapter extends RecyclerView.Adapter<DriverAdapter.DriverViewHolder> {
+public class DriverAdapter extends RecyclerView.Adapter<DriverAdapter.DriverViewHolder>  {
+    private static final String TAG = "DriverAdapter";
     private OnRVItemClickListener mListener;
     private List<Driver> driverList;
+    private List<Driver> filterDriverList;
     private List<String> statusList;
     private ViewBindCallback mCallback;
 
@@ -43,8 +49,7 @@ public class DriverAdapter extends RecyclerView.Adapter<DriverAdapter.DriverView
 
     @Override
     public void onBindViewHolder(@NonNull DriverViewHolder holder, int position) {
-
-        Driver driver = driverList.get(position);
+        Driver driver = filterDriverList.get(position);
         holder.mBinding.driverId.setText(driver.getCitizenID());
         holder.mBinding.driverLicense.setText(driver.getLicense());
         holder.mBinding.driverName.setText(driver.getName());
@@ -55,16 +60,95 @@ public class DriverAdapter extends RecyclerView.Adapter<DriverAdapter.DriverView
 
     @Override
     public int getItemCount() {
-        if(driverList != null)
+        if(filterDriverList != null)
         {
-            return driverList.size();
+            return filterDriverList.size();
         }
         return 0;
     }
-    public void setData(List<Driver> list)
+    public void setInitialData(List<Driver> list)
     {
         this.driverList = list;
+        this.filterDriverList = list;
         notifyDataSetChanged();
+    }
+
+    public Filter getFilter(int type) {
+        if(type == 0)
+        {
+            return new Filter() {
+                @Override
+                protected FilterResults performFiltering(CharSequence constraint) {
+                    String keyword = constraint.toString();
+                    if(keyword.isEmpty())
+                    {
+                        filterDriverList = driverList;
+                    }
+                    else
+                    {
+                        List<Driver> list = new ArrayList<>();
+                        for(Driver driver : driverList)
+                        {
+                            if(driver.getName().toLowerCase().contains(keyword.toLowerCase()))
+                            {
+                                list.add(driver);
+                            }
+                        }
+                        filterDriverList = list;
+                    }
+                    FilterResults filterResults = new FilterResults();
+                    filterResults.values = filterDriverList;
+                    return filterResults;
+                }
+
+                @Override
+                protected void publishResults(CharSequence constraint, FilterResults results) {
+                    notifyDataSetChanged();
+                }
+            };
+        }
+        return new Filter() {
+            @Override
+            protected FilterResults performFiltering(CharSequence constraint) {
+                FilterResults filterResults = new FilterResults();
+                String constraintStr = constraint.toString();
+                if(constraintStr.isEmpty())
+                {
+                    filterDriverList = driverList;
+                }
+                else if(constraintStr.equals("Driving"))
+                {
+                    List<Driver> list = new ArrayList<>();
+                    for(Driver driver : driverList)
+                    {
+                        if(driver.getStatus() == 1)
+                        {
+                            list.add(driver);
+                        }
+                    }
+                    filterDriverList = list;
+                }
+                else if(constraintStr.equals("Available"))
+                {
+                    List<Driver> list = new ArrayList<>();
+                    for(Driver driver : driverList)
+                    {
+                        if(driver.getStatus() == 0)
+                        {
+                            list.add(driver);
+                        }
+                    }
+                    filterDriverList = list;
+                }
+                filterResults.values = filterDriverList;
+                return filterResults;
+            }
+
+            @Override
+            protected void publishResults(CharSequence constraint, FilterResults results) {
+                notifyDataSetChanged();
+            }
+        };
     }
 
     public static class DriverViewHolder extends RecyclerView.ViewHolder {

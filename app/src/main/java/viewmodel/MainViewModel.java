@@ -55,7 +55,6 @@ public class MainViewModel extends ViewModel {
         driverLiveList = new MutableLiveData<>();
         vehicleLiveList = new MutableLiveData<>();
         routeLiveList = new MutableLiveData<>();
-        fetchVehicleData(false);
     }
     public void setRefreshCallbackForDriver(RefreshCallback callback)
     {

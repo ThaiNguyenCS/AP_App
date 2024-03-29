@@ -17,6 +17,15 @@
         android:theme="@style/Theme.TransportManagement"
         tools:targetApi="31">
         <activity
+            android:name=".VehicleActivity"
+            android:exported="false" />
+        <activity
+            android:name=".RouteActivity"
+            android:exported="false" />
+        <activity
+            android:name=".DriverActivity"
+            android:exported="false" />
+        <activity
             android:name=".AssignJobActivity"
             android:exported="false" />
         <activity

@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.swiperefreshlayout.widget.SwipeRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="myfragment.DriverFragment">
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:background="#FEFEFE"
+        android:layout_height="match_parent">
+        <ProgressBar
+            android:id="@+id/progress_indicator"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:elevation="6dp"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+        <androidx.appcompat.widget.SearchView
+            android:id="@+id/search_view"
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+<!--        <LinearLayout-->
+<!--            android:id="@+id/general_layout"-->
+<!--            app:layout_constraintTop_toTopOf="parent"-->
+<!--            android:orientation="vertical"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content">-->
+<!--            <TextView-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:text="Total vehicles: "/>-->
+<!--            <TextView-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:text="Maintenances: "/>-->
+<!--            <TextView-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:text="Occupied: "/>-->
+<!--            <TextView-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:text="Free: "/>-->
+<!--        </LinearLayout>-->
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recycler_view"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:background="@color/white"
+            android:clipToPadding="false"
+            android:fadeScrollbars="true"
+            android:paddingVertical="5dp"
+            android:scrollbars="vertical"
+
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/search_view"
+            tools:listitem="@layout/vehicle_item_holder" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+</androidx.swiperefreshlayout.widget.SwipeRefreshLayout>

@@ -30,7 +30,14 @@ public class RouteAdapter extends RecyclerView.Adapter<RouteAdapter.RouteViewHol
     private int mViewType;
     OnRVItemClickListener mListener2;
     OnRouteDetailClickListener mListener1;
-
+    public RouteAdapter(OnRouteDetailClickListener listener1, int viewType) {
+        this.mViewType = viewType;
+        mListener1 = listener1;
+        statusListString = new ArrayList<>();
+        statusListString.add("Not assigned");
+        statusListString.add("Taken");
+        statusListString.add("Finished");
+    }
     public RouteAdapter(OnRouteDetailClickListener listener1, OnRVItemClickListener listener2, int viewType) {
         this.mViewType = viewType;
         mListener2 = listener2;

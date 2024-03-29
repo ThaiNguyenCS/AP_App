@@ -1,6 +1,5 @@
 package myfragment;
 
-import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -22,7 +21,6 @@ import com.example.transportmanagement.DriverDetailActivity;
 import com.example.transportmanagement.R;
 import com.example.transportmanagement.databinding.FragmentDriverBinding;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import adapter.DriverAdapter;
@@ -83,7 +81,7 @@ public class DriverFragment extends Fragment implements OnRVItemClickListener, R
             @Override
             public void onChanged(List<Driver> drivers) {
                 driverList = drivers;
-                adapter.setData(driverList);
+                adapter.setInitialData(driverList);
                 mBinding.progressCircular.setVisibility(View.GONE);
             }
         });

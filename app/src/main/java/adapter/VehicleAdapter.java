@@ -30,6 +30,14 @@ public class VehicleAdapter extends RecyclerView.Adapter<VehicleAdapter.VehicleV
     // 0 for normal view, 1 for choosing
     private int mViewType;
 
+    public VehicleAdapter(OnVehicleDetailClickListener listener1, int viewType) {
+        this.mListener1 = listener1;
+        this.mViewType = viewType;
+        statusStringMapping = new ArrayList<>();
+        statusStringMapping.add("Available");
+        statusStringMapping.add("In use");
+        statusStringMapping.add("Maintenance");
+    }
     public VehicleAdapter(OnVehicleDetailClickListener listener1, OnRVItemClickListener listener2, int viewType) {
         this.mListener2 = listener2;
         this.mListener1 = listener1;

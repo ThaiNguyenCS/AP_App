@@ -2,11 +2,8 @@ package com.example.transportmanagement;
 
 import androidx.activity.result.ActivityResult;
 import androidx.activity.result.ActivityResultCallback;
-import androidx.activity.result.ActivityResultCaller;
 import androidx.activity.result.ActivityResultLauncher;
-import androidx.activity.result.contract.ActivityResultContract;
 import androidx.activity.result.contract.ActivityResultContracts;
-import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.PopupMenu;
 import androidx.lifecycle.Observer;
@@ -18,10 +15,8 @@ import android.animation.Animator;
 import android.animation.AnimatorInflater;
 import android.app.Activity;
 import android.content.Intent;
-import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
-import android.os.Handler;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.MenuItem;
@@ -29,20 +24,12 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.example.transportmanagement.databinding.ActivityDriverDetailBinding;
-import com.example.transportmanagement.databinding.DriverActivityDialogBinding;
-import com.google.android.material.bottomsheet.BottomSheetDialog;
-import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
-import com.google.android.material.divider.MaterialDivider;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import adapter.DriverHistoryAdapter;
 import bottomsheet.DriverEditBottomSheet;
 import data.Driver;
 import myfragment.DriverActivityDialog;
 import myfragment.DriverFragment;
-import myinterface.FinishCallback;
 import myinterface.OnSendDataToActivity;
 import viewmodel.DriverDetailViewModel;
 
@@ -143,7 +130,7 @@ public class DriverDetailActivity extends AppCompatActivity implements OnSendDat
             @Override
             public void onClick(View v) {
                 PopupMenu popupMenu = new PopupMenu(DriverDetailActivity.this, v, Gravity.BOTTOM, 0, R.style.PopupMenuStyleCustom);
-                popupMenu.inflate(R.menu.driver_menu);
+                popupMenu.inflate(R.menu.driver_detail_menu);
                 popupMenu.show();
                 popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
                     @Override
