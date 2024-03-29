@@ -108,7 +108,8 @@ public class DriverActivity extends AppCompatActivity implements OnRVItemClickLi
             @Override
             public void onClick(View v) {
                 mBinding.filterOptionLayout.startAnimation(slide_up_anim);
-                adapter.getFilter(1).filter("");
+                // clear filters
+                adapter.setInitialData(driverList);
                 mHandler.postDelayed(new Runnable() {
                     @Override
                     public void run() {
@@ -129,6 +130,7 @@ public class DriverActivity extends AppCompatActivity implements OnRVItemClickLi
                 {
                     adapter.getFilter(1).filter("Driving");
                     v.setSelected(true);
+                    // set another filter to false
                     mBinding.availableFilter.setSelected(false);
                 }
             }
@@ -145,6 +147,7 @@ public class DriverActivity extends AppCompatActivity implements OnRVItemClickLi
                 {
                     adapter.getFilter(1).filter("Available");
                     v.setSelected(true);
+                    // set another filter to false
                     mBinding.drivingFilter.setSelected(false);
                 }
             }
@@ -176,7 +179,6 @@ public class DriverActivity extends AppCompatActivity implements OnRVItemClickLi
         });
     }
 
-
     @Override
     public void onRVItemClick(int position) {
         Intent intent = new Intent(this, DriverDetailActivity.class);
@@ -186,6 +188,8 @@ public class DriverActivity extends AppCompatActivity implements OnRVItemClickLi
     @Override
     public void refreshDone() {
         mBinding.getRoot().setRefreshing(false);
+        mBinding.drivingFilter.setSelected(false);
+        mBinding.availableFilter.setSelected(false);
     }
 
     @Override
