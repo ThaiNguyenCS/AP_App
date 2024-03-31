@@ -85,11 +85,13 @@ public class AssignJobViewModel extends ViewModel {
         if(chosenRoutePos == -1 || chosenVehiclePos == -1 || chosenVehiclePos >= vehicleList.size() || chosenRoutePos >= routeList.size())
         {
             Log.e(TAG, "updateAssignment: ERROR");
+            callback.updateDone(false);
             return;
         }
         if(driverRef == null)
         {
             Log.e(TAG, "No Driver Ref");
+            callback.updateDone(false);
             return;
         }
         Log.e(TAG, chosenRoutePos + " and " + chosenVehiclePos );
@@ -115,7 +117,6 @@ public class AssignJobViewModel extends ViewModel {
 
                             Task<QuerySnapshot> querySnapshot1 = (Task<QuerySnapshot>) taskList.get(0);
                             Task<QuerySnapshot> querySnapshot2 = (Task<QuerySnapshot>) taskList.get(1);
-
                             vehicleRef = querySnapshot1.getResult().getDocuments().get(0).getReference();
                             routeRef = querySnapshot2.getResult().getDocuments().get(0).getReference();
                             Map<String, Object> vehicleMap = new HashMap<>();

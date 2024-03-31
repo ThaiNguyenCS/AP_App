@@ -1,10 +1,10 @@
 package adapter;
 
-import android.graphics.drawable.ColorDrawable;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Filter;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -21,6 +21,7 @@ import myinterface.ViewBindCallback;
 
 public class VehicleAdapter extends RecyclerView.Adapter<VehicleAdapter.VehicleViewHolder> {
     private static final String TAG = "VehicleAdapter";
+    private List<Vehicle> filterVehicleList;
     private List<Vehicle> vehicleList;
     private List<Boolean> checkedList;
     private OnRVItemClickListener mListener2;
@@ -38,9 +39,8 @@ public class VehicleAdapter extends RecyclerView.Adapter<VehicleAdapter.VehicleV
         statusStringMapping.add("In use");
         statusStringMapping.add("Maintenance");
     }
-    public VehicleAdapter(OnVehicleDetailClickListener listener1, OnRVItemClickListener listener2, int viewType) {
+    public VehicleAdapter( OnRVItemClickListener listener2, int viewType) {
         this.mListener2 = listener2;
-        this.mListener1 = listener1;
         this.mViewType = viewType;
         statusStringMapping = new ArrayList<>();
         statusStringMapping.add("Available");
@@ -54,17 +54,109 @@ public class VehicleAdapter extends RecyclerView.Adapter<VehicleAdapter.VehicleV
     // for the first view type
     public void setAdapterData(List<Vehicle> list)
     {
+        filterVehicleList = list;
         vehicleList = list;
         notifyDataSetChanged();
     }
     // for the second view type
     public void setAdapterData(List<Vehicle> list, List<Boolean> list2)
     {
-        vehicleList = list;
+        filterVehicleList = list;
         checkedList = list2;
         notifyDataSetChanged();
     }
+    public Filter getFilter(int type)
+    {
+        if(type == 0)
+        {
+            return new Filter() {
+                @Override
+                protected FilterResults performFiltering(CharSequence constraint) {
+                    String constraintStr = constraint.toString();
+                    if(constraintStr.isEmpty())
+                    {
+                        Log.e(TAG, "performFiltering: EMPTY" );
+                        filterVehicleList = vehicleList;
+                    }
+                    else
+                    {
+                        List<Vehicle> list = new ArrayList<>();
+                        for(Vehicle vehicle : vehicleList)
+                        {
+                            if(vehicle.getNumberOfPlate().contains(constraintStr))
+                            {
+                                list.add(vehicle);
+                            }
+                        }
+                        filterVehicleList = list;
+                    }
+                    FilterResults filterResults = new FilterResults();
+                    filterResults.values = filterVehicleList;
+                    return filterResults;
+                }
 
+                @Override
+                protected void publishResults(CharSequence constraint, FilterResults results) {
+                    notifyDataSetChanged();
+                }
+            };
+        }
+        return new Filter() {
+        @Override
+        protected FilterResults performFiltering(CharSequence constraint) {
+            String constraintStr = constraint.toString();
+            if(constraintStr.isEmpty() || constraintStr.equals("000"))
+            {
+                Log.e(TAG, "performFiltering: EMPTY" );
+                filterVehicleList = vehicleList;
+            }
+            else
+            {
+                List<Vehicle> list = new ArrayList<>();
+                if(constraintStr.charAt(0) == '1')
+                {
+                    for(Vehicle vehicle : vehicleList)
+                    {
+                        if(vehicle.getStatus() == 0)
+                        {
+                            list.add(vehicle);
+                        }
+                    }
+                }
+                if(constraintStr.charAt(1) == '1')
+                {
+                    for(Vehicle vehicle : vehicleList)
+                    {
+                        if(vehicle.getStatus() == 1)
+                        {
+                            list.add(vehicle);
+                        }
+                    }
+                }
+                if(constraintStr.charAt(2) == '1')
+                {
+                    for(Vehicle vehicle : vehicleList)
+                    {
+                        if(vehicle.getStatus() == 2)
+                        {
+                            list.add(vehicle);
+                        }
+                    }
+                }
+                filterVehicleList = list;
+            }
+
+            FilterResults filterResults = new FilterResults();
+            filterResults.values = filterVehicleList;
+            return filterResults;
+        }
+
+        @Override
+        protected void publishResults(CharSequence constraint, FilterResults results) {
+            notifyDataSetChanged();
+        }
+    };
+    }
     // this viewType is the result of getItemViewType()
     @NonNull
     @Override
@@ -81,7 +173,7 @@ public class VehicleAdapter extends RecyclerView.Adapter<VehicleAdapter.VehicleV
     @Override
     public void onBindViewHolder(@NonNull VehicleViewHolder holder, int position) {
         int realPosition = holder.getAdapterPosition();
-        Vehicle currentVehicle = vehicleList.get(realPosition);
+        Vehicle currentVehicle = filterVehicleList.get(realPosition);
         String size = String.join("x",
                 String.valueOf(currentVehicle.getLength()),
                 String.valueOf(currentVehicle.getWidth()),
@@ -113,9 +205,9 @@ public class VehicleAdapter extends RecyclerView.Adapter<VehicleAdapter.VehicleV
 
     @Override
     public int getItemCount() {
-        if(vehicleList != null)
+        if(filterVehicleList != null)
         {
-            return vehicleList.size();
+            return filterVehicleList.size();
         }
         return 0;
     }

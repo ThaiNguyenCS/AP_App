@@ -72,6 +72,10 @@ public class DriverAdapter extends RecyclerView.Adapter<DriverAdapter.DriverView
         this.filterDriverList = list;
         notifyDataSetChanged();
     }
+    public List<Driver> getFilterDriverList()
+    {
+        return filterDriverList;
+    }
 
     public Filter getFilter(int type) {
         if(type == 0)

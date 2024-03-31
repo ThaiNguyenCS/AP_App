@@ -1,11 +1,10 @@
 package adapter;
 
-import android.os.Handler;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.CompoundButton;
+import android.widget.Filter;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -15,15 +14,15 @@ import com.example.transportmanagement.databinding.RouteItemHolderForChoosingBin
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
-import data.Driver;
 import data.Route;
+import data.Vehicle;
 import myinterface.OnRVItemClickListener;
 
 public class RouteAdapter extends RecyclerView.Adapter<RouteAdapter.RouteViewHolder> {
     private static final String TAG = "RouteAdapter";
+    private List<Route> filterRouteList;
     private List<Route> routeList;
     private List<Boolean> checkedList;
     private static List<String> statusListString;
@@ -38,10 +37,9 @@ public class RouteAdapter extends RecyclerView.Adapter<RouteAdapter.RouteViewHol
         statusListString.add("Taken");
         statusListString.add("Finished");
     }
-    public RouteAdapter(OnRouteDetailClickListener listener1, OnRVItemClickListener listener2, int viewType) {
+    public RouteAdapter(OnRVItemClickListener listener2, int viewType) {
         this.mViewType = viewType;
         mListener2 = listener2;
-        mListener1 = listener1;
         statusListString = new ArrayList<>();
         statusListString.add("Not assigned");
         statusListString.add("Taken");
@@ -49,12 +47,13 @@ public class RouteAdapter extends RecyclerView.Adapter<RouteAdapter.RouteViewHol
     }
     public void setAdapterData(List<Route> list)
     {
+        filterRouteList = list;
         routeList = list;
         notifyDataSetChanged();
     }
     public void setAdapterData(List<Route> list, List<Boolean> list2)
     {
-        routeList = list;
+        filterRouteList = list;
         checkedList = list2;
         notifyDataSetChanged();
     }
@@ -75,7 +74,7 @@ public class RouteAdapter extends RecyclerView.Adapter<RouteAdapter.RouteViewHol
     public void onBindViewHolder(@NonNull RouteViewHolder holder, int position) {
         Log.e(TAG, "onBindViewHolder: " );
         int realPosition = holder.getAdapterPosition();
-        Route route = routeList.get(realPosition);
+        Route route = filterRouteList.get(realPosition);
         if(holder.getItemViewType() == 0)
         {
             holder.mBinding1.routeDeparture.setText(route.getDeparture());
@@ -100,7 +99,98 @@ public class RouteAdapter extends RecyclerView.Adapter<RouteAdapter.RouteViewHol
             holder.mBinding2.scheduleInfo.setText(scheArrivingDate.format(route.getScheDepartureDate().toDate()));
         }
     }
-
+//    public Filter getFilter(int type)
+//    {
+//        if(type == 0)
+//        {
+//            return new Filter() {
+//                @Override
+//                protected FilterResults performFiltering(CharSequence constraint) {
+//                    String constraintStr = constraint.toString();
+//                    if(constraintStr.isEmpty())
+//                    {
+//                        Log.e(TAG, "performFiltering: EMPTY" );
+//                        filterRouteList = routeList;
+//                    }
+//                    else
+//                    {
+//                        List<Vehicle> list = new ArrayList<>();
+//                        for(Route route : routeList)
+//                        {
+//                            if(route.getDeparture().contains(constraintStr))
+//                            {
+//                                list.add(route);
+//                            }
+//                        }
+//                        filterVehicleList = list;
+//                    }
+//                    FilterResults filterResults = new FilterResults();
+//                    filterResults.values = filterVehicleList;
+//                    return filterResults;
+//                }
+//
+//                @Override
+//                protected void publishResults(CharSequence constraint, FilterResults results) {
+//                    notifyDataSetChanged();
+//                }
+//            };
+//        }
+//        return new Filter() {
+//            @Override
+//            protected FilterResults performFiltering(CharSequence constraint) {
+//                String constraintStr = constraint.toString();
+//                if(constraintStr.isEmpty() || constraintStr.equals("000"))
+//                {
+//                    Log.e(TAG, "performFiltering: EMPTY" );
+//                    filterVehicleList = vehicleList;
+//                }
+//                else
+//                {
+//                    List<Vehicle> list = new ArrayList<>();
+//                    if(constraintStr.charAt(0) == '1')
+//                    {
+//                        for(Vehicle vehicle : vehicleList)
+//                        {
+//                            if(vehicle.getStatus() == 0)
+//                            {
+//                                list.add(vehicle);
+//                            }
+//                        }
+//                    }
+//                    if(constraintStr.charAt(1) == '1')
+//                    {
+//                        for(Vehicle vehicle : vehicleList)
+//                        {
+//                            if(vehicle.getStatus() == 1)
+//                            {
+//                                list.add(vehicle);
+//                            }
+//                        }
+//                    }
+//                    if(constraintStr.charAt(2) == '1')
+//                    {
+//                        for(Vehicle vehicle : vehicleList)
+//                        {
+//                            if(vehicle.getStatus() == 2)
+//                            {
+//                                list.add(vehicle);
+//                            }
+//                        }
+//                    }
+//                    filterVehicleList = list;
+//                }
+//
+//                FilterResults filterResults = new FilterResults();
+//                filterResults.values = filterVehicleList;
+//                return filterResults;
+//            }
+//
+//            @Override
+//            protected void publishResults(CharSequence constraint, FilterResults results) {
+//                notifyDataSetChanged();
+//            }
+//        };
+//    }
     @Override
     public int getItemViewType(int position) {
         return mViewType;
@@ -108,9 +198,9 @@ public class RouteAdapter extends RecyclerView.Adapter<RouteAdapter.RouteViewHol
 
     @Override
     public int getItemCount() {
-        if(routeList != null)
+        if(filterRouteList != null)
         {
-            return routeList.size();
+            return filterRouteList.size();
         }
         return 0;
     }

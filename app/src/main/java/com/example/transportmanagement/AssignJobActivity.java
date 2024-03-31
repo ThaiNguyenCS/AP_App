@@ -91,7 +91,7 @@ public class AssignJobActivity extends AppCompatActivity implements AssignJobVie
 //                RouteFragment routeFragment = (RouteFragment) getSupportFragmentManager().findFragmentByTag("ROUTE");
                 if(mRouteFragment == null)
                 {
-                    mRouteFragment = new RouteFragment(1);
+                    mRouteFragment = new RouteFragment();
                     switchFragment(mRouteFragment);
                 }
                 else
@@ -129,7 +129,7 @@ public class AssignJobActivity extends AppCompatActivity implements AssignJobVie
                 });
                 if(mVehicleFragment == null)
                 {
-                    mVehicleFragment = new VehicleFragment(1);
+                    mVehicleFragment = new VehicleFragment();
                     switchFragment(mVehicleFragment);
                 }
                 else

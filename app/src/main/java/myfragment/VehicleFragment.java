@@ -32,14 +32,10 @@ import viewmodel.AssignJobViewModel;
 import viewmodel.MainViewModel;
 
 public class VehicleFragment extends Fragment implements OnRVItemClickListener,
-        ViewBindCallback,
-        VehicleAdapter.OnVehicleDetailClickListener,
-        RefreshCallback {
+        ViewBindCallback{
     private static final String TAG = "VehicleFragment";
     FragmentVehicleBinding mBinding;
-    private int mViewType;
     AssignJobViewModel assignJobViewModel;
-    MainViewModel mainViewModel;
     private VehicleAdapter adapter;
     private int lastPosition; // used for viewtype of 2
     private List<Vehicle> vehicleList;
@@ -49,20 +45,10 @@ public class VehicleFragment extends Fragment implements OnRVItemClickListener,
         // Required empty public constructor
     }
 
-    public VehicleFragment(int viewType) {
-        this.mViewType = viewType;
-        lastPosition = -1;
-    }
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mHandler = new Handler();
-        if(mViewType == 0)
-        {
-            mainViewModel = new ViewModelProvider(requireActivity()).get(MainViewModel.class);
-            return;
-        }
         assignJobViewModel = new ViewModelProvider(requireActivity()).get(AssignJobViewModel.class);
     }
 
@@ -79,45 +65,23 @@ public class VehicleFragment extends Fragment implements OnRVItemClickListener,
         super.onViewCreated(view, savedInstanceState);
         Log.e(TAG, "onViewCreated: " );
         mBinding.progressIndicator.setVisibility(View.VISIBLE);
-        adapter = new VehicleAdapter(this,this, mViewType);
+        adapter = new VehicleAdapter(this, 1);
         adapter.setCallBack(this);
         mBinding.recyclerView.setAdapter(adapter);
         mBinding.recyclerView.setLayoutManager(new LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false));
-        if(mViewType == 0)
-        {
-            mainViewModel.getVehicleLiveList().observe(requireActivity(), new Observer<List<Vehicle>>() {
-                @Override
-                public void onChanged(List<Vehicle> vehicles) {
-                    vehicleList = vehicles;
-                    adapter.setAdapterData(vehicleList);
-                    mBinding.progressIndicator.setVisibility(View.GONE);
-                }
-            });
-            mainViewModel.setRefreshCallbackForVehicle(this);
-            mBinding.getRoot().setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-                @Override
-                public void onRefresh() {
-                    mainViewModel.fetchVehicleData(true);
-                }
-            });
+        assignJobViewModel.getVehicleListLiveData().observe(requireActivity(), new Observer<List<Vehicle>>() {
+        @Override
+        public void onChanged(List<Vehicle> vehicles) {
+            vehicleList = vehicles;
+            checkedStatusList = new ArrayList<>();
+            for(int i = 0; i < vehicleList.size(); i++)
+            {
+                checkedStatusList.add(false);
+            }
+            adapter.setAdapterData(vehicleList, checkedStatusList);
+            mBinding.progressIndicator.setVisibility(View.GONE);
         }
-        else
-        {
-                assignJobViewModel.getVehicleListLiveData().observe(requireActivity(), new Observer<List<Vehicle>>() {
-                @Override
-                public void onChanged(List<Vehicle> vehicles) {
-                    vehicleList = vehicles;
-                    checkedStatusList = new ArrayList<>();
-                    for(int i = 0; i < vehicleList.size(); i++)
-                    {
-                        checkedStatusList.add(false);
-                    }
-                    adapter.setAdapterData(vehicleList, checkedStatusList);
-                    mBinding.progressIndicator.setVisibility(View.GONE);
-
-                }
-            });
-        }
+    });
     }
 
     @Override
@@ -174,13 +138,4 @@ public class VehicleFragment extends Fragment implements OnRVItemClickListener,
         }
     }
 
-    @Override
-    public void onVehicleDetailOpen(int position) {
-        Log.e(TAG, "onVehicleDetailOpen at " + position);
-    }
-
-    @Override
-    public void refreshDone() {
-        mBinding.getRoot().setRefreshing(false);
-    }
 }

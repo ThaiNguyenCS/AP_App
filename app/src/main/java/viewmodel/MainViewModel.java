@@ -36,6 +36,7 @@ public class MainViewModel extends ViewModel {
     private RefreshCallback mRouteRefreshCallback;
     private RefreshCallback mVehicleRefreshCallback;
 
+
     public MutableLiveData<List<Driver>> getDriverLiveList() {
         return driverLiveList;
     }

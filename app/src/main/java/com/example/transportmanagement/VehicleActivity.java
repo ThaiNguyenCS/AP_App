@@ -5,14 +5,21 @@ import android.animation.ObjectAnimator;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.os.Handler;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
+import android.view.Gravity;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.animation.AccelerateDecelerateInterpolator;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.widget.EditText;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.PopupMenu;
+import androidx.appcompat.widget.SearchView;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
@@ -31,6 +38,7 @@ import myinterface.OnRVItemClickListener;
 import myinterface.RefreshCallback;
 import myinterface.ViewBindCallback;
 import viewmodel.MainViewModel;
+import viewmodel.VehicleViewModel;
 
 public class VehicleActivity extends AppCompatActivity implements
         ViewBindCallback,
@@ -39,9 +47,10 @@ public class VehicleActivity extends AppCompatActivity implements
 {
     private static final String TAG = "VehicleActivity";
     ActivityVehicleBinding mBinding;
-    MainViewModel mViewModel;
+    VehicleViewModel mViewModel;
     private VehicleAdapter adapter;
     private List<Vehicle> vehicleList;
+    private List<Boolean> filterList;
     Animator slide_down_animator;
     Animation alpha_anim, slide_up_anim;
     Handler mHandler;
@@ -50,12 +59,15 @@ public class VehicleActivity extends AppCompatActivity implements
         super.onCreate(savedInstanceState);
         mBinding = ActivityVehicleBinding.inflate(getLayoutInflater());
         setContentView(mBinding.getRoot());
-        mViewModel = new ViewModelProvider(this).get(MainViewModel.class);
+        mHandler = new Handler();
+        mViewModel = new ViewModelProvider(this).get(VehicleViewModel.class);
         mViewModel.fetchVehicleData(false);
         mBinding.progressIndicator.setVisibility(View.VISIBLE);
         adapter = new VehicleAdapter(this, 0);
         adapter.setCallBack(this);
         setUpAnimation();
+        setUpMenu();
+
         mBinding.recyclerView.setAdapter(adapter);
         mBinding.recyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
         mViewModel.getVehicleLiveList().observe(this, new Observer<List<Vehicle>>() {
@@ -66,11 +78,99 @@ public class VehicleActivity extends AppCompatActivity implements
                 mBinding.progressIndicator.setVisibility(View.GONE);
             }
         });
+        mViewModel.getFilterLiveList().observe(this, new Observer<List<Boolean>>() {
+            @Override
+            public void onChanged(List<Boolean> list) {
+                filterList = list;
+            }
+        });
         mViewModel.setRefreshCallbackForVehicle(this);
         mBinding.getRoot().setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
                 mViewModel.fetchVehicleData(true);
+                mBinding.inUseFilter.setSelected(false);
+                mBinding.maintenanceFilter.setSelected(false);
+                mBinding.availableFilter.setSelected(false);
+            }
+        });
+        mBinding.cancelFilter.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mBinding.filterOptionLayout.startAnimation(slide_up_anim);
+                // clear filters
+                adapter.setAdapterData(vehicleList);
+                mHandler.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        mBinding.filterOptionLayout.setVisibility(View.GONE);
+                    }
+                }, 300);
+            }
+        });
+        mBinding.searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                adapter.getFilter(0).filter(query);
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+//                Log.e(TAG, "onQueryTextChange: " + newText);
+                adapter.getFilter(0).filter(newText);
+                return false;
+            }
+        });
+
+        mBinding.availableFilter.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(v.isSelected())
+                {
+                    filterList.set(0, false);
+                    v.setSelected(false);
+                }
+                else
+                {
+                    filterList.set(0, true);
+                    v.setSelected(true);
+                }
+                adapter.getFilter(1).filter(mViewModel.getFilterConstraints());
+
+
+            }
+        });
+        mBinding.maintenanceFilter.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(v.isSelected())
+                {
+                    filterList.set(2, false);
+                    v.setSelected(false);
+                }
+                else
+                {
+                    filterList.set(2, true);
+                    v.setSelected(true);
+                }
+                adapter.getFilter(1).filter(mViewModel.getFilterConstraints());
+            }
+        });
+        mBinding.inUseFilter.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(v.isSelected())
+                {
+                    filterList.set(1, false);
+                    v.setSelected(false);
+                }
+                else
+                {
+                    filterList.set(1, true);
+                    v.setSelected(true);
+                }
+                adapter.getFilter(1).filter(mViewModel.getFilterConstraints());
             }
         });
     }
@@ -82,6 +182,32 @@ public class VehicleActivity extends AppCompatActivity implements
         slide_down_animator = ObjectAnimator.ofFloat(mBinding.filterOptionLayout, "translationY", -100, 0);
         slide_down_animator.setDuration(300);
         slide_down_animator.setInterpolator(new AccelerateDecelerateInterpolator());
+    }
+    private void setUpMenu()
+    {
+        PopupMenu popupMenu = new PopupMenu(VehicleActivity.this, mBinding.menuButton, Gravity.BOTTOM, 0, R.style.PopupMenuStyleCustom);
+        popupMenu.inflate(R.menu.vehicle_menu);
+        popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                if(item.getItemId() == R.id.filter)
+                {
+                    mBinding.filterOptionLayout.setVisibility(View.VISIBLE);
+                    slide_down_animator.start();
+                    mBinding.filterOptionLayout.startAnimation(alpha_anim);
+                    return true;
+                }
+                return false;
+            }
+        });
+        mBinding.menuButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.e(TAG, "onClick: " );
+
+                popupMenu.show();
+            }
+        });
     }
     @Override
     public void onVehicleDetailOpen(int position) {

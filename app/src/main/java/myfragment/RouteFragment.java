@@ -32,9 +32,8 @@ import myinterface.RefreshCallback;
 import viewmodel.AssignJobViewModel;
 import viewmodel.MainViewModel;
 
-public class RouteFragment extends Fragment implements OnRVItemClickListener,
-        RouteAdapter.OnRouteDetailClickListener,
-        RefreshCallback {
+public class RouteFragment extends Fragment implements OnRVItemClickListener
+{
     private static final String TAG = "RouteFragment";
     private int mViewType;
     private FragmentRouteBinding mBinding;
@@ -48,25 +47,12 @@ public class RouteFragment extends Fragment implements OnRVItemClickListener,
     public RouteFragment() {
     }
 
-    public RouteFragment(int viewType) {
-        this.mViewType = viewType;
-    }
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mHandler = new Handler();
         lastPosition = -1;
-        if(mViewType == 0)
-        {
-            mainViewModel = new ViewModelProvider(requireActivity()).get(MainViewModel.class);
-            mainViewModel.setRefreshCallbackForRoute(this);
-        }
-        else
-        {
-            assignJobViewModel = new ViewModelProvider(requireActivity()).get(AssignJobViewModel.class);
-        }
-
+        assignJobViewModel = new ViewModelProvider(requireActivity()).get(AssignJobViewModel.class);
     }
 
     @Override
@@ -83,44 +69,23 @@ public class RouteFragment extends Fragment implements OnRVItemClickListener,
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         Log.e(TAG, "onViewCreated: " );
-        adapter = new RouteAdapter(this, this, mViewType);
+        adapter = new RouteAdapter( this, 1);
         mBinding.progressIndicator.setVisibility(View.VISIBLE);
-        if(mViewType == 0)
-        {
-            mainViewModel.getRouteLiveList().observe(requireActivity(), new Observer<List<Route>>() {
-                @Override
-                public void onChanged(List<Route> routes) {
-                    routeList = routes;
-                    adapter.setAdapterData(routes);
-                    //TODO this setVisibility is not in the right place yet but acceptable
-                    mBinding.progressIndicator.setVisibility(View.GONE);
-                }
-            });
-        }
-        else
-        {
-            assignJobViewModel.getRouteListLiveData().observe(requireActivity(), new Observer<List<Route>>() {
-                @Override
-                public void onChanged(List<Route> routes) {
-                    routeList = routes;
-                    statusList = new ArrayList<>();
-                    for(int i = 0; i < routes.size(); i++)
-                    {
-                        statusList.add(false);
-                    }
-                    adapter.setAdapterData(routeList, statusList);
-                    mBinding.progressIndicator.setVisibility(View.GONE);
-                }
-            });
-        }
-        mBinding.recyclerView.setAdapter(adapter);
-        mBinding.recyclerView.setLayoutManager(new LinearLayoutManager(requireContext() , LinearLayoutManager.VERTICAL, false));
-        mBinding.getRoot().setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+        assignJobViewModel.getRouteListLiveData().observe(requireActivity(), new Observer<List<Route>>() {
             @Override
-            public void onRefresh() {
-                mainViewModel.fetchRouteData(true);
+            public void onChanged(List<Route> routes) {
+                routeList = routes;
+                statusList = new ArrayList<>();
+                for(int i = 0; i < routes.size(); i++)
+                {
+                    statusList.add(false);
+                }
+                adapter.setAdapterData(routeList, statusList);
+                mBinding.progressIndicator.setVisibility(View.GONE);
             }
         });
+        mBinding.recyclerView.setAdapter(adapter);
+        mBinding.recyclerView.setLayoutManager(new LinearLayoutManager(requireContext() , LinearLayoutManager.VERTICAL, false));
     }
 
     @Override
@@ -160,10 +125,6 @@ public class RouteFragment extends Fragment implements OnRVItemClickListener,
     @Override
     public void onResume() {
         super.onResume();
-        if(mViewType == 0)
-        {
-            mainViewModel.fetchRouteData(false);
-        }
     }
 
     @Override
@@ -172,13 +133,4 @@ public class RouteFragment extends Fragment implements OnRVItemClickListener,
         Log.e(TAG, "onDestroy: fragment");
     }
 
-    @Override
-    public void onRouteDetailOpen(int position) {
-        Log.e(TAG, "onRouteDetailOpen at " + position);
-    }
-
-    @Override
-    public void refreshDone() {
-        mBinding.getRoot().setRefreshing(false);
-    }
 }

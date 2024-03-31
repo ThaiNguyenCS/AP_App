@@ -182,7 +182,7 @@ public class DriverActivity extends AppCompatActivity implements OnRVItemClickLi
     @Override
     public void onRVItemClick(int position) {
         Intent intent = new Intent(this, DriverDetailActivity.class);
-        intent.putExtra(DRIVER_ID_EXTRA, driverList.get(position).getID()); // send the clicked driver's ID to the activity
+        intent.putExtra(DRIVER_ID_EXTRA, adapter.getFilterDriverList().get(position).getID()); // send the clicked driver's ID to the activity
         startActivity(intent);
     }
     @Override
