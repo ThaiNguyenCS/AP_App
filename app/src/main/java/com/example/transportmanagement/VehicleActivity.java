@@ -5,8 +5,6 @@ import android.animation.ObjectAnimator;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.os.Handler;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.MenuItem;
@@ -14,15 +12,10 @@ import android.view.View;
 import android.view.animation.AccelerateDecelerateInterpolator;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
-import android.widget.EditText;
 
-import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.PopupMenu;
 import androidx.appcompat.widget.SearchView;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -34,10 +27,8 @@ import java.util.List;
 
 import adapter.VehicleAdapter;
 import data.Vehicle;
-import myinterface.OnRVItemClickListener;
 import myinterface.RefreshCallback;
 import myinterface.ViewBindCallback;
-import viewmodel.MainViewModel;
 import viewmodel.VehicleViewModel;
 
 public class VehicleActivity extends AppCompatActivity implements
@@ -52,7 +43,7 @@ public class VehicleActivity extends AppCompatActivity implements
     private List<Vehicle> vehicleList;
     private List<Boolean> filterList;
     Animator slide_down_animator;
-    Animation alpha_anim, slide_up_anim;
+    Animation alpha_anim, slide_up_anim, scale_down_anim;
     Handler mHandler;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,6 +54,7 @@ public class VehicleActivity extends AppCompatActivity implements
         mViewModel = new ViewModelProvider(this).get(VehicleViewModel.class);
         mViewModel.fetchVehicleData(false);
         mBinding.progressIndicator.setVisibility(View.VISIBLE);
+        mBinding.filterOptionLayout.setVisibility(View.GONE);
         adapter = new VehicleAdapter(this, 0);
         adapter.setCallBack(this);
         setUpAnimation();
@@ -92,6 +84,12 @@ public class VehicleActivity extends AppCompatActivity implements
                 mBinding.inUseFilter.setSelected(false);
                 mBinding.maintenanceFilter.setSelected(false);
                 mBinding.availableFilter.setSelected(false);
+            }
+        });
+        mBinding.backButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                VehicleActivity.this.finish();
             }
         });
         mBinding.cancelFilter.setOnClickListener(new View.OnClickListener() {
@@ -177,6 +175,7 @@ public class VehicleActivity extends AppCompatActivity implements
 
     private void setUpAnimation()
     {
+        scale_down_anim = AnimationUtils.loadAnimation(this, R.anim.scale_down_60);
         alpha_anim = AnimationUtils.loadAnimation(this, R.anim.alpha_anim);
         slide_up_anim = AnimationUtils.loadAnimation(this, R.anim.slide_up_anim);
         slide_down_animator = ObjectAnimator.ofFloat(mBinding.filterOptionLayout, "translationY", -100, 0);
@@ -203,8 +202,8 @@ public class VehicleActivity extends AppCompatActivity implements
         mBinding.menuButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.e(TAG, "onClick: " );
-
+//                Log.e(TAG, "onClick: " );
+                v.startAnimation(scale_down_anim);
                 popupMenu.show();
             }
         });

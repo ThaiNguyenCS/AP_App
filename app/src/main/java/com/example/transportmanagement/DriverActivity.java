@@ -118,6 +118,12 @@ public class DriverActivity extends AppCompatActivity implements OnRVItemClickLi
                 }, 300);
             }
         });
+        mBinding.backButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                DriverActivity.this.finish();
+            }
+        });
         mBinding.drivingFilter.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
