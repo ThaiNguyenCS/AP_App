@@ -13,6 +13,7 @@
     <style name="CircleImageFrame">
         <item name="cornerSize">50%</item>
     </style>
+
     <style name="PopupMenuStyleCustom" parent="Widget.Material3.PopupMenu">
         <item name="android:popupBackground">@drawable/popup_background</item>
     </style>
