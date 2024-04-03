@@ -105,10 +105,8 @@ public class RouteAdapter extends RecyclerView.Adapter<RouteAdapter.RouteViewHol
         }
     }
 
-    public Filter getFilter(int type, List<String> whichSearch)
+    public Filter getFilter(List<String> whichSearch)
     {
-        if(type == 0) // search with departure and destination
-        {
             return new Filter() {
                 @Override
                 protected FilterResults performFiltering(CharSequence constraint) {
@@ -137,7 +135,46 @@ public class RouteAdapter extends RecyclerView.Adapter<RouteAdapter.RouteViewHol
                     {
                         list = routeList;
                     }
-                    filterRouteList = list;
+                    String constraintStr = constraint.toString();
+                    List<Route> secList = new ArrayList<>();
+                    if(constraintStr.isEmpty() || constraintStr.equals("000"))
+                    {
+                        secList = list;
+                    }
+                    else
+                    {
+                        if(constraintStr.charAt(0) == '1')
+                        {
+                            for(Route route : list)
+                            {
+                                if(route.getStatus() == 0)
+                                {
+                                    secList.add(route);
+                                }
+                            }
+                        }
+                        if(constraintStr.charAt(1) == '1')
+                        {
+                            for(Route route : list)
+                            {
+                                if(route.getStatus() == 1)
+                                {
+                                    secList.add(route);
+                                }
+                            }
+                        }
+                        if(constraintStr.charAt(2) == '1')
+                        {
+                            for(Route route : list)
+                            {
+                                if(route.getStatus() == 2)
+                                {
+                                    secList.add(route);
+                                }
+                            }
+                        }
+                    }
+                    filterRouteList = secList;
                     FilterResults filterResults = new FilterResults();
                     filterResults.values = filterRouteList;
                     return filterResults;
@@ -150,63 +187,6 @@ public class RouteAdapter extends RecyclerView.Adapter<RouteAdapter.RouteViewHol
             };
         }
 
-        // search with status category
-        return new Filter() {
-            @Override
-            protected FilterResults performFiltering(CharSequence constraint) {
-                String constraintStr = constraint.toString();
-                if(constraintStr.isEmpty() || constraintStr.equals("000"))
-                {
-                    Log.e(TAG, "performFiltering: EMPTY" );
-                    filterRouteList = routeList;
-                }
-                else
-                {
-                    List<Route> list = new ArrayList<>();
-                    if(constraintStr.charAt(0) == '1')
-                    {
-                        for(Route route : routeList)
-                        {
-                            if(route.getStatus() == 0)
-                            {
-                                list.add(route);
-                            }
-                        }
-                    }
-                    if(constraintStr.charAt(1) == '1')
-                    {
-                        for(Route route : routeList)
-                        {
-                            if(route.getStatus() == 1)
-                            {
-                                list.add(route);
-                            }
-                        }
-                    }
-                    if(constraintStr.charAt(2) == '1')
-                    {
-                        for(Route route : routeList)
-                        {
-                            if(route.getStatus() == 2)
-                            {
-                                list.add(route);
-                            }
-                        }
-                    }
-                    filterRouteList = list;
-                }
-
-                FilterResults filterResults = new FilterResults();
-                filterResults.values = filterRouteList;
-                return filterResults;
-            }
-
-            @Override
-            protected void publishResults(CharSequence constraint, FilterResults results) {
-                notifyDataSetChanged();
-            }
-        };
-    }
     @Override
     public int getItemViewType(int position) {
         return mViewType;

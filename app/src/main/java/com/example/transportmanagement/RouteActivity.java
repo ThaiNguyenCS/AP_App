@@ -69,6 +69,7 @@ public class RouteActivity extends AppCompatActivity implements
         mBinding.closeSearching.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                resetFilter(false, true);
                 closeSearchingView();
             }
         });
@@ -84,14 +85,14 @@ public class RouteActivity extends AppCompatActivity implements
             @Override
             public boolean onQueryTextSubmit(String query) {
                 whichSearch.set(0, query.toLowerCase());
-                adapter.getFilter(0, whichSearch).filter(null);
+                adapter.getFilter(whichSearch).filter(mViewModel.getFilterConstraints());
                 return false;
             }
 
             @Override
             public boolean onQueryTextChange(String newText) {
                 whichSearch.set(0, newText.toLowerCase());
-                adapter.getFilter(0, whichSearch).filter(null);
+                adapter.getFilter(whichSearch).filter(mViewModel.getFilterConstraints());
                 return false;
             }
         });
@@ -100,14 +101,14 @@ public class RouteActivity extends AppCompatActivity implements
             @Override
             public boolean onQueryTextSubmit(String query) {
                 whichSearch.set(1, query.toLowerCase());
-                adapter.getFilter(0, whichSearch).filter(null);
+                adapter.getFilter(whichSearch).filter(mViewModel.getFilterConstraints());
                 return false;
             }
 
             @Override
             public boolean onQueryTextChange(String newText) {
                 whichSearch.set(1, newText.toLowerCase());
-                adapter.getFilter(0, whichSearch).filter(null);
+                adapter.getFilter(whichSearch).filter(mViewModel.getFilterConstraints());
                 return false;
             }
         });
@@ -119,7 +120,7 @@ public class RouteActivity extends AppCompatActivity implements
         mBinding.cancelFilter.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                resetFilter();
+                resetFilter(true, false);
                 mBinding.filterOptionLayout.setVisibility(View.GONE);
             }
         });
@@ -136,7 +137,7 @@ public class RouteActivity extends AppCompatActivity implements
                     filterList.set(1, true);
                     v.setSelected(true);
                 }
-                adapter.getFilter(1, whichSearch).filter(mViewModel.getFilterConstraints());
+                adapter.getFilter(whichSearch).filter(mViewModel.getFilterConstraints());
             }
         });
         mBinding.notassignedFilter.setOnClickListener(new View.OnClickListener() {
@@ -152,7 +153,7 @@ public class RouteActivity extends AppCompatActivity implements
                     filterList.set(0, true);
                     v.setSelected(true);
                 }
-                adapter.getFilter(1, whichSearch).filter(mViewModel.getFilterConstraints());
+                adapter.getFilter(whichSearch).filter(mViewModel.getFilterConstraints());
             }
         });
         mBinding.finishedFilter.setOnClickListener(new View.OnClickListener() {
@@ -168,20 +169,31 @@ public class RouteActivity extends AppCompatActivity implements
                     filterList.set(2, true);
                     v.setSelected(true);
                 }
-                adapter.getFilter(1, whichSearch).filter(mViewModel.getFilterConstraints());
+                adapter.getFilter(whichSearch).filter(mViewModel.getFilterConstraints());
             }
         });
     }
-    private void resetFilter()
+    private void resetFilter(boolean keepSearch1, boolean keepSearch2)
     {
-        for(int i = 0; i <= 2; i++)
+
+        if(!keepSearch1)
         {
-            filterList.set(i, false);
+            for(int i = 0; i < 2; i++)
+            {
+                whichSearch.set(i, "");
+            }
         }
-        adapter.getFilter(1, whichSearch).filter(mViewModel.getFilterConstraints());
-        mBinding.finishedFilter.setSelected(false);
-        mBinding.notassignedFilter.setSelected(false);
-        mBinding.takenFilter.setSelected(false);
+        if(!keepSearch2)
+        {
+            for(int i = 0; i <= 2; i++)
+            {
+                filterList.set(i, false);
+            }
+            mBinding.finishedFilter.setSelected(false);
+            mBinding.notassignedFilter.setSelected(false);
+            mBinding.takenFilter.setSelected(false);
+        }
+        adapter.getFilter(whichSearch).filter(mViewModel.getFilterConstraints());
     }
     private void observeLiveData()
     {
@@ -253,7 +265,7 @@ public class RouteActivity extends AppCompatActivity implements
 
     @Override
     public void refreshDone() {
-        resetFilter();
+        resetFilter(false, false);
         mBinding.getRoot().setRefreshing(false);
     }
 }
