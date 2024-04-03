@@ -19,4 +19,6 @@
     <string name="login_failed">"Login failed"</string>
     <string name="destination">Destination</string>
     <string name="departure">Departure</string>
+    <string name="forgot_password"><u>Forgot password?</u></string>
+    <string name="default_web_client_id">AIzaSyD7LkR5zukaEjqawbSUE5DT5DHLKu5InX0</string>
 </resources>

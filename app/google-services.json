@@ -12,7 +12,20 @@
           "package_name": "com.example.transportmanagement"
         }
       },
-      "oauth_client": [],
+      "oauth_client": [
+        {
+          "client_id": "874523926725-24muj59b744lnp3in2q4n5i6mhskuu4g.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.transportmanagement",
+            "certificate_hash": "c7d35fc90115e31f8dc9c310af7e4f19e433a117"
+          }
+        },
+        {
+          "client_id": "874523926725-ni0uv7u8ipn22nsgh4nrgp7q96oivd35.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
       "api_key": [
         {
           "current_key": "AIzaSyD7LkR5zukaEjqawbSUE5DT5DHLKu5InX0"
@@ -20,7 +33,12 @@
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": []
+          "other_platform_oauth_client": [
+            {
+              "client_id": "874523926725-ni0uv7u8ipn22nsgh4nrgp7q96oivd35.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
         }
       }
     }
