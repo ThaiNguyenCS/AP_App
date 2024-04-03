@@ -24,25 +24,10 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <ImageView
-                    android:id="@+id/route_location"
-                    android:layout_width="25dp"
-                    android:layout_height="25dp"
-                    android:background="@drawable/circle_image_frame"
-                    android:backgroundTint="#25982A"
-                    android:scaleType="centerCrop"
-                    android:src="@drawable/ic_pin" />
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:weightSum="4"
-                android:layout_marginTop="5dp"
-                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                android:layout_marginTop="5dp"
+                android:orientation="horizontal"
+                android:weightSum="4">
 
                 <LinearLayout
                     android:layout_width="0dp"
@@ -51,59 +36,69 @@
                     android:orientation="vertical">
 
                     <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:gravity="center"
-                        android:background="@drawable/route_fragment_background1"
-                        android:paddingVertical="5dp"
-                        android:textSize="16sp"
-                        android:paddingHorizontal="10dp"
-                        android:text="Departure"
-                        android:textStyle="bold" />
-
-                    <TextView
                         android:id="@+id/route_departure"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:background="@drawable/radius"
                         android:gravity="center"
+                        android:paddingHorizontal="10dp"
+                        android:paddingVertical="10dp"
+                        android:text="Departure"
+                        android:textSize="16sp"
+                        android:textStyle="bold" />
+
+
+
+                    <TextView
+                        android:id="@+id/sche_time"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
                         android:ellipsize="marquee"
-                        android:marqueeRepeatLimit="marquee_forever"
+                        android:gravity="center"
+                        android:textStyle="bold"
                         android:singleLine="true"
-                        android:text=" null" />
+                        android:text="null" />
 
                 </LinearLayout>
 
 
                 <ImageView
                     android:id="@+id/route_arrow"
-                    android:layout_width="34dp"
-                    android:layout_height="34dp"
-                    android:layout_marginHorizontal="10dp"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
                     android:layout_gravity="top"
-                    android:src="@drawable/ic_right_arrow" />
+                    android:layout_marginTop="5dp"
+                    android:layout_marginHorizontal="10dp"
+                    android:src="@drawable/ic_route_goto" />
 
                 <LinearLayout
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="2"
                     android:orientation="vertical">
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:background="@drawable/route_fragment_background1"
-                        android:paddingHorizontal="10dp"
-                        android:paddingVertical="5dp"
-                        android:textSize="16sp"
-                        android:gravity="center"
-                        android:text="Destination"
-                        android:textStyle="bold" />
 
                     <TextView
                         android:id="@+id/route_destination"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:singleLine="true"
+                        android:background="@drawable/radius"
                         android:gravity="center"
+                        android:paddingHorizontal="10dp"
+                        android:paddingVertical="10dp"
+                        android:text="Destination"
+                        android:textSize="16sp"
+                        android:textStyle="bold" />
+
+
+                    <TextView
+                        android:id="@+id/estimate_time"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:textStyle="bold"
+                        android:ellipsize="marquee"
+                        android:gravity="center"
+                        android:singleLine="true"
                         android:text="null" />
                 </LinearLayout>
 
@@ -115,36 +110,7 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Schedule: "
-                    android:textStyle="bold" />
 
-                <TextView
-                    android:id="@+id/sche_time"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:singleLine="true"
-                    android:text="null" />
-            </LinearLayout>
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Estimate: "
-                    android:textStyle="bold" />
-
-                <TextView
-                    android:id="@+id/estimate_time"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:singleLine="true"
-                    android:text="null" />
             </LinearLayout>
 
             <LinearLayout
@@ -154,8 +120,8 @@
 
                 <TextView
                     android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:text="Drive: "
+                    android:layout_height="wrap_content"
+                    android:text="Cost: "
                     android:textStyle="bold" />
 
                 <TextView
@@ -165,6 +131,7 @@
                     android:singleLine="true"
                     android:text="null" />
             </LinearLayout>
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -172,8 +139,8 @@
 
                 <TextView
                     android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:text="Vehicle: "
+                    android:layout_height="wrap_content"
+                    android:text="Revenue: "
                     android:textStyle="bold" />
 
                 <TextView
@@ -183,6 +150,7 @@
                     android:singleLine="true"
                     android:text="null" />
             </LinearLayout>
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -201,7 +169,6 @@
                     android:singleLine="true"
                     android:text="null" />
             </LinearLayout>
-
 
 
         </LinearLayout>
