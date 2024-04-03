@@ -25,15 +25,49 @@ public class RouteViewModel extends ViewModel {
     private RefreshCallback mRouteRefreshCallback;
     private MutableLiveData<List<Route>> routeLiveList;
     private List<Boolean> filterList;
+    private List<String> whichSearch;
+    private MutableLiveData<List<Boolean>> filterLiveList;
+    private MutableLiveData<List<String>> whichSearchLive;
 
     public RouteViewModel() {
         firestore = FirebaseFirestore.getInstance();
         routeLiveList = new MutableLiveData<>();
+        filterLiveList = new MutableLiveData<>();
+        whichSearchLive = new MutableLiveData<>();
         filterList = new ArrayList<>();
         for (int i = 0; i <= 2; i++)
         {
             filterList.add(false);
         }
+        filterLiveList.setValue(filterList);
+        whichSearch = new ArrayList<>();
+        whichSearch.add("");
+        whichSearch.add("");
+        whichSearchLive.setValue(whichSearch);
+    }
+
+    public MutableLiveData<List<Boolean>> getFilterLiveList() {
+        return filterLiveList;
+    }
+
+    public CharSequence getFilterConstraints()
+    {
+        StringBuilder stringBuilder = new StringBuilder();
+        for(int i = 0; i < 3; i++)
+        {
+            if(filterList.get(i))
+            {
+                stringBuilder.append("1");
+            }
+            else
+            {
+                stringBuilder.append("0");
+            }
+        }
+        return new StringBuffer(stringBuilder);
+    }
+    public MutableLiveData<List<String>> getWhichSearchLive() {
+        return whichSearchLive;
     }
 
     public void setRefreshCallbackForRoute(RefreshCallback mRouteRefreshCallback) {

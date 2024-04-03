@@ -45,6 +45,11 @@ public class RouteAdapter extends RecyclerView.Adapter<RouteAdapter.RouteViewHol
         statusListString.add("Taken");
         statusListString.add("Finished");
     }
+
+    public List<Route> getFilterRouteList() {
+        return filterRouteList;
+    }
+
     public void setAdapterData(List<Route> list)
     {
         filterRouteList = list;
@@ -99,98 +104,109 @@ public class RouteAdapter extends RecyclerView.Adapter<RouteAdapter.RouteViewHol
             holder.mBinding2.scheduleInfo.setText(scheArrivingDate.format(route.getScheDepartureDate().toDate()));
         }
     }
-//    public Filter getFilter(int type)
-//    {
-//        if(type == 0)
-//        {
-//            return new Filter() {
-//                @Override
-//                protected FilterResults performFiltering(CharSequence constraint) {
-//                    String constraintStr = constraint.toString();
-//                    if(constraintStr.isEmpty())
-//                    {
-//                        Log.e(TAG, "performFiltering: EMPTY" );
-//                        filterRouteList = routeList;
-//                    }
-//                    else
-//                    {
-//                        List<Vehicle> list = new ArrayList<>();
-//                        for(Route route : routeList)
-//                        {
-//                            if(route.getDeparture().contains(constraintStr))
-//                            {
-//                                list.add(route);
-//                            }
-//                        }
-//                        filterVehicleList = list;
-//                    }
-//                    FilterResults filterResults = new FilterResults();
-//                    filterResults.values = filterVehicleList;
-//                    return filterResults;
-//                }
-//
-//                @Override
-//                protected void publishResults(CharSequence constraint, FilterResults results) {
-//                    notifyDataSetChanged();
-//                }
-//            };
-//        }
-//        return new Filter() {
-//            @Override
-//            protected FilterResults performFiltering(CharSequence constraint) {
-//                String constraintStr = constraint.toString();
-//                if(constraintStr.isEmpty() || constraintStr.equals("000"))
-//                {
-//                    Log.e(TAG, "performFiltering: EMPTY" );
-//                    filterVehicleList = vehicleList;
-//                }
-//                else
-//                {
-//                    List<Vehicle> list = new ArrayList<>();
-//                    if(constraintStr.charAt(0) == '1')
-//                    {
-//                        for(Vehicle vehicle : vehicleList)
-//                        {
-//                            if(vehicle.getStatus() == 0)
-//                            {
-//                                list.add(vehicle);
-//                            }
-//                        }
-//                    }
-//                    if(constraintStr.charAt(1) == '1')
-//                    {
-//                        for(Vehicle vehicle : vehicleList)
-//                        {
-//                            if(vehicle.getStatus() == 1)
-//                            {
-//                                list.add(vehicle);
-//                            }
-//                        }
-//                    }
-//                    if(constraintStr.charAt(2) == '1')
-//                    {
-//                        for(Vehicle vehicle : vehicleList)
-//                        {
-//                            if(vehicle.getStatus() == 2)
-//                            {
-//                                list.add(vehicle);
-//                            }
-//                        }
-//                    }
-//                    filterVehicleList = list;
-//                }
-//
-//                FilterResults filterResults = new FilterResults();
-//                filterResults.values = filterVehicleList;
-//                return filterResults;
-//            }
-//
-//            @Override
-//            protected void publishResults(CharSequence constraint, FilterResults results) {
-//                notifyDataSetChanged();
-//            }
-//        };
-//    }
+
+    public Filter getFilter(int type, List<String> whichSearch)
+    {
+        if(type == 0) // search with departure and destination
+        {
+            return new Filter() {
+                @Override
+                protected FilterResults performFiltering(CharSequence constraint) {
+                    List<Route> list = new ArrayList<>();
+                    if(!whichSearch.get(0).isEmpty())
+                    {
+                        for(Route route : routeList)
+                        {
+                            if(route.getDeparture().toLowerCase().contains(whichSearch.get(0)))
+                            {
+                                list.add(route);
+                            }
+                        }
+                    }
+                    if(!whichSearch.get(1).isEmpty())
+                    {
+                        for(Route route : routeList)
+                        {
+                            if(route.getDestination().toLowerCase().contains(whichSearch.get(1)))
+                            {
+                                list.add(route);
+                            }
+                        }
+                    }
+                    if(list.isEmpty()) // if there are no constraints
+                    {
+                        list = routeList;
+                    }
+                    filterRouteList = list;
+                    FilterResults filterResults = new FilterResults();
+                    filterResults.values = filterRouteList;
+                    return filterResults;
+                }
+
+                @Override
+                protected void publishResults(CharSequence constraint, FilterResults results) {
+                    notifyDataSetChanged();
+                }
+            };
+        }
+
+        // search with status category
+        return new Filter() {
+            @Override
+            protected FilterResults performFiltering(CharSequence constraint) {
+                String constraintStr = constraint.toString();
+                if(constraintStr.isEmpty() || constraintStr.equals("000"))
+                {
+                    Log.e(TAG, "performFiltering: EMPTY" );
+                    filterRouteList = routeList;
+                }
+                else
+                {
+                    List<Route> list = new ArrayList<>();
+                    if(constraintStr.charAt(0) == '1')
+                    {
+                        for(Route route : routeList)
+                        {
+                            if(route.getStatus() == 0)
+                            {
+                                list.add(route);
+                            }
+                        }
+                    }
+                    if(constraintStr.charAt(1) == '1')
+                    {
+                        for(Route route : routeList)
+                        {
+                            if(route.getStatus() == 1)
+                            {
+                                list.add(route);
+                            }
+                        }
+                    }
+                    if(constraintStr.charAt(2) == '1')
+                    {
+                        for(Route route : routeList)
+                        {
+                            if(route.getStatus() == 2)
+                            {
+                                list.add(route);
+                            }
+                        }
+                    }
+                    filterRouteList = list;
+                }
+
+                FilterResults filterResults = new FilterResults();
+                filterResults.values = filterRouteList;
+                return filterResults;
+            }
+
+            @Override
+            protected void publishResults(CharSequence constraint, FilterResults results) {
+                notifyDataSetChanged();
+            }
+        };
+    }
     @Override
     public int getItemViewType(int position) {
         return mViewType;
