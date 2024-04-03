@@ -38,6 +38,7 @@ import data.Driver;
 import myinterface.OnRVItemClickListener;
 import myinterface.RefreshCallback;
 import myinterface.ViewBindCallback;
+import viewmodel.DriverViewModel;
 import viewmodel.MainViewModel;
 
 public class DriverActivity extends AppCompatActivity implements OnRVItemClickListener,
@@ -46,19 +47,21 @@ public class DriverActivity extends AppCompatActivity implements OnRVItemClickLi
     private static final String TAG = "DriverActivity";
     public static String DRIVER_ID_EXTRA = "DRIVER_ID";
     ActivityDriverBinding mBinding;
-    MainViewModel mViewModel;
+    DriverViewModel mViewModel;
     private List<Driver> driverList;
+    private List<Boolean> filterList;
     DriverAdapter adapter;
     Animator slide_down_animator;
     Animation alpha_anim, slide_up_anim;
     Handler mHandler;
+    private String searchedName;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mBinding =  ActivityDriverBinding.inflate(getLayoutInflater());
         setContentView(mBinding.getRoot());
         mHandler = new Handler();
-        mViewModel = new ViewModelProvider(this).get(MainViewModel.class);
+        mViewModel = new ViewModelProvider(this).get(DriverViewModel.class);
         mViewModel.fetchDriverData(false);
         mBinding.getRoot().setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
@@ -79,6 +82,18 @@ public class DriverActivity extends AppCompatActivity implements OnRVItemClickLi
                 driverList = drivers;
                 adapter.setInitialData(driverList);
                 mBinding.progressCircular.setVisibility(View.GONE);
+            }
+        });
+        mViewModel.getFilterLiveList().observe(this, new Observer<List<Boolean>>() {
+            @Override
+            public void onChanged(List<Boolean> booleans) {
+                filterList = booleans;
+            }
+        });
+        mViewModel.getSearchedNameLive().observe(this, new Observer<String>() {
+            @Override
+            public void onChanged(String s) {
+                searchedName = s;
             }
         });
         mBinding.menuButton.setOnClickListener(new View.OnClickListener() {
@@ -109,7 +124,7 @@ public class DriverActivity extends AppCompatActivity implements OnRVItemClickLi
             public void onClick(View v) {
                 mBinding.filterOptionLayout.startAnimation(slide_up_anim);
                 // clear filters
-                adapter.setInitialData(driverList);
+                resetFilter(true, false);
                 mHandler.postDelayed(new Runnable() {
                     @Override
                     public void run() {
@@ -129,16 +144,16 @@ public class DriverActivity extends AppCompatActivity implements OnRVItemClickLi
             public void onClick(View v) {
                 if(v.isSelected())
                 {
-                    adapter.getFilter(1).filter("");
+                    filterList.set(1, false);
                     v.setSelected(false);
                 }
                 else
                 {
-                    adapter.getFilter(1).filter("Driving");
+                    filterList.set(1, true);
                     v.setSelected(true);
                     // set another filter to false
-                    mBinding.availableFilter.setSelected(false);
                 }
+                adapter.getFilter(searchedName).filter(mViewModel.getFilterConstraints());
             }
         });
         mBinding.availableFilter.setOnClickListener(new View.OnClickListener() {
@@ -146,16 +161,15 @@ public class DriverActivity extends AppCompatActivity implements OnRVItemClickLi
             public void onClick(View v) {
                 if(v.isSelected())
                 {
-                    adapter.getFilter(1).filter("");
+                    filterList.set(0, false);
                     v.setSelected(false);
                 }
                 else
                 {
-                    adapter.getFilter(1).filter("Available");
+                    filterList.set(0, true);
                     v.setSelected(true);
-                    // set another filter to false
-                    mBinding.drivingFilter.setSelected(false);
                 }
+                adapter.getFilter(searchedName).filter(mViewModel.getFilterConstraints());
             }
         });
     }
@@ -172,14 +186,16 @@ public class DriverActivity extends AppCompatActivity implements OnRVItemClickLi
         mBinding.searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
-                adapter.getFilter(0).filter(query);
+                searchedName = query;
+                adapter.getFilter(searchedName).filter(mViewModel.getFilterConstraints());
                 return false;
             }
 
             @Override
             public boolean onQueryTextChange(String newText) {
                 // for real-time searching
-                adapter.getFilter(0).filter(newText);
+                searchedName = newText;
+                adapter.getFilter(searchedName).filter(mViewModel.getFilterConstraints());
                 return false;
             }
         });
@@ -194,8 +210,25 @@ public class DriverActivity extends AppCompatActivity implements OnRVItemClickLi
     @Override
     public void refreshDone() {
         mBinding.getRoot().setRefreshing(false);
-        mBinding.drivingFilter.setSelected(false);
-        mBinding.availableFilter.setSelected(false);
+        resetFilter(false, false);
+    }
+
+    private void resetFilter(boolean keepSearch1, boolean keepSearch2)
+    {
+        if(!keepSearch1)
+        {
+            searchedName = "";
+        }
+        if(!keepSearch2)
+        {
+            for(int i = 0; i < 2; i++)
+            {
+                filterList.set(i, false);
+            }
+            mBinding.availableFilter.setSelected(false);
+            mBinding.drivingFilter.setSelected(false);
+        }
+        adapter.getFilter(searchedName).filter(mViewModel.getFilterConstraints());
     }
 
     @Override
