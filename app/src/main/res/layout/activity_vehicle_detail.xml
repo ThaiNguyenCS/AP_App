@@ -1,9 +1,314 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".VehicleDetailActivity">
+    android:background="@color/white"
+    android:orientation="vertical"
+    tools:context=".RouteDetailActivity">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <ImageView
+        android:id="@+id/close_button"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:background="@drawable/button_click_effect"
+        android:padding="6dp"
+        android:src="@drawable/ic_close" />
+
+    <ImageView
+        android:id="@+id/ImageOfVehicle"
+        android:layout_width="match_parent"
+        android:layout_height="270dp"
+        app:srcCompat="@drawable/truck" />
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" >
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:layout_marginVertical="50dp"
+            android:layout_marginHorizontal="10dp"
+            android:layout_gravity="center"
+            android:orientation="vertical" >
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:layout_weight="1" >
+
+                <ImageView
+                    android:id="@+id/Activity"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_gravity="center"
+                    app:srcCompat="@drawable/ActivityIcon" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Activity"
+                    android:textStyle="bold"
+                    android:textSize="20dp"
+                    android:layout_gravity="center"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:layout_weight="1" >
+
+                <ImageView
+                    android:id="@+id/statistics"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="2"
+                    android:layout_gravity="center"
+                    app:srcCompat="@drawable/maintainIcon" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Maintenance"
+                    android:textStyle="bold"
+                    android:textSize="20dp"
+                    android:layout_gravity="center"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:layout_weight="1" >
+
+                <ImageView
+                    android:id="@+id/history"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_weight="2"
+                    app:srcCompat="@drawable/HistoryIcon" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="History"
+                    android:textStyle="bold"
+                    android:textSize="20dp"
+                    android:layout_gravity="center"/>
+            </LinearLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:background="@drawable/frame_detail_vehicle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="15dp"
+            android:layout_marginVertical="30dp"
+            android:layout_gravity="center"
+            android:paddingVertical="30dp"
+            android:elevation="50dp"
+            android:orientation="vertical" >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:textColor="@color/white"
+                android:typeface="serif"
+                android:textStyle="bold"
+                android:textSize="25dp"
+                android:text="Lincense Plate" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/frame_vehicle_plate"
+                android:layout_gravity="center"
+                android:layout_marginVertical="10dp"
+                android:paddingVertical="8dp"
+                android:layout_marginHorizontal="30dp">
+
+                <TextView
+                    android:id="@+id/license"
+                    android:gravity="center_horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/black"
+                    android:typeface="monospace"
+                    android:textSize="25dp"
+                    android:textStyle="italic|bold"
+                    android:text="2F-21312321" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center">
+
+                <com.google.android.material.imageview.ShapeableImageView
+                    android:layout_width="12dp"
+                    android:layout_height="12dp"
+                    android:layout_gravity="center_vertical"
+                    android:src="@color/red"
+                    android:layout_marginHorizontal="5dp"
+                    app:shapeAppearanceOverlay="@style/CircleImageFrame" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Status "
+                    android:textColor="@color/white"
+                    android:gravity="center"
+                    android:textSize="20dp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/status"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/white"
+                    android:text="NULL"
+                    android:gravity="center"
+                    android:textSize="20dp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Type "
+                    android:gravity="center"
+                    android:textColor="@color/white"
+                    android:textSize="20dp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/type"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="NULL"
+                    android:textColor="@color/white"
+                    android:gravity="center"
+                    android:textSize="20dp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_gravity="center"
+                android:layout_marginHorizontal="20dp"
+                android:paddingVertical="15dp"
+                android:layout_marginVertical="5dp"
+                android:background="@drawable/roundedin4"
+                android:gravity="center" >
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="center">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Max load "
+                        android:gravity="center"
+                        android:textSize="20dp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/weight"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="NULL"
+                        android:gravity="center"
+                        android:textSize="20dp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="center">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Height "
+                        android:gravity="center"
+                        android:textSize="20dp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/height"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="NULL"
+                        android:gravity="center"
+                        android:textSize="20dp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="center">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Brand "
+                        android:gravity="center"
+                        android:textSize="20dp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/brand"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="NULL"
+                        android:gravity="center"
+                        android:textSize="20dp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="center">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Fuel "
+                        android:gravity="center"
+                        android:textSize="20dp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/fuel"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="NULL"
+                        android:gravity="center"
+                        android:textSize="20dp" />
+                </LinearLayout>
+            </LinearLayout>
+        </LinearLayout>
+
+        </LinearLayout>
+</LinearLayout>
