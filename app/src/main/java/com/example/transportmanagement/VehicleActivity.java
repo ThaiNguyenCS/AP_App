@@ -2,6 +2,7 @@ package com.example.transportmanagement;
 
 import android.animation.Animator;
 import android.animation.ObjectAnimator;
+import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.os.Handler;
@@ -45,6 +46,7 @@ public class VehicleActivity extends AppCompatActivity implements
     Animator slide_down_animator;
     Animation alpha_anim, slide_up_anim, scale_down_anim;
     Handler mHandler;
+    public static String VEHICLE_ID_EXTRA = "VehicleID";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -211,6 +213,9 @@ public class VehicleActivity extends AppCompatActivity implements
     @Override
     public void onVehicleDetailOpen(int position) {
         Log.e(TAG, "onVehicleDetailOpen at " + position);
+        Intent intent = new Intent(this, VehicleDetailActivity.class);
+        intent.putExtra(VEHICLE_ID_EXTRA, adapter.getFilterVehicleList().get(position).getID());
+        startActivity(intent);
     }
 
     @Override

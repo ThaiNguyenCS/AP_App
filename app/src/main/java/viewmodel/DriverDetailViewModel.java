@@ -11,6 +11,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.gms.tasks.Tasks;
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
@@ -46,10 +47,10 @@ public class DriverDetailViewModel extends ViewModel {
     public DriverDetailViewModel() {
         firestore = FirebaseFirestore.getInstance();
         driverLiveData = new MutableLiveData<>();
-
         statusListName = new ArrayList<>();
         statusListName.add("Available");
         statusListName.add("Driving");
+        driverID = -1;
     }
     public String getStatus(int index)
     {
@@ -80,6 +81,37 @@ public class DriverDetailViewModel extends ViewModel {
                         }
                     }
                 });
+    }
+
+    public void loadDriverHistory()
+    {
+        if(driverID != -1)
+        {
+            firestore.collection("DriverHistory")
+                    .whereEqualTo(Driver.DRIVER_ID, driverID)
+                    .limit(1)
+                    .get()
+                    .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                        @Override
+                        public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                            if(task.isSuccessful())
+                            {
+                                QuerySnapshot snapshots = task.getResult();
+                                if(snapshots.isEmpty())
+                                {
+
+                                    DocumentSnapshot snapshot = snapshots.getDocuments().get(0);
+
+                                }
+                            }
+                            else
+                            {
+
+                            }
+                        }
+                    });
+
+        }
     }
     public void getCurrentRouteAndVehicle()
     {

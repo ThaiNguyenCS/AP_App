@@ -15,6 +15,13 @@
             android:layout_width="match_parent"
             android:layout_height="250dp">
             <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:src="@drawable/img_background"
+                android:scaleType="fitCenter"
+                android:scaleX="3.5"
+                android:scaleY="3.5"/>
+            <ImageView
                 android:id="@+id/open_drawer"
                 android:layout_width="26dp"
                 android:layout_marginStart="5dp"

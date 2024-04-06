@@ -47,6 +47,11 @@ public class VehicleAdapter extends RecyclerView.Adapter<VehicleAdapter.VehicleV
         statusStringMapping.add("In use");
         statusStringMapping.add("Maintenance");
     }
+
+    public List<Vehicle> getFilterVehicleList() {
+        return filterVehicleList;
+    }
+
     public void setCallBack(ViewBindCallback callback)
     {
         this.mCallback = callback;
