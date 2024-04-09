@@ -5,47 +5,220 @@
     android:id="@+id/container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/white"
     tools:context=".AddRouteActivity">
 
-    <LinearLayout
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@drawable/route_add_background1"
-        android:gravity="center"
-        android:orientation="vertical"
-        android:paddingLeft="@dimen/activity_horizontal_margin"
-        android:paddingRight="@dimen/activity_horizontal_margin"
-        android:paddingTop="@dimen/activity_vertical_margin"
-        android:paddingBottom="@dimen/activity_vertical_margin"
-        app:layout_constraintBottom_toBottomOf="parent">
+        android:layout_height="match_parent">
 
-        <EditText
-            android:id="@+id/route_departure"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:background="@drawable/custom_input_add_route"
-            android:drawableStart="@drawable/custom_icon_departure"
-            android:drawablePadding="7dp"
-            android:ems="10"
-            android:hint="@string/departure"
-            android:inputType="textNoSuggestions"
-            android:paddingStart="10dp"
-            android:paddingEnd="12dp"
-            android:autofillHints="Ho Chi Minh City" />
+            android:layout_height="wrap_content"
+            android:weightSum="18"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:paddingLeft="@dimen/activity_horizontal_margin"
+            android:paddingRight="@dimen/activity_horizontal_margin"
+            android:paddingTop="@dimen/activity_vertical_margin"
+            android:paddingBottom="@dimen/activity_vertical_margin"
+            tools:ignore="HardcodedText">
 
-        <EditText
-            android:id="@+id/route_destination"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:background="@drawable/custom_input_add_route"
-            android:drawableStart="@drawable/custom_icon_destination"
-            android:drawablePadding="7dp"
-            android:ems="10"
-            android:hint="@string/destination"
-            android:inputType="textNoSuggestions"
-            android:paddingStart="10dp"
-            android:paddingEnd="12dp"
-            android:autofillHints="Da Lat City"/>
-    </LinearLayout>
+            <ImageView
+                android:id="@+id/imageView"
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                app:srcCompat="@drawable/ic_route_add" />
+
+            <EditText
+                android:id="@+id/route_ID"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:background="@drawable/custom_input_add_route"
+                android:drawableStart="@drawable/custom_icon_ID"
+                android:drawablePadding="7dp"
+                android:ems="10"
+                android:hint="Route ID"
+                android:inputType="textNoSuggestions"
+                android:paddingStart="10dp"
+                android:paddingEnd="12dp" />
+
+            <EditText
+                android:id="@+id/route_driverID"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:background="@drawable/custom_input_add_route"
+                android:drawableStart="@drawable/custom_icon_ID"
+                android:drawablePadding="7dp"
+                android:ems="10"
+                android:hint="Driver ID"
+                android:inputType="textNoSuggestions"
+                android:paddingStart="10dp"
+                android:paddingEnd="12dp"
+                android:layout_marginTop="@dimen/activity_vertical_margin"/>
+
+            <EditText
+                android:id="@+id/route_vehicleID"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:background="@drawable/custom_input_add_route"
+                android:drawableStart="@drawable/custom_icon_ID"
+                android:drawablePadding="7dp"
+                android:ems="10"
+                android:hint="Vehicle ID"
+                android:inputType="textNoSuggestions"
+                android:paddingStart="10dp"
+                android:paddingEnd="12dp"
+                android:layout_marginTop="@dimen/activity_vertical_margin"/>
+
+            <EditText
+                android:id="@+id/route_destination"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:background="@drawable/custom_input_add_route"
+                android:drawableStart="@drawable/custom_icon_location"
+                android:drawablePadding="7dp"
+                android:ems="10"
+                android:hint="@string/destination"
+                android:inputType="textNoSuggestions"
+                android:paddingStart="10dp"
+                android:paddingEnd="12dp"
+                android:layout_marginTop="@dimen/activity_vertical_margin"/>
+
+            <EditText
+                android:id="@+id/route_departure"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:background="@drawable/custom_input_add_route"
+                android:drawableStart="@drawable/custom_icon_location"
+                android:drawablePadding="7dp"
+                android:ems="10"
+                android:hint="@string/departure"
+                android:inputType="textNoSuggestions"
+                android:paddingStart="10dp"
+                android:paddingEnd="12dp"
+                android:layout_marginTop="@dimen/activity_vertical_margin"/>
+
+            <EditText
+                android:id="@+id/route_distance"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:background="@drawable/custom_input_add_route"
+                android:drawableStart="@drawable/custom_icon_distance"
+                android:drawablePadding="7dp"
+                android:ems="10"
+                android:hint="Distance"
+                android:inputType="textNoSuggestions"
+                android:paddingStart="10dp"
+                android:paddingEnd="12dp"
+                android:layout_marginTop="@dimen/activity_vertical_margin"/>
+
+            <EditText
+                android:id="@+id/route_scheDepartureDate"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:background="@drawable/custom_input_add_route"
+                android:drawableStart="@drawable/custom_icon_date"
+                android:drawablePadding="7dp"
+                android:ems="10"
+                android:hint="Estimated Departure Day"
+                android:paddingStart="10dp"
+                android:paddingEnd="12dp"
+                android:layout_marginTop="@dimen/activity_vertical_margin"/>
+
+            <EditText
+                android:id="@+id/route_scheArrivingDate"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:background="@drawable/custom_input_add_route"
+                android:drawableStart="@drawable/custom_icon_date"
+                android:drawablePadding="7dp"
+                android:ems="10"
+                android:hint="Estimated Arriving Date"
+                android:paddingStart="10dp"
+                android:paddingEnd="12dp"
+                android:layout_marginTop="@dimen/activity_vertical_margin"/>
+
+            <EditText
+                android:id="@+id/route_actualDepartureDate"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:background="@drawable/custom_input_add_route"
+                android:drawableStart="@drawable/custom_icon_date"
+                android:drawablePadding="7dp"
+                android:ems="10"
+                android:hint="Actual Departure Date"
+                android:paddingStart="10dp"
+                android:paddingEnd="12dp"
+                android:layout_marginTop="@dimen/activity_vertical_margin"/>
+
+            <EditText
+                android:id="@+id/route_actualArrivingDate"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:background="@drawable/custom_input_add_route"
+                android:drawableStart="@drawable/custom_icon_date"
+                android:drawablePadding="7dp"
+                android:ems="10"
+                android:hint="Actual Arriving Date"
+                android:paddingStart="10dp"
+                android:paddingEnd="12dp"
+                android:layout_marginTop="@dimen/activity_vertical_margin"/>
+
+            <EditText
+                android:id="@+id/route_status"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:background="@drawable/custom_input_add_route"
+                android:drawableStart="@drawable/custom_icon_status"
+                android:drawablePadding="7dp"
+                android:ems="10"
+                android:hint="Status"
+                android:inputType="textNoSuggestions"
+                android:paddingStart="10dp"
+                android:paddingEnd="12dp"
+                android:layout_marginTop="@dimen/activity_vertical_margin"/>
+
+            <EditText
+                android:id="@+id/route_cost"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:background="@drawable/custom_input_add_route"
+                android:drawableStart="@drawable/custom_icon_money"
+                android:drawablePadding="7dp"
+                android:ems="10"
+                android:hint="Cost"
+                android:inputType="textNoSuggestions"
+                android:paddingStart="10dp"
+                android:paddingEnd="12dp"
+                android:layout_marginTop="@dimen/activity_vertical_margin"/>
+
+            <EditText
+                android:id="@+id/route_revenue"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:background="@drawable/custom_input_add_route"
+                android:drawableStart="@drawable/custom_icon_money"
+                android:drawablePadding="7dp"
+                android:ems="10"
+                android:hint="Revenue"
+                android:inputType="textNoSuggestions"
+                android:paddingStart="10dp"
+                android:paddingEnd="12dp"
+                android:layout_marginTop="@dimen/activity_vertical_margin"/>
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/button_find"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:background="@drawable/route_add_radiusButton"
+                android:text="FIND"
+                android:textAllCaps="false"
+                android:textColor="@color/white"
+                android:textSize="20sp"
+                android:layout_marginTop="@dimen/activity_vertical_margin"/>
+        </LinearLayout>
+    </ScrollView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

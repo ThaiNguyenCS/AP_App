@@ -2,10 +2,10 @@
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item android:state_focused="true"
-        android:drawable="@drawable/ic_destination_on">
+        android:drawable="@drawable/ic_location_on">
     </item>
 
     <item android:state_focused="false"
-        android:drawable="@drawable/ic_destination_off">
+        android:drawable="@drawable/ic_location_off">
     </item>
 </selector>
