@@ -9,10 +9,12 @@ import androidx.lifecycle.ViewModel;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.gms.tasks.Tasks;
+import com.google.firebase.Timestamp;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.google.firebase.firestore.SetOptions;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -22,19 +24,27 @@ import java.util.Map;
 import data.Driver;
 import data.Route;
 import data.Vehicle;
+import myinterface.FinishCallback;
 
 public class RouteDetailViewModel extends ViewModel {
     private static final String TAG = "DriverDetailViewModel";
+    private int routeID;
+
     private MutableLiveData<Driver> driverLiveData;
     private MutableLiveData<Vehicle> vehicleLiveData;
     private MutableLiveData<Route> routeLiveData;
+
     private Route route;
     private Driver currentDriver;
     private Vehicle currentVehicle;
-    private int routeID;
-    private FirebaseFirestore firestore;
-    private DocumentReference routeReference;
     private List<String> statusListName;
+
+    private FirebaseFirestore firestore;
+    private DocumentReference routeRef;
+    private DocumentReference driverRef;
+    private DocumentReference vehicleRef;
+
+    private FinishCallback mFinishCallback;
 
 
     public RouteDetailViewModel() {
@@ -44,6 +54,10 @@ public class RouteDetailViewModel extends ViewModel {
         statusListName.add("Not assigned");
         statusListName.add("Taken");
         statusListName.add("Finish");
+    }
+    public void setFinishCallback(FinishCallback callback)
+    {
+        this.mFinishCallback = callback;
     }
     public String getStatus(int index)
     {
@@ -63,7 +77,7 @@ public class RouteDetailViewModel extends ViewModel {
                             for(QueryDocumentSnapshot snapshot : task.getResult())
                             {
                                 route = snapshot.toObject(Route.class);
-                                routeReference = snapshot.getReference();
+                                routeRef = snapshot.getReference();
                             }
                             routeLiveData.setValue(route);
                         }
@@ -97,13 +111,17 @@ public class RouteDetailViewModel extends ViewModel {
                     {
                         Task<QuerySnapshot> vehicleResult = (Task<QuerySnapshot>) task.getResult().get(0);
                         Task<QuerySnapshot> driverResult = (Task<QuerySnapshot>) task.getResult().get(1);
-                        currentDriver = driverResult.getResult().getDocuments().get(0).toObject(Driver.class);
-                        currentVehicle = vehicleResult.getResult().getDocuments().get(0).toObject(Vehicle.class);
-                        if(currentDriver == null || currentVehicle == null)
+                        QuerySnapshot vehicleSnapshots = vehicleResult.getResult();
+                        QuerySnapshot driverSnapshots = driverResult.getResult();
+                        if(vehicleSnapshots.isEmpty() ||  driverSnapshots.isEmpty())
                         {
-                            Log.e(TAG, "Empty current driver or vehicle");
+                            Log.e(TAG, "Fail to get current vehicle or driver");
+                            return;
                         }
-
+                        driverRef = driverSnapshots.getDocuments().get(0).getReference();
+                        vehicleRef = vehicleSnapshots.getDocuments().get(0).getReference();
+                        currentDriver = driverSnapshots.getDocuments().get(0).toObject(Driver.class);
+                        currentVehicle = vehicleSnapshots.getDocuments().get(0).toObject(Vehicle.class);
                     }
                     else
                     {
@@ -118,6 +136,55 @@ public class RouteDetailViewModel extends ViewModel {
             Log.e(TAG, "Empty route");
         }
 
+    }
+    public void markRouteAsDone()
+    {
+        if(routeRef == null || driverRef == null || vehicleRef == null)
+        {
+            Log.e(TAG, "lack of document refs");
+        }
+        else {
+            Map<String, Object> routeMap = new HashMap<>();
+            routeMap.put(Route.ROUTE_STATUS, 2);
+            routeMap.put(Route.ROUTE_LEFT_DIST, 0);
+            routeMap.put(Route.ROUTE_ACTUAL_ARRIVE, Timestamp.now());
+
+            Map<String, Object> driverMap = new HashMap<>();
+            driverMap.put(Driver.DRIVER_STATUS, 0);
+            List<Integer> drivingRoutes = currentDriver.getListOfDrivingRoutes();
+            if (drivingRoutes == null)
+            {
+                drivingRoutes = new ArrayList<>();
+            }
+            drivingRoutes.add(routeID);
+            driverMap.put(Driver.DRIVER_DRIVING_ROUTES, drivingRoutes);
+            driverMap.put(Driver.DRIVER_VEHICLE_ID, null);
+            driverMap.put(Driver.DRIVER_ROUTE_ID, null);
+
+            Map<String, Object> vehicleMap = new HashMap<>();
+            vehicleMap.put(Vehicle.VEHICLE_ROUTE_ID, null);
+            vehicleMap.put(Vehicle.VEHICLE_DRIVER_ID, null);
+            vehicleMap.put(Vehicle.VEHICLE_STATUS, 0);
+
+            Tasks.whenAllComplete(routeRef.update(routeMap),
+                    vehicleRef.update(vehicleMap),
+                    driverRef.set(driverMap, SetOptions.merge()))
+                    .addOnCompleteListener(new OnCompleteListener<List<Task<?>>>() {
+                        @Override
+                        public void onComplete(@NonNull Task<List<Task<?>>> task) {
+                            if(task.isSuccessful())
+                            {
+                                Log.e(TAG, "update successfully");
+                                mFinishCallback.finish(true);
+                            }
+                            else
+                            {
+                                mFinishCallback.finish(false);
+                                task.getException().printStackTrace();
+                            }
+                        }
+                    });
+        }
     }
     public void updateRoute(Route modifiedRoute)
     {

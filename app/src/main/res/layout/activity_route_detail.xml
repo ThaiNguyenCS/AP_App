@@ -212,25 +212,48 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:paddingTop="10dp">
+                android:layout_marginTop="10dp">
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:paddingTop="@dimen/activity_horizontal_margin">
+                    android:orientation="horizontal">
 
                     <TextView
-                        android:id="@+id/route_detail_textview_7"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Estimated time of arrival:"
+                        android:text="Estimated:"
                         android:textSize="16sp"
                         android:textColor="#807b7a"
                         android:textStyle="bold" />
 
                     <TextView
-                        android:id="@+id/route_estimated_arrival"
+                        android:id="@+id/route_estimated_time"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="right"
+                        android:text="null"
+                        android:textSize="16sp"
+                        android:textColor="#807b7a"
+                        android:textStyle="bold" />
+                </LinearLayout>
+                <LinearLayout
+                    android:id="@+id/actual_time_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Actual:"
+                        android:textSize="16sp"
+                        android:textColor="#807b7a"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/route_actual_arrival"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:gravity="right"
@@ -241,13 +264,12 @@
                 </LinearLayout>
 
                 <LinearLayout
+                    android:layout_marginTop="5dp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:paddingTop="5dp">
+                    android:orientation="horizontal">
 
                     <TextView
-                        android:id="@+id/route_detail_textview_9"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Distance:"
@@ -267,13 +289,12 @@
                 </LinearLayout>
 
                 <LinearLayout
+                    android:layout_marginTop="5dp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:paddingTop="5dp">
+                    android:orientation="horizontal">
 
                     <TextView
-                        android:id="@+id/route_detail_textview11"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Status:"
@@ -293,14 +314,12 @@
                 </LinearLayout>
 
                 <LinearLayout
+                    android:layout_marginTop="5dp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:paddingTop="5dp"
-                    android:paddingBottom="10dp">
+                    android:orientation="horizontal">
 
                     <TextView
-                        android:id="@+id/route_detail_textview13"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Cost:"
@@ -320,27 +339,18 @@
                 </LinearLayout>
 
                 <androidx.appcompat.widget.AppCompatButton
-                    android:id="@+id/button_book"
+                    android:id="@+id/done_button"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
                     android:background="@color/black"
-                    android:text="Book trip"
+                    android:text="Finish"
+                    android:layout_marginTop="20dp"
                     android:textAllCaps="false"
                     android:textColor="@color/white"
                     android:textSize="20sp" />
 
-                <androidx.appcompat.widget.AppCompatButton
-                    android:id="@+id/button_cancel"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
-                    android:background="@color/black"
-                    android:layout_marginTop="5dp"
-                    android:text="Cancel trip"
-                    android:textAllCaps="false"
-                    android:textColor="@color/white"
-                    android:textSize="20sp" />
+
             </LinearLayout>
         </LinearLayout>
 

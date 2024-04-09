@@ -87,6 +87,8 @@ public class AssignJobActivity extends AppCompatActivity implements AssignJobVie
                         handlePresentView(1);
                     }
                 });
+                mBinding.stepCount.setText("Step: 1/2");
+                mBinding.stepDescription.setText("Choose a route");
 
 //                RouteFragment routeFragment = (RouteFragment) getSupportFragmentManager().findFragmentByTag("ROUTE");
                 if(mRouteFragment == null)
@@ -114,6 +116,8 @@ public class AssignJobActivity extends AppCompatActivity implements AssignJobVie
                 mBinding.prevButton.setVisibility(View.VISIBLE);
                 mBinding.nextButton.setText("Done");
                 currentPosition = 1;
+                mBinding.stepCount.setText("Step: 2/2");
+                mBinding.stepDescription.setText("Choose a vehicle");
                 mBinding.nextButton.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -158,7 +162,7 @@ public class AssignJobActivity extends AppCompatActivity implements AssignJobVie
             getSupportFragmentManager()
                     .beginTransaction()
                     .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
-                    .addToBackStack(null)
+//                    .addToBackStack(null)
                     .add(mBinding.fragmentContainer.getId(), fragment, "VEHICLE")
                     .commit();
         }

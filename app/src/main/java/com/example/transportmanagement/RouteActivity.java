@@ -115,6 +115,15 @@ public class RouteActivity extends AppCompatActivity implements
         setUpFilterButton();
 
     }
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        Log.e(TAG, "onRestart: " );
+        mBinding.progressIndicator.setVisibility(View.VISIBLE);
+        mViewModel.fetchRouteData(true);
+    }
+
     private void setUpFilterButton()
     {
         mBinding.cancelFilter.setOnClickListener(new View.OnClickListener() {
@@ -267,5 +276,6 @@ public class RouteActivity extends AppCompatActivity implements
     public void refreshDone() {
         resetFilter(false, false);
         mBinding.getRoot().setRefreshing(false);
+        mBinding.progressIndicator.setVisibility(View.GONE);
     }
 }

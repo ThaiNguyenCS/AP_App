@@ -83,36 +83,38 @@ public class DriverDetailViewModel extends ViewModel {
                 });
     }
 
-    public void loadDriverHistory()
-    {
-        if(driverID != -1)
-        {
-            firestore.collection("DriverHistory")
-                    .whereEqualTo(Driver.DRIVER_ID, driverID)
-                    .limit(1)
-                    .get()
-                    .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                        @Override
-                        public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                            if(task.isSuccessful())
-                            {
-                                QuerySnapshot snapshots = task.getResult();
-                                if(snapshots.isEmpty())
-                                {
-
-                                    DocumentSnapshot snapshot = snapshots.getDocuments().get(0);
-
-                                }
-                            }
-                            else
-                            {
-
-                            }
-                        }
-                    });
-
-        }
-    }
+//    public void loadDriverHistory()
+//    {
+//        if(driverID != -1)
+//        {
+//            firestore.collection("DriverHistory")
+//                    .whereEqualTo(Driver.DRIVER_ID, driverID)
+//                    .limit(1)
+//                    .get()
+//                    .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+//                        @Override
+//                        public void onComplete(@NonNull Task<QuerySnapshot> task) {
+//                            if(task.isSuccessful())
+//                            {
+//                                QuerySnapshot snapshots = task.getResult();
+//                                if(snapshots.isEmpty())
+//                                {
+//
+//                                }
+//                                else
+//                                {
+//
+//                                }
+//                            }
+//                            else
+//                            {
+//                                task.getException().printStackTrace();
+//                            }
+//                        }
+//                    });
+//
+//        }
+//    }
     public void getCurrentRouteAndVehicle()
     {
         if(driver != null)

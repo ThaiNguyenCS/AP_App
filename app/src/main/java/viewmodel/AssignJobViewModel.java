@@ -132,6 +132,14 @@ public class AssignJobViewModel extends ViewModel {
                             driverMap.put(Driver.DRIVER_STATUS, 1);
                             driverMap.put(Driver.DRIVER_ROUTE_ID, routeList.get(chosenRoutePos).getID());
                             driverMap.put(Driver.DRIVER_VEHICLE_ID, vehicleList.get(chosenVehiclePos).getID());
+                            List<Integer> drivingRoutes = driver.getListOfDrivingRoutes();
+                            if(drivingRoutes == null)
+                            {
+                                Log.e(TAG, "null driving routes");
+                                drivingRoutes = new ArrayList<>();
+                            }
+                            drivingRoutes.add(routeList.get(chosenRoutePos).getID());
+                            driverMap.put(Driver.DRIVER_DRIVING_ROUTES, drivingRoutes);
                             // to get the result of the update
                             Tasks.whenAllComplete(vehicleRef.update(vehicleMap),
                                             routeRef.update(routeMap),
@@ -209,7 +217,7 @@ public class AssignJobViewModel extends ViewModel {
     public void getAvailableRouteList()
     {
         firestore.collection("Route")
-                .whereEqualTo(Route.ROUTE_STATUS, 0) // only get the free vehicle
+                .whereEqualTo(Route.ROUTE_STATUS, 0) // only get the unassigned route
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override

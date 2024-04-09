@@ -316,12 +316,12 @@
 
                     <ImageView
                         android:id="@+id/history_toggle"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_width="22dp"
+                        android:layout_height="22dp"
                         android:layout_gravity="center_vertical"
                         android:padding="3dp"
                         app:tint="#A2A2A3"
-                        android:src="@drawable/ic_navigate_down" />
+                        android:src="@drawable/ic_navigation_down" />
 
                     <TextView
                         android:layout_width="wrap_content"

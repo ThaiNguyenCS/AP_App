@@ -2,6 +2,8 @@ package data;
 
 import com.google.firebase.firestore.PropertyName;
 
+import java.util.List;
+
 public class Driver {
 
     //TODO history
@@ -15,6 +17,7 @@ public class Driver {
     public static String DRIVER_LICENSE = "license";
     public static String DRIVER_ROUTE_ID = "currentRouteID";
     public static String DRIVER_VEHICLE_ID = "currentVehicleID";
+    public static String DRIVER_DRIVING_ROUTES = "listOfDrivingRoutes";
 
     int ID;
     Integer currentVehicleID;
@@ -27,6 +30,15 @@ public class Driver {
     long yearOfExperience;
     String address;
     long status;
+    List<Integer> listOfDrivingRoutes;
+
+    public List<Integer> getListOfDrivingRoutes() {
+        return listOfDrivingRoutes;
+    }
+
+    public void setListOfDrivingRoutes(List<Integer> listOfDrivingRoutes) {
+        this.listOfDrivingRoutes = listOfDrivingRoutes;
+    }
 
     public int getID() {
         return ID;

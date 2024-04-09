@@ -14,7 +14,7 @@
         android:background="@color/button_click_background"
         android:layout_gravity="end"
         android:padding="5dp"
-        android:src="@drawable/ic_navigate_down"/>
+        android:src="@drawable/ic_navigation_down"/>
     <ImageView
         android:layout_width="match_parent"
         android:layout_height="160dp"

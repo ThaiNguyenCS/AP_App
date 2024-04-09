@@ -6,7 +6,10 @@ import androidx.lifecycle.ViewModelProvider;
 
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.view.Gravity;
+import android.view.MenuItem;
 import android.view.View;
+import android.widget.PopupMenu;
 import android.widget.Toast;
 
 import com.example.transportmanagement.databinding.ActivityVehicleDetailBinding;
@@ -14,6 +17,7 @@ import com.example.transportmanagement.databinding.ActivityVehicleDetailBinding;
 import data.Vehicle;
 import myfragment.DriverActivityDialog;
 import myfragment.DriverFragment;
+import myfragment.MaintenanceDialog;
 import viewmodel.VehicleDetailViewModel;
 
 public class VehicleDetailActivity extends AppCompatActivity {
@@ -36,7 +40,58 @@ public class VehicleDetailActivity extends AppCompatActivity {
                 setVehicleInfo();
             }
         });
+        setUpGeneralView();
 
+
+    }
+    private void setUpGeneralView()
+    {
+        mBinding.closeButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                VehicleDetailActivity.this.finish();
+            }
+        });
+        mBinding.activityLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(VehicleDetailActivity.this, "Activity", Toast.LENGTH_SHORT).show();
+            }
+        });
+        mBinding.historyLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(VehicleDetailActivity.this, "History", Toast.LENGTH_SHORT).show();
+            }
+        });
+        mBinding.maintenanceLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(VehicleDetailActivity.this, "Maintenance", Toast.LENGTH_SHORT).show();
+            }
+        });
+        PopupMenu popupMenu = new PopupMenu(this, mBinding.menuButton, Gravity.BOTTOM, 0, R.style.PopupMenuStyleCustom);
+        popupMenu.inflate(R.menu.vehicle_detail_menu);
+        popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                if(item.getItemId() == R.id.maintenance)
+                {
+                    //TODO do something for maintenance
+                    MaintenanceDialog dialog = new MaintenanceDialog();
+                    dialog.show(getSupportFragmentManager(), null);
+                    return true;
+                }
+                return false;
+            }
+        });
+        mBinding.menuButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                popupMenu.show();
+
+            }
+        });
     }
 
     private void getClickedVehicleID()
