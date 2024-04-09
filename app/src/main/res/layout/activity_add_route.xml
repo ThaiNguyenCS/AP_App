@@ -207,17 +207,34 @@
                 android:paddingEnd="12dp"
                 android:layout_marginTop="@dimen/activity_vertical_margin"/>
 
-            <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/button_find"
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:background="@drawable/route_add_radiusButton"
-                android:text="FIND"
-                android:textAllCaps="false"
-                android:textColor="@color/white"
-                android:textSize="20sp"
-                android:layout_marginTop="@dimen/activity_vertical_margin"/>
+                android:orientation="horizontal"
+                android:layout_marginTop="@dimen/activity_vertical_margin">
+
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/button_cancel_add_route"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/route_cancel_Button"
+                    android:text=" CANCEL "
+                    android:textColor="@color/white"
+                    android:layout_margin="@dimen/activity_horizontal_margin"
+                    android:layout_weight="@integer/material_motion_duration_medium_1"
+                    android:textSize="20sp"/>
+
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/button_add_route"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/route_add_Button"
+                    android:text="  ADD THE ROUTE  "
+                    android:textColor="@color/white"
+                    android:layout_margin="@dimen/activity_horizontal_margin"
+                    android:layout_weight="@integer/material_motion_duration_medium_1"
+                    android:textSize="20sp"/>
+            </LinearLayout>
         </LinearLayout>
     </ScrollView>
 
