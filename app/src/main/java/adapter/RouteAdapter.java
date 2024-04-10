@@ -59,6 +59,7 @@ public class RouteAdapter extends RecyclerView.Adapter<RouteAdapter.RouteViewHol
     public void setAdapterData(List<Route> list, List<Boolean> list2)
     {
         filterRouteList = list;
+        routeList = list;
         checkedList = list2;
         notifyDataSetChanged();
     }
@@ -80,6 +81,11 @@ public class RouteAdapter extends RecyclerView.Adapter<RouteAdapter.RouteViewHol
         Log.e(TAG, "onBindViewHolder: " );
         int realPosition = holder.getAdapterPosition();
         Route route = filterRouteList.get(realPosition);
+        Log.e(TAG, "onBind "  + route.getID());
+        if(route.getID() == 0)
+        {
+            Log.e(TAG, "onBindViewHolder: ====== 0 " + route.getDestination());
+        }
         if(holder.getItemViewType() == 0)
         {
             holder.mBinding1.routeDeparture.setText(route.getDeparture());

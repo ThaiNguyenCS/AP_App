@@ -163,6 +163,13 @@ public class MainActivity extends AppCompatActivity {
                 return false;
             }
         });
+        mBinding.fourthCard.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, AddVehicleActivity.class);
+                startActivity(intent);
+            }
+        });
         mBinding.fourthCard.setOnTouchListener(new View.OnTouchListener() {
                @Override
                public boolean onTouch(View v, MotionEvent event) {
@@ -186,6 +193,13 @@ public class MainActivity extends AppCompatActivity {
                    return false;
                }
            });
+        mBinding.fifthCard.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, AddDriverActivity.class);
+                startActivity(intent);
+            }
+        });
         mBinding.fifthCard.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
@@ -207,6 +221,13 @@ public class MainActivity extends AppCompatActivity {
                     return true;
                 }
                 return false;
+            }
+        });
+        mBinding.sixthCard.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, AddRouteActivity.class);
+                startActivity(intent);
             }
         });
         mBinding.sixthCard.setOnTouchListener(new View.OnTouchListener() {

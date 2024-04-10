@@ -2,6 +2,7 @@ package data;
 
 
 import com.google.firebase.Timestamp;
+import com.google.firebase.firestore.PropertyName;
 
 import java.util.Date;
 
@@ -20,7 +21,6 @@ public class Route {
     public static String ROUTE_LEFT_DIST = "leftDistance";
     public static String ROUTE_COST = "cost";
     public static String ROUTE_REVENUE = "revenue";
-
     int ID;
     Integer currentDriverID;
     Integer currentVehicleID;
