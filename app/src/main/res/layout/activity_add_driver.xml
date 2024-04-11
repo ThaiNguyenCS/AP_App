@@ -2,9 +2,165 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/main"
+    android:id="@+id/container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/white"
     tools:context=".AddDriverActivity">
+    <ProgressBar
+        android:id="@+id/progress_indicator"
+        android:layout_width="wrap_content"
+        android:visibility="gone"
+        android:elevation="2dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"/>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:paddingLeft="@dimen/activity_horizontal_margin"
+            android:paddingTop="@dimen/activity_vertical_margin"
+            android:paddingRight="@dimen/activity_horizontal_margin"
+            android:paddingBottom="@dimen/activity_vertical_margin"
+            android:weightSum="18"
+            tools:ignore="HardcodedText">
+
+            <ImageView
+                android:id="@+id/imageView"
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                app:srcCompat="@drawable/ic_add_driver" />
+
+            <EditText
+                android:id="@+id/driver_name"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginTop="@dimen/activity_vertical_margin"
+                android:background="@drawable/custom_input_add_route"
+                android:drawableStart="@drawable/custom_icon_users"
+                android:drawablePadding="7dp"
+                android:ems="10"
+                android:hint="Full name"
+                android:inputType="textNoSuggestions"
+                android:paddingStart="10dp"
+                android:paddingEnd="12dp" />
+
+            <EditText
+                android:id="@+id/route_distance"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginTop="@dimen/activity_vertical_margin"
+                android:background="@drawable/custom_input_add_route"
+                android:drawableStart="@drawable/custom_icon_phone"
+                android:drawablePadding="7dp"
+                android:ems="10"
+                android:hint="Phone Number"
+                android:inputType="number"
+                android:paddingStart="10dp"
+                android:paddingEnd="12dp" />
+
+            <EditText
+                android:id="@+id/route_destination"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginTop="@dimen/activity_vertical_margin"
+                android:background="@drawable/custom_input_add_route"
+                android:drawableStart="@drawable/custom_icon_perinfo"
+                android:drawablePadding="7dp"
+                android:ems="10"
+                android:hint="Citizen ID"
+                android:inputType="number"
+                android:paddingStart="10dp"
+                android:paddingEnd="12dp" />
+
+            <EditText
+                android:id="@+id/route_scheDepartureDate"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginTop="@dimen/activity_vertical_margin"
+                android:background="@drawable/custom_input_add_route"
+                android:drawableStart="@drawable/custom_icon_perinfo"
+                android:drawablePadding="7dp"
+                android:ems="10"
+                android:hint="Address"
+                android:paddingStart="10dp"
+                android:paddingEnd="12dp" />
+
+            <EditText
+                android:id="@+id/route_scheArrivingDate"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginTop="@dimen/activity_vertical_margin"
+                android:background="@drawable/custom_input_add_route"
+                android:drawableStart="@drawable/custom_icon_perinfo"
+                android:drawablePadding="7dp"
+                android:ems="10"
+                android:hint="License"
+                android:paddingStart="10dp"
+                android:paddingEnd="12dp" />
+
+            <EditText
+                android:id="@+id/route_cost"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginTop="@dimen/activity_vertical_margin"
+                android:background="@drawable/custom_input_add_route"
+                android:drawableStart="@drawable/custom_icon_experience"
+                android:drawablePadding="7dp"
+                android:ems="10"
+                android:hint="Year of experience"
+                android:inputType="number"
+                android:paddingStart="10dp"
+                android:paddingEnd="12dp" />
+
+            <TextView
+                android:id="@+id/error_message"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:gravity="center"
+                android:text="This is an error"
+                android:textColor="@color/red"
+                android:textSize="16sp"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/activity_vertical_margin"
+                android:orientation="horizontal">
+
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/button_cancel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="16dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/route_cancel_button"
+                    android:text="CANCEL"
+                    android:textColor="@color/white"
+                    android:textSize="18sp" />
+
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/button_add"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="16dp"
+                    android:layout_weight="2"
+                    android:background="@drawable/route_add_button"
+                    android:text="ADD DRIVER"
+                    android:textColor="@color/white"
+                    android:textSize="18sp" />
+            </LinearLayout>
+        </LinearLayout>
+    </ScrollView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
