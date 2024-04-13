@@ -4,12 +4,13 @@ public class Vehicle {
     //TODO maintenance history
     public static String VEHICLE_ID = "ID";
     public static String VEHICLE_TYPE = "type";
-    public static String VEHICLE_PLATE = "numberPlate";
+    public static String VEHICLE_PLATE = "numberOfPlate";
     public static String VEHICLE_HEIGHT = "height";
     public static String VEHICLE_WIDTH = "width";
     public static String VEHICLE_LENGTH = "length";
     public static String VEHICLE_STATUS = "status";
     public static String VEHICLE_LOAD = "maximumLoad";
+    public static String VEHICLE_BRAND = "brand";
     public static String VEHICLE_FUEL = "typeOfFuel";
     public static String VEHICLE_ROUTE_ID = "currentRouteID";
     public static String VEHICLE_DRIVER_ID = "currentDriverID";
@@ -19,12 +20,21 @@ public class Vehicle {
     Integer currentRouteID;
     int status;
     String type;
+    String brand;
     String numberOfPlate; // bien so xe
     double height;
     double width;
     double length;
     double maximumLoad;
     String typeOfFuel;
+
+    public String getBrand() {
+        return brand;
+    }
+
+    public void setBrand(String brand) {
+        this.brand = brand;
+    }
 
     public int getStatus() {
         return status;

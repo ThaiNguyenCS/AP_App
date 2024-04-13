@@ -30,10 +30,12 @@ import bottomsheet.DriverEditBottomSheet;
 import data.Driver;
 import myfragment.DriverActivityDialog;
 import myfragment.DriverFragment;
+import myinterface.FinishCallback;
 import myinterface.OnSendDataToActivity;
 import viewmodel.DriverDetailViewModel;
 
-public class DriverDetailActivity extends AppCompatActivity implements OnSendDataToActivity {
+public class DriverDetailActivity extends AppCompatActivity implements OnSendDataToActivity,
+        FinishCallback {
     private static final String TAG = "DriverDetailActivity";
     ActivityDriverDetailBinding mBinding;
     private DriverDetailViewModel mViewModel;
@@ -42,6 +44,7 @@ public class DriverDetailActivity extends AppCompatActivity implements OnSendDat
     private int driverID;
     private Driver mDriver;
     ActivityResultLauncher<Intent> launcher;
+    private DriverHistoryAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,6 +56,7 @@ public class DriverDetailActivity extends AppCompatActivity implements OnSendDat
         setUpMenu();
 
         mViewModel = new ViewModelProvider(this).get(DriverDetailViewModel.class);
+        mViewModel.setCallback(this); // set history finish callback
         launcher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), new ActivityResultCallback<ActivityResult>() {
             @Override
             public void onActivityResult(ActivityResult o) {
@@ -78,10 +82,11 @@ public class DriverDetailActivity extends AppCompatActivity implements OnSendDat
         downToRightAnimator.setTarget(mBinding.historyToggle);
         rightToDownAnimator.setTarget(mBinding.historyToggle);
         downToRightAnimator.start();
-        DriverHistoryAdapter adapter = new DriverHistoryAdapter();
+        adapter = new DriverHistoryAdapter();
         mBinding.historyRecyclerview.setAdapter(adapter);
-        mBinding.historyRecyclerview.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, true));
+        mBinding.historyRecyclerview.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
         mBinding.historyRecyclerview.setVisibility(View.GONE);
+        mBinding.noHistoryMsg.setVisibility(View.GONE);
         mBinding.historyRecyclerview.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
         mBinding.historyLayoutClick.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -89,11 +94,16 @@ public class DriverDetailActivity extends AppCompatActivity implements OnSendDat
                 switch (mBinding.historyRecyclerview.getVisibility()) {
                     case View.VISIBLE: {
                         mBinding.historyRecyclerview.setVisibility(View.GONE);
+                        mBinding.noHistoryMsg.setVisibility(View.GONE);
                         downToRightAnimator.start();
                         break;
                     }
                     default: {
                         mBinding.historyRecyclerview.setVisibility(View.VISIBLE);
+                        if(adapter.getItemCount() == 0)
+                        {
+                            mBinding.noHistoryMsg.setVisibility(View.VISIBLE);
+                        }
                         rightToDownAnimator.start();
                         break;
                     }
@@ -238,4 +248,10 @@ public class DriverDetailActivity extends AppCompatActivity implements OnSendDat
     }
 
 
+    @Override
+    public void finish(boolean isSuccessful) {
+        Log.e(TAG, "finish: ");
+        mBinding.noHistoryMsg.setVisibility(View.GONE);
+        adapter.setData(mViewModel.getDrivingRoutes(), mViewModel.getVehicleMap());
+    }
 }

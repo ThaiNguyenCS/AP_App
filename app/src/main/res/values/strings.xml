@@ -27,10 +27,12 @@
         <item>Hyundai</item>
         <item>Foton</item>
         <item>Mitsubishi</item>
+        <item>Volvo</item>
+        <item>MAN</item>
     </string-array>
     <string-array name="vehicleType">
         <item>Truck</item>
-        <item>Container-truck</item>
+        <item>Container truck</item>
         <item>Coach</item>
     </string-array>
 </resources>

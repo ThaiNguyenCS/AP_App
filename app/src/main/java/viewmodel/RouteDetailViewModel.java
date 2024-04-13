@@ -157,6 +157,7 @@ public class RouteDetailViewModel extends ViewModel {
                 drivingRoutes = new ArrayList<>();
             }
             drivingRoutes.add(routeID);
+            Log.e(TAG, "driving routes size = " + drivingRoutes.size());
             driverMap.put(Driver.DRIVER_DRIVING_ROUTES, drivingRoutes);
             driverMap.put(Driver.DRIVER_VEHICLE_ID, null);
             driverMap.put(Driver.DRIVER_ROUTE_ID, null);

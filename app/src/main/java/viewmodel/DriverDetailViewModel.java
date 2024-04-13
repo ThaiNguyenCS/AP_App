@@ -22,6 +22,7 @@ import java.util.List;
 import java.util.Map;
 
 import data.*;
+import myinterface.FinishCallback;
 
 public class DriverDetailViewModel extends ViewModel {
     private static final String TAG = "DriverDetailViewModel";
@@ -35,6 +36,21 @@ public class DriverDetailViewModel extends ViewModel {
     private FirebaseFirestore firestore;
     private DocumentReference reference;
     private List<String> statusListName;
+    private List<Route> drivingRoutes;
+    private Map<Integer, Vehicle> vehicleMap;
+    private FinishCallback mCallback;
+
+    public void setCallback(FinishCallback mCallback) {
+        this.mCallback = mCallback;
+    }
+
+    public List<Route> getDrivingRoutes() {
+        return drivingRoutes;
+    }
+
+    public Map<Integer, Vehicle> getVehicleMap() {
+        return vehicleMap;
+    }
 
     public Route getCurrentRoute() {
         return currentRoute;
@@ -73,6 +89,7 @@ public class DriverDetailViewModel extends ViewModel {
                                 reference = snapshot.getReference();
                             }
                             driverLiveData.setValue(driver);
+                            loadDriverHistory(driver.getListOfDrivingRoutes());
                         }
                         else
                         {
@@ -83,38 +100,63 @@ public class DriverDetailViewModel extends ViewModel {
                 });
     }
 
-//    public void loadDriverHistory()
-//    {
-//        if(driverID != -1)
-//        {
-//            firestore.collection("DriverHistory")
-//                    .whereEqualTo(Driver.DRIVER_ID, driverID)
-//                    .limit(1)
-//                    .get()
-//                    .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-//                        @Override
-//                        public void onComplete(@NonNull Task<QuerySnapshot> task) {
-//                            if(task.isSuccessful())
-//                            {
-//                                QuerySnapshot snapshots = task.getResult();
-//                                if(snapshots.isEmpty())
-//                                {
-//
-//                                }
-//                                else
-//                                {
-//
-//                                }
-//                            }
-//                            else
-//                            {
-//                                task.getException().printStackTrace();
-//                            }
-//                        }
-//                    });
-//
-//        }
-//    }
+    public void loadDriverHistory(List<Integer> routeLists)
+    {
+        if(routeLists != null)
+        {
+            firestore.collection("Route")
+                    .whereIn(Route.ROUTE_ID, routeLists)
+                    .get()
+                    .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                        @Override
+                        public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                            if(task.isSuccessful())
+                            {
+                                QuerySnapshot snapshots = task.getResult();
+                                drivingRoutes = new ArrayList<>();
+                                List<Integer> vehicleIDs = new ArrayList<>();
+                                for(QueryDocumentSnapshot snapshot : snapshots)
+                                {
+                                    Route route = snapshot.toObject(Route.class);
+                                    drivingRoutes.add(route);
+                                    vehicleIDs.add(route.getCurrentVehicleID());
+                                }
+                                for(int i = 0 ; i < vehicleIDs.size(); i++)
+                                {
+                                    Log.e(TAG, vehicleIDs.get(i) + " ");
+                                }
+                                firestore.collection("Vehicle")
+                                        .whereIn(Vehicle.VEHICLE_ID, vehicleIDs)
+                                        .get()
+                                        .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                                            @Override
+                                            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                                if(task.isSuccessful())
+                                                {
+                                                    QuerySnapshot snapshots = task.getResult();
+                                                    vehicleMap = new HashMap<>();
+                                                    for(QueryDocumentSnapshot snapshot : snapshots)
+                                                    {
+                                                        Vehicle vehicle = snapshot.toObject(Vehicle.class);
+                                                        vehicleMap.put(vehicle.getID(), vehicle);
+                                                    }
+                                                    mCallback.finish(true);
+                                                }
+                                                else
+                                                {
+                                                    task.getException().printStackTrace();
+                                                }
+                                            }
+                                        });
+                            }
+                            else
+                            {
+                                task.getException().printStackTrace();
+                            }
+                        }
+                    });
+        }
+    }
     public void getCurrentRouteAndVehicle()
     {
         if(driver != null)

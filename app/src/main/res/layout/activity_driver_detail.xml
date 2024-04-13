@@ -333,7 +333,15 @@
                         android:textStyle="bold" />
 
                 </LinearLayout>
-
+                <TextView
+                    android:id="@+id/no_history_msg"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="No history"
+                    android:gravity="center"
+                    android:textColor="@color/gray"
+                    android:textSize="16sp"
+                    android:textStyle="bold"/>
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/history_recyclerview"
                     android:layout_width="match_parent"
