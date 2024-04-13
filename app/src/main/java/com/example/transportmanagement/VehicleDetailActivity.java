@@ -13,7 +13,9 @@ import android.widget.PopupMenu;
 import android.widget.Toast;
 
 import com.example.transportmanagement.databinding.ActivityVehicleDetailBinding;
+import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 
+import bottomsheet.MaintenanceBottomSheet;
 import data.Vehicle;
 import myfragment.DriverActivityDialog;
 import myfragment.DriverFragment;
@@ -67,7 +69,10 @@ public class VehicleDetailActivity extends AppCompatActivity {
         mBinding.maintenanceLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(VehicleDetailActivity.this, "Maintenance", Toast.LENGTH_SHORT).show();
+                mViewModel.getVehicleMaintenanceHistory();
+                MaintenanceBottomSheet maintenanceBottomSheet = new MaintenanceBottomSheet();
+                maintenanceBottomSheet.show(getSupportFragmentManager(), null);
+
             }
         });
         PopupMenu popupMenu = new PopupMenu(this, mBinding.menuButton, Gravity.BOTTOM, 0, R.style.PopupMenuStyleCustom);

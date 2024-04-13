@@ -13,7 +13,7 @@ public class MaintenanceReport {
     private int vehicleID;
     private Timestamp beginDate;
     private Timestamp finishDate;
-    private double cost;
+    private Double cost;
     private String description;
 
     public int getID() {
@@ -48,11 +48,11 @@ public class MaintenanceReport {
         this.finishDate = finishDate;
     }
 
-    public double getCost() {
+    public Double getCost() {
         return cost;
     }
 
-    public void setCost(double cost) {
+    public void setCost(Double cost) {
         this.cost = cost;
     }
 

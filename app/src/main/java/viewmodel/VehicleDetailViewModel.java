@@ -21,6 +21,7 @@ import java.util.List;
 import java.util.Map;
 
 import data.Driver;
+import data.MaintenanceReport;
 import data.Route;
 import data.Vehicle;
 
@@ -36,11 +37,14 @@ public class VehicleDetailViewModel extends ViewModel{
     private FirebaseFirestore firestore;
     private DocumentReference vehicleRef;
     private List<String> statusListName;
+    private List<MaintenanceReport> maintenanceReports;
+    private MutableLiveData<List<MaintenanceReport>> maintenanceReportLiveData;
 
 
     public VehicleDetailViewModel() {
         firestore = FirebaseFirestore.getInstance();
         vehicleLiveData = new MutableLiveData<>();
+        maintenanceReportLiveData = new MutableLiveData<>();
         statusListName = new ArrayList<>();
         statusListName.add("Available");
         statusListName.add("Used");
@@ -78,41 +82,51 @@ public class VehicleDetailViewModel extends ViewModel{
                     }
                 });
     }
+    public void getVehicleMaintenanceHistory()
+    {
+        if(vehicle != null)
+        {
+            List<Integer> maintenanceIDs = vehicle.getListOfMaintenanceID();
+            if(maintenanceIDs != null)
+            {
+                firestore.collection("MaintenanceHistory")
+                        .whereIn(MaintenanceReport.MAINTENANCE_VEHICLE_ID, vehicle.getListOfMaintenanceID())
+                        .get()
+                        .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                            @Override
+                            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                if (task.isSuccessful())
+                                {
+                                    QuerySnapshot snapshots = task.getResult();
+                                    maintenanceReports = new ArrayList<>();
+                                    for(QueryDocumentSnapshot snapshot : snapshots)
+                                    {
+                                        maintenanceReports.add(snapshot.toObject(MaintenanceReport.class));
+                                    }
+                                    maintenanceReportLiveData.setValue(maintenanceReports);
+                                }
+                                else
+                                {
+                                    task.getException().printStackTrace();
+                                }
+                            }
+                        });
+            }
+            else
+            {
+                Log.e(TAG, "There's no maintenance history");
+            }
+        }
+    }
 
     public MutableLiveData<Vehicle> getVehicleLiveData() {
         return vehicleLiveData;
     }
 
-    //    public void loadDriverHistory()
-//    {
-//        if(driverID != -1)
-//        {
-//            firestore.collection("DriverHistory")
-//                    .whereEqualTo(Driver.DRIVER_ID, driverID)
-//                    .limit(1)
-//                    .get()
-//                    .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-//                        @Override
-//                        public void onComplete(@NonNull Task<QuerySnapshot> task) {
-//                            if(task.isSuccessful())
-//                            {
-//                                QuerySnapshot snapshots = task.getResult();
-//                                if(snapshots.isEmpty())
-//                                {
-//
-//                                    DocumentSnapshot snapshot = snapshots.getDocuments().get(0);
-//
-//                                }
-//                            }
-//                            else
-//                            {
-//
-//                            }
-//                        }
-//                    });
-//
-//        }
-//    }
+    public MutableLiveData<List<MaintenanceReport>> getMaintenanceReportLiveData() {
+        return maintenanceReportLiveData;
+    }
+
     public void getCurrentRouteAndDriver()
     {
         if(vehicle != null)

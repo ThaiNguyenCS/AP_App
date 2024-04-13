@@ -1,5 +1,7 @@
 package data;
 
+import java.util.List;
+
 public class Vehicle {
     //TODO maintenance history
     public static String VEHICLE_ID = "ID";
@@ -14,6 +16,8 @@ public class Vehicle {
     public static String VEHICLE_FUEL = "typeOfFuel";
     public static String VEHICLE_ROUTE_ID = "currentRouteID";
     public static String VEHICLE_DRIVER_ID = "currentDriverID";
+    public static String VEHICLE_DRIVING_ROUTES = "listOfDrivingRoutes";
+    public static String VEHICLE_MAINTENANCE_LIST = "listOfMaintenanceID";
 
     int ID;
     Integer currentDriverID;
@@ -27,6 +31,24 @@ public class Vehicle {
     double length;
     double maximumLoad;
     String typeOfFuel;
+    List<Integer> listOfDrivingRoutes;
+    List<Integer> listOfMaintenanceID;
+
+    public List<Integer> getListOfMaintenanceID() {
+        return listOfMaintenanceID;
+    }
+
+    public void setListOfMaintenanceID(List<Integer> listOfMaintenanceID) {
+        this.listOfMaintenanceID = listOfMaintenanceID;
+    }
+
+    public List<Integer> getListOfDrivingRoutes() {
+        return listOfDrivingRoutes;
+    }
+
+    public void setListOfDrivingRoutes(List<Integer> listOfDrivingRoutes) {
+        this.listOfDrivingRoutes = listOfDrivingRoutes;
+    }
 
     public String getBrand() {
         return brand;
