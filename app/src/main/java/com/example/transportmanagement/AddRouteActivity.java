@@ -263,7 +263,7 @@ public class AddRouteActivity extends AppCompatActivity {
         mRoute.put(Route.ROUTE_DEPARTURE, departure);
         mRoute.put(Route.ROUTE_REVENUE, Double.parseDouble(revenue));
         mRoute.put(Route.ROUTE_DISTANCE, Double.parseDouble(distance));
-        mRoute.put(Route.ROUTE_LEFT_DIST, 0);
+        mRoute.put(Route.ROUTE_LEFT_DIST, Double.parseDouble(distance));
         mRoute.put(Route.ROUTE_SCHE_ARRIVE, new Timestamp(arrivingDate.getTime()));
         mRoute.put(Route.ROUTE_SCHE_DEPART, new Timestamp(departureDate.getTime()));
         mRoute.put(Route.ROUTE_STATUS, 0);

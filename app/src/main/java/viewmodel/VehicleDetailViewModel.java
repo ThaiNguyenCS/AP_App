@@ -44,6 +44,19 @@ public class VehicleDetailViewModel extends ViewModel{
     private Map<Integer, Driver> driverMap;
     private FinishCallback mCallbackForMaintenance;
     private FinishCallback mCallbackForHistory;
+    private FinishCallback mCallbackForActivity;
+
+    public Driver getCurrentDriver() {
+        return currentDriver;
+    }
+
+    public Route getCurrentRoute() {
+        return currentRoute;
+    }
+
+    public void setCallbackForActivity(FinishCallback mCallbackForActivity) {
+        this.mCallbackForActivity = mCallbackForActivity;
+    }
 
     public void setCallbackForMaintenance(FinishCallback mCallbackForMaintenance) {
         this.mCallbackForMaintenance = mCallbackForMaintenance;
@@ -267,11 +280,12 @@ public class VehicleDetailViewModel extends ViewModel{
                         {
                             Log.e(TAG, "Empty current route or driver");
                         }
-
+                        mCallbackForActivity.finish(true);
                     }
                     else
                     {
                         task.getException().printStackTrace();
+                        mCallbackForActivity.finish(false);
                     }
 
                 }
@@ -289,13 +303,6 @@ public class VehicleDetailViewModel extends ViewModel{
         if(vehicleRef != null)
         {
             Map<String, Object> objectMap= new HashMap<>();
-//            objectMap.put(Driver.DRIVER_NAME, modifiedDriver.getName());
-//            objectMap.put(Driver.DRIVER_ADDRESS, modifiedDriver.getAddress());
-//            objectMap.put(Driver.DRIVER_CITIZENID, modifiedDriver.getCitizenID());
-//            objectMap.put(Driver.DRIVER_PHONE, modifiedDriver.getPhoneNumber());
-//            objectMap.put(Driver.DRIVER_YOE, modifiedDriver.getYearOfExperience());
-//            objectMap.put(Driver.DRIVER_STATUS, modifiedDriver.getStatus());
-//            objectMap.put(Driver.DRIVER_LICENSE, modifiedDriver.getLicense());
             vehicleRef.update(objectMap).addOnCompleteListener(new OnCompleteListener<Void>() {
                 @Override
                 public void onComplete(@NonNull Task<Void> task) {

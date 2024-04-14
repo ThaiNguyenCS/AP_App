@@ -21,6 +21,7 @@ import data.Vehicle;
 import myfragment.DriverActivityDialog;
 import myfragment.DriverFragment;
 import myfragment.MaintenanceDialog;
+import myfragment.VehicleActivityDialog;
 import viewmodel.VehicleDetailViewModel;
 
 public class VehicleDetailActivity extends AppCompatActivity {
@@ -58,7 +59,16 @@ public class VehicleDetailActivity extends AppCompatActivity {
         mBinding.activityLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(VehicleDetailActivity.this, "Activity", Toast.LENGTH_SHORT).show();
+                if (mVehicle.getStatus() == 1)
+                {
+                    VehicleActivityDialog dialog = new VehicleActivityDialog();
+                    dialog.show(getSupportFragmentManager(), null);
+                }
+                else
+                {
+                    Toast.makeText(VehicleDetailActivity.this, "There's no activity now", Toast.LENGTH_SHORT).show();
+                }
+
             }
         });
         mBinding.historyLayout.setOnClickListener(new View.OnClickListener() {
@@ -131,19 +141,6 @@ public class VehicleDetailActivity extends AppCompatActivity {
             else if(mVehicle.getStatus() == 1)
             {
                 mBinding.statusIndicator.setImageDrawable(new ColorDrawable(getResources().getColor(R.color.red)));
-                mViewModel.getCurrentRouteAndDriver();
-//                mBinding.viewActivityButton.setVisibility(View.VISIBLE);
-////                mBinding.viewActivityButton.setOnClickListener(new View.OnClickListener() {
-////                    @Override
-////                    public void onClick(View v) {
-////                        if(mViewModel.getCurrentRoute() == null || mViewModel.getCurrentVehicle() == null)
-////                        {
-////                            Toast.makeText(DriverDetailActivity.this, "Please try again!", Toast.LENGTH_SHORT).show();
-////                            return;
-////                        }
-////                        new DriverActivityDialog().show(getSupportFragmentManager(), null);
-////                    }
-////                });
             }
             else
             {
