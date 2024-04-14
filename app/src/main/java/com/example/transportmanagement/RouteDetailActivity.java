@@ -10,7 +10,10 @@ import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.os.SystemClock;
 import android.util.Log;
+import android.view.Gravity;
+import android.view.MenuItem;
 import android.view.View;
+import android.widget.PopupMenu;
 import android.widget.Toast;
 
 import com.example.transportmanagement.databinding.ActivityRouteDetailBinding;
@@ -20,6 +23,7 @@ import java.text.SimpleDateFormat;
 import myfragment.DriverActivityDialog;
 import data.Route;
 import myfragment.DriverFragment;
+import myfragment.RouteActivityDialog;
 import myinterface.FinishCallback;
 import viewmodel.RouteDetailViewModel;
 
@@ -61,6 +65,31 @@ public class RouteDetailActivity extends AppCompatActivity implements FinishCall
                 RouteDetailActivity.this.finish();
             }
         });
+        PopupMenu popupMenu = new PopupMenu(this, mBinding.menuButton, Gravity.BOTTOM, 0, R.style.PopupMenuStyleCustom);
+        popupMenu.inflate(R.menu.route_detail_menu);
+        popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                if(item.getItemId() == R.id.view_activity)
+                {
+                    if(mRoute.getStatus() == 0)
+                    {
+                        Toast.makeText(RouteDetailActivity.this, "This route is not taken yet!", Toast.LENGTH_SHORT).show();
+                        return true;
+                    }
+                    RouteActivityDialog dialog = new RouteActivityDialog();
+                    dialog.show(getSupportFragmentManager(), null);
+                    return true;
+                }
+                return false;
+            }
+        });
+        mBinding.menuButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                popupMenu.show();
+            }
+        });
     }
 
     private void getClickedRouteID()
@@ -87,12 +116,12 @@ public class RouteDetailActivity extends AppCompatActivity implements FinishCall
             SimpleDateFormat dateFormat = new SimpleDateFormat("hh:mm a EEE dd MMM yyyy");
             mBinding.routeDepartureDate.setText(dateFormat.format(mRoute.getScheDepartureDate().toDate()));
             mBinding.routeEstimatedTime.setText(dateFormat.format(mRoute.getScheArrivingDate().toDate()));
-            mBinding.doneButton.setVisibility(View.GONE);
+            mBinding.finishButton.setVisibility(View.GONE);
             if(mRoute.getStatus() == 1) // ongoing trip
             {
                 mViewModel.getCurrentDriverAndVehicle();
-                mBinding.doneButton.setVisibility(View.VISIBLE);
-                mBinding.doneButton.setOnClickListener(new View.OnClickListener() {
+                mBinding.finishButton.setVisibility(View.VISIBLE);
+                mBinding.finishButton.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         AlertDialog.Builder alertDialog = new AlertDialog.Builder(RouteDetailActivity.this);
@@ -111,8 +140,8 @@ public class RouteDetailActivity extends AppCompatActivity implements FinishCall
             }
             else if(mRoute.getStatus() == 2)
             {
-//                mViewModel.getCurrentDriverAndVehicle();
-                mBinding.doneButton.setVisibility(View.GONE);
+                mViewModel.getCurrentDriverAndVehicle();
+                mBinding.finishButton.setVisibility(View.GONE);
                 mBinding.routeActualArrival.setText(dateFormat.format(mRoute.getActualArrivingDate().toDate()));
                 mBinding.actualTimeLayout.setVisibility(View.VISIBLE);
             }
@@ -128,7 +157,7 @@ public class RouteDetailActivity extends AppCompatActivity implements FinishCall
         if(isSuccessful)
         {
             Toast.makeText(this, "Successfully", Toast.LENGTH_SHORT).show();
-            mBinding.doneButton.setVisibility(View.GONE);
+            mBinding.finishButton.setVisibility(View.GONE);
             mBinding.progressIndicator.setVisibility(View.VISIBLE);
             mViewModel.getRouteData(routeID);
         }

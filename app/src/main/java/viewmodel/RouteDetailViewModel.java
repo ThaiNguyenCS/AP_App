@@ -50,6 +50,8 @@ public class RouteDetailViewModel extends ViewModel {
     public RouteDetailViewModel() {
         firestore = FirebaseFirestore.getInstance();
         routeLiveData = new MutableLiveData<>();
+        vehicleLiveData = new MutableLiveData<>();
+        driverLiveData = new MutableLiveData<>();
         statusListName = new ArrayList<>();
         statusListName.add("Not assigned");
         statusListName.add("Taken");
@@ -93,8 +95,7 @@ public class RouteDetailViewModel extends ViewModel {
     {
         if(route != null)
         {
-            vehicleLiveData = new MutableLiveData<>();
-            driverLiveData = new MutableLiveData<>();
+
             Task<QuerySnapshot> getVehicle = firestore.collection("Vehicle")
                     .whereEqualTo(Vehicle.VEHICLE_ID, route.getCurrentVehicleID())
                     .limit(1)
@@ -103,7 +104,7 @@ public class RouteDetailViewModel extends ViewModel {
                     .whereEqualTo(Driver.DRIVER_ID, route.getCurrentDriverID())
                     .limit(1)
                     .get();
-            Tasks.whenAllComplete(getDriver, getVehicle).addOnCompleteListener(new OnCompleteListener<List<Task<?>>>() {
+            Tasks.whenAllComplete(getVehicle, getDriver).addOnCompleteListener(new OnCompleteListener<List<Task<?>>>() {
                 @Override
                 public void onComplete(@NonNull Task<List<Task<?>>> task) {
                     Log.e(TAG, "onComplete: " + Thread.currentThread());
@@ -122,6 +123,8 @@ public class RouteDetailViewModel extends ViewModel {
                         vehicleRef = vehicleSnapshots.getDocuments().get(0).getReference();
                         currentDriver = driverSnapshots.getDocuments().get(0).toObject(Driver.class);
                         currentVehicle = vehicleSnapshots.getDocuments().get(0).toObject(Vehicle.class);
+                        driverLiveData.setValue(currentDriver);
+                        vehicleLiveData.setValue(currentVehicle);
                     }
                     else
                     {
@@ -187,6 +190,15 @@ public class RouteDetailViewModel extends ViewModel {
                     });
         }
     }
+
+    public MutableLiveData<Driver> getDriverLiveData() {
+        return driverLiveData;
+    }
+
+    public MutableLiveData<Vehicle> getVehicleLiveData() {
+        return vehicleLiveData;
+    }
+
     public void updateRoute(Route modifiedRoute)
     {
 //        if(reference != null)
