@@ -9,21 +9,25 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Maintenance Description"
+        android:text="Send to maintenance"
         android:paddingHorizontal="10dp"
         android:textSize="18sp"
         android:textStyle="bold"
         android:paddingVertical="10dp"/>
+
     <EditText
         android:id="@+id/maintenance_edittext"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingHorizontal="10dp"
-        android:paddingVertical="8dp"
+        android:background="@drawable/frame_maintenance_edit"
         android:gravity="start|top"
         android:minLines="10"
-        android:background="@drawable/frame_maintenance_edit"
-        android:text="@string/hello_blank_fragment" />
+        android:maxLines="10"
+        android:paddingHorizontal="10dp"
+        android:paddingVertical="8dp"
+        android:hint="Enter description..."
+        />
+
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_marginTop="10dp"

@@ -1,5 +1,6 @@
 package viewmodel;
 
+import android.os.SystemClock;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
@@ -9,6 +10,7 @@ import androidx.lifecycle.ViewModel;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.gms.tasks.Tasks;
+import com.google.firebase.Timestamp;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -24,6 +26,7 @@ import data.Driver;
 import data.MaintenanceReport;
 import data.Route;
 import data.Vehicle;
+import myinterface.FinishCallback;
 
 public class VehicleDetailViewModel extends ViewModel{
     private static final String TAG = "VehicleDetailViewModel";
@@ -39,7 +42,11 @@ public class VehicleDetailViewModel extends ViewModel{
     private List<String> statusListName;
     private List<MaintenanceReport> maintenanceReports;
     private MutableLiveData<List<MaintenanceReport>> maintenanceReportLiveData;
+    private FinishCallback callbackForMaintenance;
 
+    public void setCallbackForMaintenance(FinishCallback callbackForMaintenance) {
+        this.callbackForMaintenance = callbackForMaintenance;
+    }
 
     public VehicleDetailViewModel() {
         firestore = FirebaseFirestore.getInstance();
@@ -55,6 +62,49 @@ public class VehicleDetailViewModel extends ViewModel{
     public String getStatus(int index)
     {
         return statusListName.get(index);
+    }
+    public int isAvailableForMaintenance() {
+        if (vehicle == null) {
+            return 1;
+        }
+        int status = vehicle.getStatus();
+        switch (status)
+        {
+            case 1:
+                return 2;
+            case 2:
+                return 3;
+            default:
+                return 0;
+        }
+    }
+
+    public void sendVehicleToMaintenance(String des)
+    {
+        Map<String, Object> maintenanceMap = new HashMap<>();
+        maintenanceMap.put(MaintenanceReport.MAINTENANCE_VEHICLE_ID, vehicleID);
+        maintenanceMap.put(MaintenanceReport.MAINTENANCE_BEGIN, Timestamp.now());
+        maintenanceMap.put(MaintenanceReport.MAINTENANCE_FINISH, null);
+        maintenanceMap.put(MaintenanceReport.MAINTENANCE_DESCRIPTION, des);
+        firestore.collection("MaintenanceHistory")
+                .add(maintenanceMap)
+                .addOnCompleteListener(new OnCompleteListener<DocumentReference>() {
+                    @Override
+                    public void onComplete(@NonNull Task<DocumentReference> task) {
+                        if (task.isSuccessful())
+                        {
+                            Map<String, Object> map = new HashMap<>();
+                            map.put(Vehicle.VEHICLE_STATUS, 2);
+                            vehicleRef.update(map);
+                            callbackForMaintenance.finish(true);
+                        }
+                        else
+                        {
+                            task.getException().printStackTrace();
+                            callbackForMaintenance.finish(false);
+                        }
+                    }
+                });
     }
     public void getVehicleData(int id)
     {
@@ -84,18 +134,15 @@ public class VehicleDetailViewModel extends ViewModel{
     }
     public void getVehicleMaintenanceHistory()
     {
-        if(vehicle != null)
+        if(vehicleID != -1)
         {
-            List<Integer> maintenanceIDs = vehicle.getListOfMaintenanceID();
-            if(maintenanceIDs != null)
-            {
                 firestore.collection("MaintenanceHistory")
-                        .whereIn(MaintenanceReport.MAINTENANCE_VEHICLE_ID, vehicle.getListOfMaintenanceID())
+                        .whereEqualTo(MaintenanceReport.MAINTENANCE_VEHICLE_ID, vehicleID)
                         .get()
                         .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                             @Override
                             public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                                if (task.isSuccessful())
+                                if(task.isSuccessful())
                                 {
                                     QuerySnapshot snapshots = task.getResult();
                                     maintenanceReports = new ArrayList<>();
@@ -105,17 +152,8 @@ public class VehicleDetailViewModel extends ViewModel{
                                     }
                                     maintenanceReportLiveData.setValue(maintenanceReports);
                                 }
-                                else
-                                {
-                                    task.getException().printStackTrace();
-                                }
                             }
                         });
-            }
-            else
-            {
-                Log.e(TAG, "There's no maintenance history");
-            }
         }
     }
 

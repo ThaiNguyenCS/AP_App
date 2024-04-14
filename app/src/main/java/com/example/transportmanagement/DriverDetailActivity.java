@@ -214,14 +214,13 @@ public class DriverDetailActivity extends AppCompatActivity implements OnSendDat
             Toast.makeText(this, "Driver info loading error!!!", Toast.LENGTH_SHORT).show();
         }
     }
-    private void updateDriverLocally(String name, String id, String license, String phone, String address, long year, int statusID)
+    private void updateDriverLocally(String name, String id, String license, String phone, String address, long year)
     {
         if(mDriver != null)
         {
             mDriver.setName(name);
             mDriver.setAddress(address);
             mDriver.setCitizenID(id);
-            mDriver.setStatus(statusID);
             mDriver.setLicense(license);
             mDriver.setYearOfExperience(year);
             mDriver.setPhoneNumber(phone);
@@ -233,8 +232,8 @@ public class DriverDetailActivity extends AppCompatActivity implements OnSendDat
     }
     // Data from the bottom sheet
     @Override
-    public void onSendData(String name, String id, String license, String phone, String address, long year, int statusID) {
-        updateDriverLocally(name, id, license, phone, address, year, statusID);
+    public void onSendData(String name, String id, String license, String phone, String address, long year) {
+        updateDriverLocally(name, id, license, phone, address, year);
         setDriverInfo();
         mBinding.progressIndicator.setVisibility(View.VISIBLE);
         mViewModel.updateDriver(mDriver);

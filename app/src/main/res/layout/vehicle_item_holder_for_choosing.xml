@@ -30,7 +30,7 @@
                 android:layout_height="match_parent"
                 android:background="@drawable/circle_image_frame"
                 android:scaleType="centerCrop"
-                android:src="@color/red" />
+                android:src="@drawable/ic_truck" />
         </androidx.cardview.widget.CardView>
 
         <LinearLayout

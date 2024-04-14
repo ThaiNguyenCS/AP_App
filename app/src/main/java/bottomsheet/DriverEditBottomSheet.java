@@ -21,6 +21,9 @@ import com.example.transportmanagement.databinding.BottomSheetDriverBinding;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 import com.google.android.material.datepicker.MaterialDatePicker;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import data.Driver;
 import myinterface.OnSendDataToActivity;
 import viewmodel.DriverDetailViewModel;
@@ -30,6 +33,7 @@ public class DriverEditBottomSheet extends BottomSheetDialogFragment {
     OnSendDataToActivity mListener;
     DriverDetailViewModel mViewModel;
     private Driver currentDriver;
+    private static List<String> statusList;
 
     public DriverEditBottomSheet(OnSendDataToActivity listener) {
         this.mListener = listener;
@@ -39,6 +43,9 @@ public class DriverEditBottomSheet extends BottomSheetDialogFragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mViewModel = new ViewModelProvider(requireActivity()).get(DriverDetailViewModel.class);
+        statusList = new ArrayList<>();
+        statusList.add("Available");
+        statusList.add("Driving");
     }
 
     @Nullable
@@ -52,26 +59,6 @@ public class DriverEditBottomSheet extends BottomSheetDialogFragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         mBinding = BottomSheetDriverBinding.bind(view);
-        ArrayAdapter<CharSequence> spinnerAdapter = ArrayAdapter.createFromResource(getContext(), R.array.driver_status_option, R.layout.spinner_item_custom);
-        mBinding.statusSpinner.setAdapter(spinnerAdapter);
-        mBinding.statusSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                if(position == 0)
-                {
-                    mBinding.statusIndicator.setImageDrawable(new ColorDrawable(getResources().getColor(R.color.green)));
-                }
-                else
-                {
-                    mBinding.statusIndicator.setImageDrawable(new ColorDrawable(getResources().getColor(R.color.red)));
-                }
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
-            }
-        });
         mViewModel.getDriverLiveData().observe(this, new Observer<Driver>() {
             @Override
             public void onChanged(Driver driver) {
@@ -95,8 +82,7 @@ public class DriverEditBottomSheet extends BottomSheetDialogFragment {
                 long YOE = Long.parseLong(mBinding.YOEEdittext.getText().toString());
                 String phone = mBinding.phoneEdittext.getText().toString().trim();
                 String address = mBinding.addressEdittext.getText().toString().trim();
-                int statusID = mBinding.statusSpinner.getSelectedItemPosition();
-                mListener.onSendData(name, id, license, phone, address,  YOE, statusID);
+                mListener.onSendData(name, id, license, phone, address,  YOE);
                 DriverEditBottomSheet.this.dismiss();
             }
         });
@@ -109,7 +95,23 @@ public class DriverEditBottomSheet extends BottomSheetDialogFragment {
         mBinding.nameEdittext.setText(currentDriver.getName());
         mBinding.phoneEdittext.setText(currentDriver.getPhoneNumber());
         mBinding.YOEEdittext.setText(Long.toString(currentDriver.getYearOfExperience()));
-        mBinding.statusSpinner.setSelection((int)currentDriver.getStatus());
+        switch ((int) currentDriver.getStatus())
+        {
+            case 0:
+            {
+                mBinding.statusTextview.setText(statusList.get(0));
+                mBinding.statusIndicator.setImageDrawable(new ColorDrawable(getResources().getColor(R.color.green)));
+                break;
+            }
+            case 1:
+            {
+                mBinding.statusTextview.setText(statusList.get(1));
+                mBinding.statusIndicator.setImageDrawable(new ColorDrawable(getResources().getColor(R.color.red)));
+                break;
+            }
+        }
+
+//        mBinding.statusSpinner.setSelection((int)currentDriver.getStatus());
     }
 
     @Override

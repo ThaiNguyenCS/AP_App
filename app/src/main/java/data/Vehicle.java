@@ -17,7 +17,6 @@ public class Vehicle {
     public static String VEHICLE_ROUTE_ID = "currentRouteID";
     public static String VEHICLE_DRIVER_ID = "currentDriverID";
     public static String VEHICLE_DRIVING_ROUTES = "listOfDrivingRoutes";
-    public static String VEHICLE_MAINTENANCE_LIST = "listOfMaintenanceID";
 
     int ID;
     Integer currentDriverID;
@@ -31,7 +30,6 @@ public class Vehicle {
     double length;
     double maximumLoad;
     String typeOfFuel;
-    List<Integer> listOfDrivingRoutes;
     List<Integer> listOfMaintenanceID;
 
     public List<Integer> getListOfMaintenanceID() {
@@ -40,14 +38,6 @@ public class Vehicle {
 
     public void setListOfMaintenanceID(List<Integer> listOfMaintenanceID) {
         this.listOfMaintenanceID = listOfMaintenanceID;
-    }
-
-    public List<Integer> getListOfDrivingRoutes() {
-        return listOfDrivingRoutes;
-    }
-
-    public void setListOfDrivingRoutes(List<Integer> listOfDrivingRoutes) {
-        this.listOfDrivingRoutes = listOfDrivingRoutes;
     }
 
     public String getBrand() {

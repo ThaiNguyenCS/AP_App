@@ -29,6 +29,7 @@ public class MaintenanceBottomSheet extends BottomSheetDialogFragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mViewModel = new ViewModelProvider(requireActivity()).get(VehicleDetailViewModel.class);
+        mViewModel.getVehicleMaintenanceHistory();
         adapter = new MaintenanceAdapter();
     }
 
