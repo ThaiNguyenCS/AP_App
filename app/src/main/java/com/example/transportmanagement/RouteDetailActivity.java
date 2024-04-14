@@ -17,17 +17,24 @@ import android.widget.PopupMenu;
 import android.widget.Toast;
 
 import com.example.transportmanagement.databinding.ActivityRouteDetailBinding;
+import com.example.transportmanagement.databinding.BottomSheetRouteEditBinding;
+import com.google.firebase.Timestamp;
 
 import java.text.SimpleDateFormat;
 
+import bottomsheet.MaintenanceBottomSheet;
+import bottomsheet.RouteEditBottomSheet;
 import myfragment.DriverActivityDialog;
 import data.Route;
 import myfragment.DriverFragment;
 import myfragment.RouteActivityDialog;
 import myinterface.FinishCallback;
+import myinterface.OnSendRouteDataToActivity;
 import viewmodel.RouteDetailViewModel;
 
-public class RouteDetailActivity extends AppCompatActivity implements FinishCallback {
+public class RouteDetailActivity extends AppCompatActivity
+        implements FinishCallback,
+        OnSendRouteDataToActivity {
     private static final String TAG = "RouteDetailActivity";
     ActivityRouteDetailBinding mBinding;
     RouteDetailViewModel mViewModel;
@@ -82,6 +89,18 @@ public class RouteDetailActivity extends AppCompatActivity implements FinishCall
                     return true;
                 }
                 return false;
+            }
+        });
+        mBinding.editButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(mRoute.getStatus() != 0)
+                {
+                    Toast.makeText(RouteDetailActivity.this, "This route can't be modified", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                RouteEditBottomSheet bottomSheet = new RouteEditBottomSheet(RouteDetailActivity.this);
+                bottomSheet.show(getSupportFragmentManager(), null);
             }
         });
         mBinding.menuButton.setOnClickListener(new View.OnClickListener() {
@@ -165,5 +184,11 @@ public class RouteDetailActivity extends AppCompatActivity implements FinishCall
         {
             Toast.makeText(this, "Failed! Please try again later", Toast.LENGTH_SHORT).show();
         }
+    }
+
+    @Override
+    public void sendRouteDataToActivity(String departure, String destination, Timestamp depart, Timestamp arrive, double cost, double revenue) {
+        mBinding.progressIndicator.setVisibility(View.VISIBLE);
+        mViewModel.updateRoute(departure, destination, depart, arrive, cost, revenue);
     }
 }

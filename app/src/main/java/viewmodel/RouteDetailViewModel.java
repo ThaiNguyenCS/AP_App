@@ -199,36 +199,41 @@ public class RouteDetailViewModel extends ViewModel {
         return vehicleLiveData;
     }
 
-    public void updateRoute(Route modifiedRoute)
+    public void updateRoute(String departure, String destination, Timestamp depart, Timestamp arrive, double cost, double revenue)
     {
-//        if(reference != null)
-//        {
-//            Map<String, Object> objectMap= new HashMap<>();
-//            objectMap.put(Driver.DRIVER_NAME, modifiedDriver.getName());
-//            objectMap.put(Driver.DRIVER_ADDRESS, modifiedDriver.getAddress());
-//            objectMap.put(Driver.DRIVER_CITIZENID, modifiedDriver.getCitizenID());
-//            objectMap.put(Driver.DRIVER_PHONE, modifiedDriver.getPhoneNumber());
-//            objectMap.put(Driver.DRIVER_YOE, modifiedDriver.getYearOfExperience());
-//            objectMap.put(Driver.DRIVER_STATUS, modifiedDriver.getStatus());
-//            objectMap.put(Driver.DRIVER_LICENSE, modifiedDriver.getLicense());
-//            reference.update(objectMap).addOnCompleteListener(new OnCompleteListener<Void>() {
-//                @Override
-//                public void onComplete(@NonNull Task<Void> task) {
-//                    if(task.isSuccessful())
-//                    {
-//                        //TODO toast here
-//                        Log.e(TAG, "onComplete: successfully" );
-//                    }
-//                    else
-//                    {
-//                        Log.e(TAG, "onComplete: fail");
-//                    }
-//                }
-//            });
-//        }
+        if(routeRef != null)
+        {
+            Map<String, Object> objectMap= new HashMap<>();
+            objectMap.put(Route.ROUTE_DEPARTURE, departure);
+            objectMap.put(Route.ROUTE_DESTINATION, destination);
+            objectMap.put(Route.ROUTE_SCHE_DEPART, depart);
+            objectMap.put(Route.ROUTE_SCHE_ARRIVE, arrive);
+            objectMap.put(Route.ROUTE_COST, cost);
+            objectMap.put(Route.ROUTE_REVENUE, revenue);
+            routeRef.update(objectMap).addOnCompleteListener(new OnCompleteListener<Void>() {
+                @Override
+                public void onComplete(@NonNull Task<Void> task) {
+                    if(task.isSuccessful())
+                    {
+                        Log.e(TAG, "onComplete: successfully" );
+                        getRouteData(routeID);
+                    }
+                    else
+                    {
+                        Log.e(TAG, "onComplete: fail");
+                    }
+                }
+            });
+        }
     }
 
     public MutableLiveData<Route> getRouteLiveData() {
         return routeLiveData;
+    }
+
+    @Override
+    protected void onCleared() {
+        super.onCleared();
+        mFinishCallback = null;
     }
 }
