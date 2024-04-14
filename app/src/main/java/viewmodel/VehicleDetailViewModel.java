@@ -1,6 +1,5 @@
 package viewmodel;
 
-import android.os.SystemClock;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
@@ -12,7 +11,6 @@ import com.google.android.gms.tasks.Task;
 import com.google.android.gms.tasks.Tasks;
 import com.google.firebase.Timestamp;
 import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
@@ -42,10 +40,17 @@ public class VehicleDetailViewModel extends ViewModel{
     private List<String> statusListName;
     private List<MaintenanceReport> maintenanceReports;
     private MutableLiveData<List<MaintenanceReport>> maintenanceReportLiveData;
-    private FinishCallback callbackForMaintenance;
+    private List<Route> drivingRoutes;
+    private Map<Integer, Driver> driverMap;
+    private FinishCallback mCallbackForMaintenance;
+    private FinishCallback mCallbackForHistory;
 
-    public void setCallbackForMaintenance(FinishCallback callbackForMaintenance) {
-        this.callbackForMaintenance = callbackForMaintenance;
+    public void setCallbackForMaintenance(FinishCallback mCallbackForMaintenance) {
+        this.mCallbackForMaintenance = mCallbackForMaintenance;
+    }
+
+    public void setCallbackForHistory(FinishCallback mCallbackForHistory) {
+        this.mCallbackForHistory = mCallbackForHistory;
     }
 
     public VehicleDetailViewModel() {
@@ -57,6 +62,14 @@ public class VehicleDetailViewModel extends ViewModel{
         statusListName.add("Used");
         statusListName.add("Maintenance");
         vehicleID = -1;
+    }
+
+    public List<Route> getDrivingRoutes() {
+        return drivingRoutes;
+    }
+
+    public Map<Integer, Driver> getDriverMap() {
+        return driverMap;
     }
 
     public String getStatus(int index)
@@ -78,7 +91,68 @@ public class VehicleDetailViewModel extends ViewModel{
                 return 0;
         }
     }
-
+    public void getVehicleHistory()
+    {
+        if(vehicle != null)
+        {
+            List<Integer> drivingRouteIDs = vehicle.getListOfDrivingRoutes();
+            if(drivingRouteIDs != null)
+            {
+                firestore.collection("Route")
+                        .whereIn(Route.ROUTE_ID, drivingRouteIDs)
+                        .get()
+                        .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                            @Override
+                            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                if(task.isSuccessful())
+                                {
+                                    QuerySnapshot snapshots = task.getResult();
+                                    drivingRoutes = new ArrayList<>();
+                                    List<Integer> driverIDs = new ArrayList<>();
+                                    for(QueryDocumentSnapshot snapshot : snapshots)
+                                    {
+                                        Route route = snapshot.toObject(Route.class);
+                                        drivingRoutes.add(route);
+                                        driverIDs.add(route.getCurrentDriverID());
+                                    }
+                                    firestore.collection("Driver")
+                                            .whereIn(Driver.DRIVER_ID, driverIDs)
+                                            .get()
+                                            .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                                                @Override
+                                                public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                                    if(task.isSuccessful())
+                                                    {
+                                                        QuerySnapshot snapshots2 = task.getResult();
+                                                        driverMap = new HashMap<>();
+                                                        for(QueryDocumentSnapshot snapshot : snapshots2)
+                                                        {
+                                                            Driver driver = snapshot.toObject(Driver.class);
+                                                            driverMap.put(driver.getID(), driver);
+                                                        }
+                                                        mCallbackForHistory.finish(true);
+                                                    }
+                                                    else
+                                                    {
+                                                        task.getException().printStackTrace();
+                                                        mCallbackForHistory.finish(false);
+                                                    }
+                                                }
+                                            });
+                                }
+                            }
+                        });
+            }
+            else
+            {
+                Log.e(TAG, "There's no history");
+            }
+        }
+        else
+        {
+            Log.e(TAG, "null vehicle");
+        }
+    }
     public void sendVehicleToMaintenance(String des)
     {
         Map<String, Object> maintenanceMap = new HashMap<>();
@@ -96,12 +170,12 @@ public class VehicleDetailViewModel extends ViewModel{
                             Map<String, Object> map = new HashMap<>();
                             map.put(Vehicle.VEHICLE_STATUS, 2);
                             vehicleRef.update(map);
-                            callbackForMaintenance.finish(true);
+                            mCallbackForMaintenance.finish(true);
                         }
                         else
                         {
                             task.getException().printStackTrace();
-                            callbackForMaintenance.finish(false);
+                            mCallbackForMaintenance.finish(false);
                         }
                     }
                 });
@@ -239,4 +313,10 @@ public class VehicleDetailViewModel extends ViewModel{
         }
     }
 
+    @Override
+    protected void onCleared() {
+        super.onCleared();
+        mCallbackForHistory = null;
+        mCallbackForMaintenance = null;
+    }
 }

@@ -19,6 +19,10 @@ import androidx.fragment.app.DialogFragment;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.example.transportmanagement.databinding.DriverActivityDialogBinding;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 import data.Route;
 import data.Vehicle;
 import viewmodel.DriverDetailViewModel;
@@ -28,6 +32,7 @@ public class DriverActivityDialog extends DialogFragment {
     DriverDetailViewModel mViewModel;
     private Route route;
     private Vehicle vehicle;
+    private SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm dd/MM/yyyy");
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -50,7 +55,11 @@ public class DriverActivityDialog extends DialogFragment {
         binding.distanceTraveled.setText(String.join(" ",String.valueOf((int)(route.getDistance()-route.getLeftDistance())), "km"));
         binding.departureTextview.setText(route.getDeparture());
         binding.destinationTextview.setText(route.getDestination());
-        //TODO set schedule and actual time
+        binding.scheDepart.setText(dateFormat.format(route.getScheDepartureDate().toDate()));
+        binding.scheArrive.setText(dateFormat.format(route.getScheArrivingDate().toDate()));
+        if(route.getActualDepartureDate() != null)
+            binding.actualDepart.setText(dateFormat.format(route.getActualDepartureDate().toDate()));
+        binding.actualArrive.setText("No data");
         binding.dismissButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

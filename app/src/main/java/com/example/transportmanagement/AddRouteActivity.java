@@ -163,8 +163,6 @@ public class AddRouteActivity extends AppCompatActivity {
         mBinding.buttonAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //TODO store into the database
-                Toast.makeText(AddRouteActivity.this, "Add", Toast.LENGTH_SHORT).show();
                 int result = addRouteCheckUp();
                 if(result != -1)
                 {
@@ -206,12 +204,14 @@ public class AddRouteActivity extends AppCompatActivity {
                                         Log.e(TAG, "onComplete: Successfully");
                                         mBinding.progressIndicator.setVisibility(View.GONE);
                                         generalRef.update("maxID", maxId);
+                                        Toast.makeText(AddRouteActivity.this, "Successfully", Toast.LENGTH_SHORT).show();
+
                                         AddRouteActivity.this.finish();
                                     }
                                     else {
                                         Log.e(TAG, "onComplete: fail");
+                                        Toast.makeText(AddRouteActivity.this, "Failed! Please try again", Toast.LENGTH_SHORT).show();
                                     }
-
                                 }
                             });
                 }

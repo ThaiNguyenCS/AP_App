@@ -15,7 +15,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
-            android:text="Maintenance History"
+            android:text="Vehicle History"
             android:textColor="@color/black"
             android:textStyle="bold"
             android:textSize="20sp"/>
@@ -23,8 +23,8 @@
             android:id="@+id/close_button"
             android:layout_width="30dp"
             android:layout_height="30dp"
-            android:layout_marginEnd="10dp"
             android:padding="2dp"
+            android:layout_marginEnd="10dp"
             app:tint="#4F4F4F"
             android:src="@drawable/ic_navigation_down"
             android:layout_alignParentEnd="true"/>
@@ -33,18 +33,18 @@
         android:id="@+id/no_history_msg"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="No maintenance history"
+        android:text="No history"
         android:textSize="18sp"
         android:textStyle="bold"
         android:textColor="@color/gray"
         android:gravity="center"
         android:paddingVertical="20dp"/>
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/maintenance_recycle_view"
+        android:id="@+id/history_recycle_view"
         android:layout_width="match_parent"
         android:layout_marginTop="5dp"
         android:paddingHorizontal="5dp"
         android:paddingBottom="10dp"
-        tools:listitem="@layout/maintenance_holder"
+        tools:listitem="@layout/vehicle_history_holder"
         android:layout_height="wrap_content"/>
 </LinearLayout>

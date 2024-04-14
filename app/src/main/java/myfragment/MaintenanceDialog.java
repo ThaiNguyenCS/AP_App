@@ -6,10 +6,7 @@ import android.content.DialogInterface;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
-import android.view.WindowManager;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -17,7 +14,6 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
 import androidx.lifecycle.ViewModelProvider;
 
-import com.example.transportmanagement.AddRouteActivity;
 import com.example.transportmanagement.databinding.MaintenanceDialogBinding;
 
 import java.util.ArrayList;
@@ -96,9 +92,6 @@ public class MaintenanceDialog extends DialogFragment implements FinishCallback 
         return dialog.create();
     }
 
-
-
-
     @Override
     public void onResume() {
         super.onResume();
@@ -107,12 +100,12 @@ public class MaintenanceDialog extends DialogFragment implements FinishCallback 
 
     @Override
     public void finish(boolean isSuccessful) {
-        if(isSuccessful)
-            Toast.makeText(requireActivity(), "Successfully", Toast.LENGTH_SHORT).show();
-        else
-            Toast.makeText(requireActivity(), "Failed", Toast.LENGTH_SHORT).show();
-        Dialog mainDialog = getDialog();
-        if(mainDialog != null)
-            mainDialog.dismiss();
+            if(isSuccessful)
+                Toast.makeText(requireActivity(), "Successfully", Toast.LENGTH_SHORT).show();
+            else
+                Toast.makeText(requireActivity(), "Failed", Toast.LENGTH_SHORT).show();
+            Dialog mainDialog = getDialog();
+            if(mainDialog != null)
+                mainDialog.dismiss();
     }
 }

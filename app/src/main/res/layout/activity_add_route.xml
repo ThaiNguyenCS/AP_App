@@ -156,9 +156,9 @@
                     android:id="@+id/button_cancel"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginHorizontal="16dp"
+                    android:layout_marginHorizontal="10dp"
                     android:layout_weight="1"
-                    android:background="@drawable/route_cancel_button"
+                    android:background="@drawable/button_cancel"
                     android:text="CANCEL"
                     android:textColor="@color/white"
                     android:textSize="18sp" />
@@ -167,10 +167,10 @@
                     android:id="@+id/button_add"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginHorizontal="16dp"
+                    android:layout_marginHorizontal="10dp"
                     android:layout_weight="2"
-                    android:background="@drawable/route_add_button"
-                    android:text="ADD THE ROUTE"
+                    android:text="Add Route"
+                    android:background="@drawable/frame_login_button"
                     android:textColor="@color/white"
                     android:textSize="18sp" />
             </LinearLayout>

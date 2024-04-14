@@ -95,7 +95,6 @@ public class RouteDetailViewModel extends ViewModel {
     {
         if(route != null)
         {
-
             Task<QuerySnapshot> getVehicle = firestore.collection("Vehicle")
                     .whereEqualTo(Vehicle.VEHICLE_ID, route.getCurrentVehicleID())
                     .limit(1)
@@ -166,12 +165,19 @@ public class RouteDetailViewModel extends ViewModel {
             driverMap.put(Driver.DRIVER_ROUTE_ID, null);
 
             Map<String, Object> vehicleMap = new HashMap<>();
+            List<Integer> drivingRoutes2 = currentVehicle.getListOfDrivingRoutes();
+            if (drivingRoutes2 == null)
+            {
+                drivingRoutes2 = new ArrayList<>();
+            }
+            drivingRoutes2.add(routeID);
+            vehicleMap.put(Vehicle.VEHICLE_DRIVING_ROUTES, drivingRoutes2);
             vehicleMap.put(Vehicle.VEHICLE_ROUTE_ID, null);
             vehicleMap.put(Vehicle.VEHICLE_DRIVER_ID, null);
             vehicleMap.put(Vehicle.VEHICLE_STATUS, 0);
 
             Tasks.whenAllComplete(routeRef.update(routeMap),
-                    vehicleRef.update(vehicleMap),
+                    vehicleRef.set(vehicleMap, SetOptions.merge()),
                     driverRef.set(driverMap, SetOptions.merge()))
                     .addOnCompleteListener(new OnCompleteListener<List<Task<?>>>() {
                         @Override

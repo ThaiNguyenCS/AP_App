@@ -31,6 +31,15 @@ public class Vehicle {
     double maximumLoad;
     String typeOfFuel;
     List<Integer> listOfMaintenanceID;
+    List<Integer> listOfDrivingRoutes;
+
+    public List<Integer> getListOfDrivingRoutes() {
+        return listOfDrivingRoutes;
+    }
+
+    public void setListOfDrivingRoutes(List<Integer> listOfDrivingRoutes) {
+        this.listOfDrivingRoutes = listOfDrivingRoutes;
+    }
 
     public List<Integer> getListOfMaintenanceID() {
         return listOfMaintenanceID;

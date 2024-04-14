@@ -16,6 +16,7 @@ import com.example.transportmanagement.databinding.ActivityVehicleDetailBinding;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 
 import bottomsheet.MaintenanceBottomSheet;
+import bottomsheet.VehicleHistoryBottomSheet;
 import data.Vehicle;
 import myfragment.DriverActivityDialog;
 import myfragment.DriverFragment;
@@ -63,7 +64,8 @@ public class VehicleDetailActivity extends AppCompatActivity {
         mBinding.historyLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(VehicleDetailActivity.this, "History", Toast.LENGTH_SHORT).show();
+                VehicleHistoryBottomSheet historyBottomSheet = new VehicleHistoryBottomSheet();
+                historyBottomSheet.show(getSupportFragmentManager(), null);
             }
         });
         mBinding.maintenanceLayout.setOnClickListener(new View.OnClickListener() {

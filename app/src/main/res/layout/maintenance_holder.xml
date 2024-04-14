@@ -4,6 +4,7 @@
     android:layout_height="wrap_content"
     android:background="@drawable/rectangle_frame"
     android:padding="8dp"
+    android:layout_marginBottom="5dp"
     android:orientation="vertical">
 
     <LinearLayout
