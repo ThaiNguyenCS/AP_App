@@ -21,6 +21,7 @@
     <string name="departure">Departure</string>
     <string name="forgot_password"><u>Forgot password?</u></string>
     <string name="default_web_client_id">AIzaSyD7LkR5zukaEjqawbSUE5DT5DHLKu5InX0</string>
+    <string name="sign_up"><u>Sign up</u></string>
     <string-array name="vehicleBrand">
         <item>Isuzu</item>
         <item>Hino</item>
