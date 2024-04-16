@@ -91,7 +91,7 @@ public class LoginActivity extends AppCompatActivity {
                                         if(task.isSuccessful())
                                         {
                                             Toast.makeText(LoginActivity.this, "We've sent you an email!", Toast.LENGTH_LONG).show();
-                                        }`
+                                        }
                                         else
                                         {
                                             Toast.makeText(LoginActivity.this, task.getException().getMessage(), Toast.LENGTH_SHORT).show();
