@@ -7,15 +7,16 @@
     android:layout_height="match_parent"
     android:background="#DCDCDC"
     tools:context=".AssignJobActivity">
+
     <ProgressBar
         android:id="@+id/progress_indicator"
         android:layout_width="wrap_content"
-        android:elevation="2dp"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toTopOf="parent"
+        android:elevation="2dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"/>
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -45,244 +46,258 @@
                 android:typeface="serif" />
         </LinearLayout>
 
-        <LinearLayout
+        <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_margin="25dp"
-            android:background="@drawable/frame_searchview"
-            android:orientation="vertical"
-            android:padding="20dp">
+            android:layout_height="match_parent">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:elevation="5dp"
-                    android:gravity="center"
-                    android:text="License Plate: "
-                    android:textSize="20sp"
-                    android:textStyle="bold" />
-
-                <EditText
-                    android:id="@+id/license_edittext"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent" />
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginVertical="8dp"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:elevation="5dp"
-                    android:text="Type of vehicle: "
-                    android:textSize="20sp" />
-
-                <Spinner
-                    android:id="@+id/type_spinner"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:entries="@array/vehicleType"
-                    android:gravity="center" />
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginVertical="8dp"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:elevation="5dp"
-                    android:text="Vehicle brand: "
-                    android:textSize="20sp" />
-
-                <Spinner
-                    android:id="@+id/brand_spinner"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:entries="@array/vehicleBrand"
-                    android:gravity="center" />
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:elevation="5dp"
-                    android:gravity="center"
-                    android:text="Maximum load: "
-                    android:textSize="20sp" />
-
-                <EditText
-                    android:id="@+id/load_edittext"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:hint="kg" />
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:elevation="5dp"
-                    android:gravity="center"
-                    android:text="Height: "
-                    android:textSize="20sp" />
-
-                <EditText
-                    android:id="@+id/height_edittext"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:hint="m"
-                    android:inputType="numberDecimal" />
-
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:elevation="5dp"
-                    android:gravity="center"
-                    android:text="Width: "
-                    android:textSize="20sp" />
-
-                <EditText
-                    android:id="@+id/width_edittext"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:hint="m"
-                    android:inputType="numberDecimal" />
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:elevation="5dp"
-                    android:gravity="center"
-                    android:text="Length: "
-                    android:textSize="20sp" />
-
-                <EditText
-                    android:id="@+id/length_edittext"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:hint="m"
-                    android:inputType="numberDecimal" />
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:elevation="5dp"
-                    android:gravity="center"
-                    android:text="Fuel: "
-                    android:textSize="20sp" />
-
-                <EditText
-                    android:id="@+id/fuel_edittext"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="vertical">
-
-                <ImageView
-                    android:layout_width="150dp"
-                    android:layout_height="150dp"
-                    android:layout_gravity="center"
-                    android:layout_marginVertical="5dp"
-                    android:background="@drawable/ic_truck" />
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginVertical="5dp"
-                    android:gravity="center"
-                    android:text="Add the vehicle image" />
-
-                <TextView
-                    android:id="@+id/error_message"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:textColor="@color/red"
-                    android:textSize="16sp" />
+                android:layout_marginHorizontal="10dp"
+                android:layout_marginTop="20dp"
+                android:background="@drawable/frame_searchview"
+                android:orientation="vertical"
+                android:padding="20dp">
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp">
+                    android:orientation="horizontal">
 
-                    <androidx.appcompat.widget.AppCompatButton
-                        android:id="@+id/cancel_button"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginHorizontal="5dp"
-                        android:layout_weight="1"
-                        android:background="@drawable/button_cancel"
-                        android:elevation="2dp"
-                        android:text="Cancel"
-                        android:textColor="@color/white"
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:elevation="5dp"
+                        android:gravity="center"
+                        android:text="License Plate: "
+                        android:textSize="18sp"
+                        android:textStyle="bold" />
+
+                    <EditText
+                        android:id="@+id/license_edittext"
+                        android:textSize="18sp"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginVertical="8dp"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:elevation="5dp"
+                        android:text="Type of vehicle: "
                         android:textSize="18sp" />
 
-                    <androidx.appcompat.widget.AppCompatButton
-                        android:id="@+id/done_button"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginHorizontal="5dp"
-                        android:layout_weight="2"
-                        android:background="@drawable/frame_login_button"
-                        android:elevation="2dp"
-                        android:text="Done"
-                        android:textColor="@color/white"
+                    <Spinner
+                        android:id="@+id/type_spinner"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:entries="@array/vehicleType"
+                        android:gravity="center" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginVertical="8dp"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:elevation="5dp"
+                        android:text="Vehicle brand: "
                         android:textSize="18sp" />
+
+                    <Spinner
+                        android:id="@+id/brand_spinner"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:entries="@array/vehicleBrand"
+                        android:gravity="center" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:elevation="5dp"
+                        android:gravity="center"
+                        android:text="Maximum load: "
+                        android:textSize="18sp" />
+
+                    <EditText
+                        android:id="@+id/load_edittext"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:hint="kg"
+                        android:textSize="18sp"
+                        android:inputType="numberDecimal" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:elevation="5dp"
+                        android:gravity="center"
+                        android:text="Height: "
+                        android:textSize="18sp" />
+
+                    <EditText
+                        android:id="@+id/height_edittext"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:hint="m"
+                        android:textSize="18sp"
+                        android:inputType="numberDecimal" />
+
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:elevation="5dp"
+                        android:gravity="center"
+                        android:text="Width: "
+                        android:textSize="18sp" />
+
+                    <EditText
+                        android:id="@+id/width_edittext"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:hint="m"
+                        android:textSize="18sp"
+                        android:inputType="numberDecimal" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:elevation="5dp"
+                        android:gravity="center"
+                        android:text="Length: "
+                        android:textSize="18sp" />
+
+                    <EditText
+                        android:id="@+id/length_edittext"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:textSize="18sp"
+                        android:hint="m"
+                        android:inputType="numberDecimal" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:elevation="5dp"
+                        android:gravity="center"
+                        android:text="Fuel: "
+                        android:textSize="18sp" />
+
+                    <EditText
+                        android:id="@+id/fuel_edittext"
+                        android:layout_width="match_parent"
+                        android:textSize="18sp"
+                        android:layout_height="match_parent" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
+
+                    <ImageView
+                        android:layout_width="150dp"
+                        android:layout_height="150dp"
+                        android:layout_gravity="center"
+                        android:layout_marginVertical="5dp"
+                        android:background="@drawable/ic_truck" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginVertical="5dp"
+                        android:gravity="center"
+                        android:text="Add the vehicle image" />
+
+                    <TextView
+                        android:id="@+id/error_message"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:textColor="@color/red"
+                        android:textSize="16sp" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp">
+
+                        <androidx.appcompat.widget.AppCompatButton
+                            android:id="@+id/cancel_button"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginHorizontal="5dp"
+                            android:layout_weight="1"
+                            android:background="@drawable/button_cancel"
+                            android:elevation="2dp"
+                            android:text="Cancel"
+                            android:textColor="@color/white"
+                            android:textSize="18sp" />
+
+                        <androidx.appcompat.widget.AppCompatButton
+                            android:id="@+id/done_button"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginHorizontal="5dp"
+                            android:layout_weight="2"
+                            android:background="@drawable/frame_login_button"
+                            android:elevation="2dp"
+                            android:text="Done"
+                            android:textColor="@color/white"
+                            android:textSize="18sp" />
+                    </LinearLayout>
                 </LinearLayout>
             </LinearLayout>
-        </LinearLayout>
+        </ScrollView>
+
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
