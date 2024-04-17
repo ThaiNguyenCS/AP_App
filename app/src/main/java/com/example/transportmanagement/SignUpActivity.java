@@ -208,6 +208,7 @@ public class SignUpActivity extends AppCompatActivity {
             Toast.makeText(SignUpActivity.this, "Invalid employee code", Toast.LENGTH_SHORT).show();
             return;
         }
+        mBinding.progressIndicator.setVisibility(View.VISIBLE);
         signUpWithEmail(username, password);
     }
 
@@ -244,6 +245,7 @@ public class SignUpActivity extends AppCompatActivity {
                         }
                         else
                         {
+                            mBinding.progressIndicator.setVisibility(View.GONE);
                             Toast.makeText(SignUpActivity.this, task.getException().getMessage(), Toast.LENGTH_SHORT).show();
                         }
                     }

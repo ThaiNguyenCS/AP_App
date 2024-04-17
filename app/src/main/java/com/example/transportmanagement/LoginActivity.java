@@ -2,7 +2,11 @@ package com.example.transportmanagement;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.LinearGradient;
+import android.graphics.Shader;
 import android.os.Bundle;
+import android.os.SharedMemory;
 import android.util.Log;
 import android.util.Patterns;
 import android.view.View;
@@ -31,13 +35,21 @@ public class LoginActivity extends AppCompatActivity {
     private static final String TAG = "LoginActivity";
     ActivityLoginBinding mBinding;
     FirebaseAuth mAuth;
-    private GoogleSignInClient mGoogleSignInClient;
-    static int SIGN_IN = 1111;
+//    private GoogleSignInClient mGoogleSignInClient;
+//    static int SIGN_IN = 1111;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mBinding = ActivityLoginBinding.inflate(getLayoutInflater());
         setContentView(mBinding.getRoot());
+
+        float width = mBinding.welcome.getPaint().measureText("Welcome back");
+        Shader shader = new LinearGradient(0, 0, width, mBinding.welcome.getTextSize(),
+                Color.parseColor("#A535FF"),
+                Color.parseColor("#3DD5FD"),
+                Shader.TileMode.CLAMP);
+        mBinding.welcome.getPaint().setShader(shader);
+
         mAuth = FirebaseAuth.getInstance();
         mBinding.loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -60,6 +72,7 @@ public class LoginActivity extends AppCompatActivity {
                     Toast.makeText(LoginActivity.this, "Please enter password!", Toast.LENGTH_SHORT).show();
                     return;
                 }
+                mBinding.progressIndicator.setVisibility(View.VISIBLE);
                 signInWithEmail(username, password);
             }
         });
@@ -137,6 +150,7 @@ public class LoginActivity extends AppCompatActivity {
                           }
                           else
                           {
+                              mBinding.progressIndicator.setVisibility(View.GONE);
                               Toast.makeText(LoginActivity.this, "Login failed", Toast.LENGTH_SHORT).show();
                           }
                       }

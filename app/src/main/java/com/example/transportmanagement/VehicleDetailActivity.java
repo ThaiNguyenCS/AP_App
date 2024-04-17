@@ -16,15 +16,20 @@ import com.example.transportmanagement.databinding.ActivityVehicleDetailBinding;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 
 import bottomsheet.MaintenanceBottomSheet;
+import bottomsheet.VehicleEditBottomSheet;
 import bottomsheet.VehicleHistoryBottomSheet;
 import data.Vehicle;
 import myfragment.DriverActivityDialog;
 import myfragment.DriverFragment;
 import myfragment.MaintenanceDialog;
 import myfragment.VehicleActivityDialog;
+import myinterface.FinishCallback;
+import myinterface.OnSendVehicleDataToActivity;
 import viewmodel.VehicleDetailViewModel;
 
-public class VehicleDetailActivity extends AppCompatActivity {
+public class VehicleDetailActivity extends AppCompatActivity implements
+    OnSendVehicleDataToActivity, FinishCallback
+{
     ActivityVehicleDetailBinding mBinding;
     private int vehicleId;
     VehicleDetailViewModel mViewModel;
@@ -37,11 +42,13 @@ public class VehicleDetailActivity extends AppCompatActivity {
         getClickedVehicleID();
         mViewModel = new ViewModelProvider(this).get(VehicleDetailViewModel.class);
         mViewModel.getVehicleData(vehicleId);
+        mViewModel.setCallbackForEditVehicle(this);
         mViewModel.getVehicleLiveData().observe(this, new Observer<Vehicle>() {
             @Override
             public void onChanged(Vehicle vehicle) {
                 mVehicle = vehicle;
                 setVehicleInfo();
+                mBinding.progressIndicator.setVisibility(View.GONE);
             }
         });
         setUpGeneralView();
@@ -94,7 +101,6 @@ public class VehicleDetailActivity extends AppCompatActivity {
             public boolean onMenuItemClick(MenuItem item) {
                 if(item.getItemId() == R.id.maintenance)
                 {
-                    //TODO do something for maintenance
                     MaintenanceDialog dialog = new MaintenanceDialog();
                     dialog.show(getSupportFragmentManager(), null);
                     return true;
@@ -102,11 +108,18 @@ public class VehicleDetailActivity extends AppCompatActivity {
                 return false;
             }
         });
+        mBinding.editButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                VehicleEditBottomSheet bottomSheet = new VehicleEditBottomSheet(VehicleDetailActivity.this);
+                bottomSheet.show(getSupportFragmentManager(), null);
+
+            }
+        });
         mBinding.menuButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 popupMenu.show();
-
             }
         });
     }
@@ -134,6 +147,7 @@ public class VehicleDetailActivity extends AppCompatActivity {
             mBinding.statusDescription.setText(mViewModel.getStatus(mVehicle.getStatus()));
             mBinding.size.setText(sizeStr);
             mBinding.licensePlate.setText(mVehicle.getNumberOfPlate());
+            mBinding.vehicleBrand.setText(mVehicle.getBrand());
             if(mVehicle.getStatus() == 0)
             {
                 mBinding.statusIndicator.setImageDrawable(new ColorDrawable(getResources().getColor(R.color.green)));
@@ -150,5 +164,23 @@ public class VehicleDetailActivity extends AppCompatActivity {
 
     }
 
+    @Override
+    public void sendVehicleData(String license, double height, double width, double length, double maxLoad, String fuel, String brand, String type) {
+        mBinding.progressIndicator.setVisibility(View.VISIBLE);
+        mViewModel.updateVehicle(license, height, width, length, maxLoad, fuel, brand, type);
+    }
 
+    @Override
+    public void finish(boolean isSuccessful) { // finish edit vehicle
+        if(isSuccessful)
+        {
+            Toast.makeText(this, "Update vehicle successfully", Toast.LENGTH_SHORT).show();
+            mViewModel.getVehicleData(vehicleId);
+        }
+        else
+        {
+            mBinding.progressIndicator.setVisibility(View.GONE);
+            Toast.makeText(this, "Failed", Toast.LENGTH_SHORT).show();
+        }
+    }
 }

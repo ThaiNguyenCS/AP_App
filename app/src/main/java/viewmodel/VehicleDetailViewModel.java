@@ -1,11 +1,13 @@
 package viewmodel;
 
 import android.util.Log;
+import android.widget.ArrayAdapter;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
+import com.example.transportmanagement.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.gms.tasks.Tasks;
@@ -28,23 +30,30 @@ import myinterface.FinishCallback;
 
 public class VehicleDetailViewModel extends ViewModel{
     private static final String TAG = "VehicleDetailViewModel";
-    private MutableLiveData<Driver> driverLiveData;
+    private int vehicleID;
     private MutableLiveData<Vehicle> vehicleLiveData;
-    private MutableLiveData<Route> routeLiveData;
+    private MutableLiveData<List<MaintenanceReport>> maintenanceReportLiveData;
+
     private Driver currentDriver;
     private Route currentRoute;
     private Vehicle vehicle;
-    private int vehicleID;
+
     private FirebaseFirestore firestore;
     private DocumentReference vehicleRef;
+
     private List<String> statusListName;
     private List<MaintenanceReport> maintenanceReports;
-    private MutableLiveData<List<MaintenanceReport>> maintenanceReportLiveData;
     private List<Route> drivingRoutes;
     private Map<Integer, Driver> driverMap;
+
     private FinishCallback mCallbackForMaintenance;
     private FinishCallback mCallbackForHistory;
     private FinishCallback mCallbackForActivity;
+    private FinishCallback mCallbackForEditVehicle;
+
+    public void setCallbackForEditVehicle(FinishCallback mCallbackForEditVehicle) {
+        this.mCallbackForEditVehicle = mCallbackForEditVehicle;
+    }
 
     public Driver getCurrentDriver() {
         return currentDriver;
@@ -256,8 +265,6 @@ public class VehicleDetailViewModel extends ViewModel{
     {
         if(vehicle != null)
         {
-            driverLiveData = new MutableLiveData<>();
-            routeLiveData = new MutableLiveData<>();
             Task<QuerySnapshot> getRoute = firestore.collection("Route")
                     .whereEqualTo(Route.ROUTE_ID, vehicle.getCurrentRouteID())
                     .limit(1)
@@ -296,24 +303,32 @@ public class VehicleDetailViewModel extends ViewModel{
         {
             Log.e(TAG, "Empty vehicle");
         }
-
     }
-    public void updateVehicle(Vehicle modifiedVehicle)
+    public void updateVehicle(String license, double height, double width, double length, double maxLoad, String fuel, String brand, String type)
     {
         if(vehicleRef != null)
         {
-            Map<String, Object> objectMap= new HashMap<>();
-            vehicleRef.update(objectMap).addOnCompleteListener(new OnCompleteListener<Void>() {
+            Map<String, Object> vehicleMap = new HashMap<>();
+            vehicleMap.put(Vehicle.VEHICLE_PLATE, license);
+            vehicleMap.put(Vehicle.VEHICLE_HEIGHT, height);
+            vehicleMap.put(Vehicle.VEHICLE_WIDTH, width);
+            vehicleMap.put(Vehicle.VEHICLE_LENGTH, length);
+            vehicleMap.put(Vehicle.VEHICLE_LOAD, maxLoad);
+            vehicleMap.put(Vehicle.VEHICLE_FUEL, fuel);
+            vehicleMap.put(Vehicle.VEHICLE_BRAND, brand);
+            vehicleMap.put(Vehicle.VEHICLE_TYPE, type);
+
+            vehicleRef.update(vehicleMap).addOnCompleteListener(new OnCompleteListener<Void>() {
                 @Override
                 public void onComplete(@NonNull Task<Void> task) {
                     if(task.isSuccessful())
                     {
-                        //TODO toast here
-                        Log.e(TAG, "onComplete: successfully" );
+                        mCallbackForEditVehicle.finish(true);
                     }
                     else
                     {
-                        Log.e(TAG, "onComplete: fail");
+                        Log.e(TAG, "updateVehicle: fail");
+                        mCallbackForEditVehicle.finish(false);
                     }
                 }
             });
@@ -325,5 +340,7 @@ public class VehicleDetailViewModel extends ViewModel{
         super.onCleared();
         mCallbackForHistory = null;
         mCallbackForMaintenance = null;
+        mCallbackForEditVehicle = null;
+        mCallbackForActivity = null;
     }
 }
