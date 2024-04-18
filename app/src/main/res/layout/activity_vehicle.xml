@@ -28,7 +28,7 @@
                 android:id="@+id/search_view"
                 android:elevation="1dp"
                 android:layout_marginStart="5dp"
-                app:queryHint="Search driver's name..."
+                app:queryHint="Search vehicle's license plate..."
                 android:layout_width="wrap_content"
                 android:layout_toStartOf="@id/menu_button"
                 android:layout_toEndOf="@id/back_button"
