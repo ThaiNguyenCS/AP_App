@@ -86,10 +86,10 @@
 
         <TextView
             android:id="@+id/forgot_password"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_marginTop="5dp"
-            android:gravity="end"
+            android:layout_gravity="end"
             android:text="@string/forgot_password"
             android:textColor="@color/inactive_text" />
         <androidx.appcompat.widget.AppCompatButton

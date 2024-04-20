@@ -10,6 +10,8 @@ import android.os.SharedMemory;
 import android.util.Log;
 import android.util.Patterns;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -199,5 +201,11 @@ public class LoginActivity extends AppCompatActivity {
 //                        }
 //                    }
 //                });
+//    }
+
+//    @Override
+//    protected void onResume() {
+//        super.onResume();
+//        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
 //    }
 }
