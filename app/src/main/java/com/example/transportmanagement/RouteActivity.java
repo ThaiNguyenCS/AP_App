@@ -81,7 +81,7 @@ public class RouteActivity extends AppCompatActivity implements
                 mViewModel.fetchRouteData(true);
             }
         });
-        mBinding.searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+        mBinding.searchView.setOnQueryTextListener(new androidx.appcompat.widget.SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
                 whichSearch.set(0, query.toLowerCase());
@@ -96,8 +96,7 @@ public class RouteActivity extends AppCompatActivity implements
                 return false;
             }
         });
-
-        mBinding.searchView2.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+        mBinding.searchView2.setOnQueryTextListener(new androidx.appcompat.widget.SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
                 whichSearch.set(1, query.toLowerCase());
@@ -112,6 +111,7 @@ public class RouteActivity extends AppCompatActivity implements
                 return false;
             }
         });
+
         setUpFilterButton();
 
     }

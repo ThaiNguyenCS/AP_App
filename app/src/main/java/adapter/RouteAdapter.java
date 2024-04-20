@@ -117,26 +117,41 @@ public class RouteAdapter extends RecyclerView.Adapter<RouteAdapter.RouteViewHol
                 @Override
                 protected FilterResults performFiltering(CharSequence constraint) {
                     List<Route> list = new ArrayList<>();
-                    if(!whichSearch.get(0).isEmpty())
+                    if(!whichSearch.get(0).isEmpty() && !whichSearch.get(1).isEmpty())
                     {
                         for(Route route : routeList)
                         {
-                            if(route.getDeparture().toLowerCase().contains(whichSearch.get(0)))
+                            if(route.getDeparture().toLowerCase().contains(whichSearch.get(0))
+                                && route.getDestination().toLowerCase().contains(whichSearch.get(1)))
                             {
                                 list.add(route);
                             }
                         }
                     }
-                    if(!whichSearch.get(1).isEmpty())
+                    else
                     {
-                        for(Route route : routeList)
+                        if(!whichSearch.get(0).isEmpty())
                         {
-                            if(route.getDestination().toLowerCase().contains(whichSearch.get(1)))
+                            for(Route route : routeList)
                             {
-                                list.add(route);
+                                if(route.getDeparture().toLowerCase().contains(whichSearch.get(0)))
+                                {
+                                    list.add(route);
+                                }
+                            }
+                        }
+                        if(!whichSearch.get(1).isEmpty())
+                        {
+                            for(Route route : routeList)
+                            {
+                                if(route.getDestination().toLowerCase().contains(whichSearch.get(1)))
+                                {
+                                    list.add(route);
+                                }
                             }
                         }
                     }
+
                     if(list.isEmpty()) // if there are no constraints
                     {
                         list = routeList;
