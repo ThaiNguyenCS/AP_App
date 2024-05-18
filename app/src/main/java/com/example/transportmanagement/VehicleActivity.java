@@ -43,6 +43,7 @@ public class VehicleActivity extends AppCompatActivity implements
     private VehicleAdapter adapter;
     private List<Vehicle> vehicleList;
     private List<Boolean> filterList;
+    private String searchQuery;
     Animator slide_down_animator;
     Animation alpha_anim, slide_up_anim, scale_down_anim;
     Handler mHandler;
@@ -52,6 +53,7 @@ public class VehicleActivity extends AppCompatActivity implements
         super.onCreate(savedInstanceState);
         mBinding = ActivityVehicleBinding.inflate(getLayoutInflater());
         setContentView(mBinding.getRoot());
+        searchQuery = "";
         mHandler = new Handler();
         mViewModel = new ViewModelProvider(this).get(VehicleViewModel.class);
         mViewModel.fetchVehicleData(false);
@@ -100,6 +102,13 @@ public class VehicleActivity extends AppCompatActivity implements
                 mBinding.filterOptionLayout.startAnimation(slide_up_anim);
                 // clear filters
                 adapter.setAdapterData(vehicleList);
+                mBinding.inUseFilter.setSelected(false);
+                mBinding.maintenanceFilter.setSelected(false);
+                mBinding.availableFilter.setSelected(false);
+                for(int i = 0; i < 3; i++)
+                {
+                    filterList.set(i, false);
+                }
                 mHandler.postDelayed(new Runnable() {
                     @Override
                     public void run() {
@@ -111,14 +120,15 @@ public class VehicleActivity extends AppCompatActivity implements
         mBinding.searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
-                adapter.getFilter(0).filter(query);
+                searchQuery = query;
+                adapter.getFilter(mViewModel.getFilterConstraints()).filter(searchQuery);
                 return false;
             }
 
             @Override
             public boolean onQueryTextChange(String newText) {
-//                Log.e(TAG, "onQueryTextChange: " + newText);
-                adapter.getFilter(0).filter(newText);
+                searchQuery = newText;
+                adapter.getFilter(mViewModel.getFilterConstraints()).filter(newText);
                 return false;
             }
         });
@@ -136,7 +146,7 @@ public class VehicleActivity extends AppCompatActivity implements
                     filterList.set(0, true);
                     v.setSelected(true);
                 }
-                adapter.getFilter(1).filter(mViewModel.getFilterConstraints());
+                adapter.getFilter(mViewModel.getFilterConstraints()).filter(searchQuery);
 
 
             }
@@ -154,7 +164,7 @@ public class VehicleActivity extends AppCompatActivity implements
                     filterList.set(2, true);
                     v.setSelected(true);
                 }
-                adapter.getFilter(1).filter(mViewModel.getFilterConstraints());
+                adapter.getFilter(mViewModel.getFilterConstraints()).filter(searchQuery);
             }
         });
         mBinding.inUseFilter.setOnClickListener(new View.OnClickListener() {
@@ -170,7 +180,7 @@ public class VehicleActivity extends AppCompatActivity implements
                     filterList.set(1, true);
                     v.setSelected(true);
                 }
-                adapter.getFilter(1).filter(mViewModel.getFilterConstraints());
+                adapter.getFilter(mViewModel.getFilterConstraints()).filter(searchQuery);
             }
         });
     }
@@ -216,6 +226,16 @@ public class VehicleActivity extends AppCompatActivity implements
         Intent intent = new Intent(this, VehicleDetailActivity.class);
         intent.putExtra(VEHICLE_ID_EXTRA, adapter.getFilterVehicleList().get(position).getID());
         startActivity(intent);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        mViewModel.fetchVehicleData(true);
+        searchQuery = "";
+        for(int i = 0; i < 3; i++) {
+            filterList.set(i, false);
+        }
     }
 
     @Override

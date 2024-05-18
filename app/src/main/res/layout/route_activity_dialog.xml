@@ -318,7 +318,7 @@
                     android:id="@+id/vehicle_size"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:gravity="end"
+                    android:gravity="center"
                     android:paddingHorizontal="4dp"
                     android:paddingBottom="2dp"
                     android:text="3000 kg"

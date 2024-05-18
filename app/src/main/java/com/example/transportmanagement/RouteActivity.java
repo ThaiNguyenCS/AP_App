@@ -185,14 +185,14 @@ public class RouteActivity extends AppCompatActivity implements
     private void resetFilter(boolean keepSearch1, boolean keepSearch2)
     {
 
-        if(!keepSearch1)
+        if(!keepSearch1) // for searching by destination, arrival
         {
             for(int i = 0; i < 2; i++)
             {
                 whichSearch.set(i, "");
             }
         }
-        if(!keepSearch2)
+        if(!keepSearch2) // for filtering by status
         {
             for(int i = 0; i <= 2; i++)
             {
@@ -211,7 +211,6 @@ public class RouteActivity extends AppCompatActivity implements
             public void onChanged(List<Route> routes) {
                 routeList = routes;
                 adapter.setAdapterData(routes);
-                //TODO this setVisibility is not in the right place yet but acceptable
                 mBinding.progressIndicator.setVisibility(View.GONE);
             }
         });

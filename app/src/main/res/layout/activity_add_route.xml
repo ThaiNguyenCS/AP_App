@@ -87,6 +87,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:layout_marginTop="@dimen/activity_vertical_margin"
+                android:focusableInTouchMode="true"
                 android:background="@drawable/custom_input_add_route"
                 android:drawableStart="@drawable/custom_icon_date"
                 android:drawablePadding="7dp"

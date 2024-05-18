@@ -41,7 +41,7 @@ public class AddRouteActivity extends AppCompatActivity {
     private static final String TAG = "AddRouteActivity";
     ActivityAddRouteBinding mBinding;
     private static List<String> errorMsgs;
-    final Calendar c = Calendar.getInstance();
+    final Calendar c = Calendar.getInstance(); // get a calendar at present
     private FirebaseFirestore firestore;
     private Calendar arrivingDate = Calendar.getInstance();
     private Calendar departureDate = Calendar.getInstance();
@@ -90,9 +90,43 @@ public class AddRouteActivity extends AppCompatActivity {
 
         SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm dd/MM/yyyy");
 
-        mBinding.routeScheDepartureDate.setOnClickListener(new View.OnClickListener() {
+//        mBinding.routeScheDepartureDate.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                int initYear = c.get(Calendar.YEAR);
+//                int initMonth = c.get(Calendar.MONTH);
+//                int initDay = c.get(Calendar.DAY_OF_MONTH);
+//                DatePickerDialog datePickerDialog = new DatePickerDialog(AddRouteActivity.this, new DatePickerDialog.OnDateSetListener() {
+//                    @Override
+//                    public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+//
+//                    }
+//                }, initYear, initMonth, initDay);
+//                TimePickerDialog timePickerDialog = new TimePickerDialog(AddRouteActivity.this,
+//                        new TimePickerDialog.OnTimeSetListener() {
+//                            @Override
+//                            public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
+//                                departureDate.set(Calendar.MINUTE, minute);
+//                                departureDate.set(Calendar.HOUR_OF_DAY, hourOfDay);
+//                                Date date = departureDate.getTime();
+//                                mBinding.routeScheDepartureDate.setText(dateFormat.format(date));
+//                            }
+//                        }, 12, 0, true);
+//                datePickerDialog.setButton(DialogInterface.BUTTON_POSITIVE, "OK", new DialogInterface.OnClickListener() {
+//                    @Override
+//                    public void onClick(DialogInterface dialog, int which) {
+//                        departureDate.set(Calendar.DAY_OF_MONTH, datePickerDialog.getDatePicker().getDayOfMonth());
+//                        departureDate.set(Calendar.MONTH, datePickerDialog.getDatePicker().getMonth());
+//                        departureDate.set(Calendar.YEAR, datePickerDialog.getDatePicker().getYear());
+//                        timePickerDialog.show();
+//                    }
+//                });
+//                datePickerDialog.show();
+//            }
+//        });
+        mBinding.routeScheDepartureDate.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
-            public void onClick(View v) {
+            public void onFocusChange(View v, boolean hasFocus) {
                 int initYear = c.get(Calendar.YEAR);
                 int initMonth = c.get(Calendar.MONTH);
                 int initDay = c.get(Calendar.DAY_OF_MONTH);
@@ -124,9 +158,9 @@ public class AddRouteActivity extends AppCompatActivity {
                 datePickerDialog.show();
             }
         });
-        mBinding.routeScheArrivingDate.setOnClickListener(new View.OnClickListener() {
+        mBinding.routeScheArrivingDate.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
-            public void onClick(View v) {
+            public void onFocusChange(View v, boolean hasFocus) {
                 int initYear = c.get(Calendar.YEAR);
                 int initMonth = c.get(Calendar.MONTH);
                 int initDay = c.get(Calendar.DAY_OF_MONTH);
@@ -147,18 +181,53 @@ public class AddRouteActivity extends AppCompatActivity {
                             }
                         }, 12, 0, true);
                 datePickerDialog.setButton(DialogInterface.BUTTON_POSITIVE, "OK", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                arrivingDate.set(Calendar.DAY_OF_MONTH, datePickerDialog.getDatePicker().getDayOfMonth());
-                                arrivingDate.set(Calendar.MONTH, datePickerDialog.getDatePicker().getMonth());
-                                arrivingDate.set(Calendar.YEAR, datePickerDialog.getDatePicker().getYear());
-                                timePickerDialog.show();
-                            }
-                        });
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        arrivingDate.set(Calendar.DAY_OF_MONTH, datePickerDialog.getDatePicker().getDayOfMonth());
+                        arrivingDate.set(Calendar.MONTH, datePickerDialog.getDatePicker().getMonth());
+                        arrivingDate.set(Calendar.YEAR, datePickerDialog.getDatePicker().getYear());
+                        timePickerDialog.show();
+                    }
+                });
                 datePickerDialog.show();
-
             }
         });
+        ///////////////////////////////////////////////////////////////////////////
+//        mBinding.routeScheArrivingDate.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                int initYear = c.get(Calendar.YEAR);
+//                int initMonth = c.get(Calendar.MONTH);
+//                int initDay = c.get(Calendar.DAY_OF_MONTH);
+//                DatePickerDialog datePickerDialog = new DatePickerDialog(AddRouteActivity.this, new DatePickerDialog.OnDateSetListener() {
+//                    @Override
+//                    public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+//
+//                    }
+//                }, initYear, initMonth, initDay);
+//                TimePickerDialog timePickerDialog = new TimePickerDialog(AddRouteActivity.this,
+//                        new TimePickerDialog.OnTimeSetListener() {
+//                            @Override
+//                            public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
+//                                arrivingDate.set(Calendar.MINUTE, minute);
+//                                arrivingDate.set(Calendar.HOUR_OF_DAY, hourOfDay);
+//                                Date date = arrivingDate.getTime();
+//                                mBinding.routeScheArrivingDate.setText(dateFormat.format(date));
+//                            }
+//                        }, 12, 0, true);
+//                datePickerDialog.setButton(DialogInterface.BUTTON_POSITIVE, "OK", new DialogInterface.OnClickListener() {
+//                            @Override
+//                            public void onClick(DialogInterface dialog, int which) {
+//                                arrivingDate.set(Calendar.DAY_OF_MONTH, datePickerDialog.getDatePicker().getDayOfMonth());
+//                                arrivingDate.set(Calendar.MONTH, datePickerDialog.getDatePicker().getMonth());
+//                                arrivingDate.set(Calendar.YEAR, datePickerDialog.getDatePicker().getYear());
+//                                timePickerDialog.show();
+//                            }
+//                        });
+//                datePickerDialog.show();
+//
+//            }
+//        });
 
         mBinding.buttonAdd.setOnClickListener(new View.OnClickListener() {
             @Override
